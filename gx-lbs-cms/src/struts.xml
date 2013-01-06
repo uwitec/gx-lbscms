@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.codebehind.pathPrefix" value="/WEB-INF/jsp/" />
+    <constant name="struts.multipart.maxSize" value="1000000000" />
+	<constant name="struts.custom.i18n.resources" value="exceptionMessages"/>
+	<constant name="struts.locale" value="zh_utf-8" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.objectFactory" value="spring" />
+	<include file="struts-default.xml" />
+	 <include file="struts-menu.xml"/>
+	<!--<include file="struts-user.xml"/>
+	
+	<include file="struts-role.xml"/>
+ -->
+	
+	<package name="global" extends="json-default">
+		<interceptors>
+			<interceptor name="authenticationInterceptor" class="bjwxsytx.base.interceptor.AuthenticationInterceptor"></interceptor>
+			<interceptor-stack name="authenticationStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="authenticationInterceptor"></interceptor-ref>
+			</interceptor-stack>
+	    </interceptors>
+		<default-interceptor-ref name="authenticationStack"></default-interceptor-ref>
+		 
+		<global-results>
+			<result name="operationException">/WEB-INF/jsp/common/operationException.jsp</result>
+			<result name="systemException">/WEB-INF/jsp/common/systemException.jsp</result> 
+			<result type="json" />
+			<result name="login">/WEB-INF/jsp/login.jsp</result>
+			<result name="timeout">/timeout.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="operationException" exception="bjwxsytx.base.exception.OperationException"></exception-mapping>
+			<exception-mapping result="systemException" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings> 
+	</package>
+	
+	
+	<!-- <package name="authentication" extends="global">
+		<action name="login" class="bjwxsytx.system.entity.user.action.AuthenticationAction"
+			method="login">
+			<result name="success" type="redirectAction">initMenu</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+	</package>
+	 -->
+	 <package name="authentication" extends="global"  namespace="/login">
+	   <action name="login" class="bjwxsytx.system.user.action.AuthenticationAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+	   </action>
+	</package>
+</struts>
