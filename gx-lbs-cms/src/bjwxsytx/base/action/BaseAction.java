@@ -35,7 +35,20 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 @SuppressWarnings("unchecked")
 public class BaseAction extends ActionSupport {
+	
+	public void print(String text) {
+		try {
+			this.getHttpResponse().setContentType("text/html;charset=UTF-8");
+			this.getHttpResponse().setCharacterEncoding("UTF-8");
+			PrintWriter writer = this.getHttpResponse().getWriter();
+			writer.print(text);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
+	}	
 	/**
 	 * 说明清楚此属性的业务含义
 	 */

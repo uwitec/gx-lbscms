@@ -19,6 +19,9 @@
         <property name="parentId" type="java.lang.Long">
             <column name="PARENT_ID" precision="18" scale="0" />
         </property>
+        <property name="isMenuTree" type="java.lang.Long">
+            <column name="IS_MENU_TREE" precision="18" scale="0" />
+        </property>        
         <property name="seq" type="java.lang.Long">
             <column name="SEQ" precision="18" scale="0" />
         </property>

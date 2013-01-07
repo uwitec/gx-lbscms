@@ -24,9 +24,14 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>	
-	<!--<bean id="roleDAO" class="bjwxsytx.system.entity.role.dao.impl.RoleDAO">
+	<bean id="roleDAO" class="bjwxsytx.system.role.dao.RoleDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
-	</bean>	 -->
+	</bean>	 
+	<bean id="roleUserDAO" class="bjwxsytx.system.role.dao.RoleUserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	 	
 </beans>

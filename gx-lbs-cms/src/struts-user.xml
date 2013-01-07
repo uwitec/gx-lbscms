@@ -10,6 +10,9 @@
 	   <action name="list" class="bjwxsytx.system.user.action.UserAction" method="list">
 			
 	   </action>
+	   <action name="saveUser" class="bjwxsytx.system.user.action.UserAction" method="saveUser">
+			
+	   </action>
 	</package>
 
 </struts>

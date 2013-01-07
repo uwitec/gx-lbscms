@@ -1,6 +1,7 @@
 package bjwxsytx.common;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,8 +18,32 @@ public class Page implements Serializable {
 	private String groupBy;
 	private String sort;
 	private String dir;
+	private List<Object> list;
+	public List<Object> getList() {
+		return list;
+	}
+
+	public void setList(List<Object> list) {
+		this.list = list;
+	}
 	private int start;
 	private int limit;
+	private int page;
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+	private int rows;
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
 	private String anode;
 	@JSON(serialize=false)   
 	public String getAnode() {
@@ -30,22 +55,20 @@ public class Page implements Serializable {
 	}
 
 	public Page(HttpServletRequest request){
-		if(!BlankUtil.isBlank(request.getParameter("anode"))){
-			this.anode = request.getParameter("anode");
-		}
-		if(BlankUtil.isBlank(request.getParameter("start"))){
-			this.start = 0;
+
+		if(BlankUtil.isBlank(request.getParameter("page"))){
+			this.page = 0;
 		}else{
-			this.start = Integer.parseInt(request.getParameter("start"));
+			this.page = Integer.parseInt(request.getParameter("page"));
 		}
-		if(BlankUtil.isBlank(request.getParameter("limit"))){
-			this.limit = 20;
+		if(BlankUtil.isBlank(request.getParameter("rows"))){
+			this.rows = 20;
 		}else{
-			this.limit = Integer.parseInt(request.getParameter("limit"));			
+			this.rows = Integer.parseInt(request.getParameter("rows"));			
 		}
 
-		this.dir = request.getParameter("dir");
-		this.sort = request.getParameter("sort");
+		//this.dir = request.getParameter("dir");
+		//this.sort = request.getParameter("sort");
 	}
 
 	public long getTotalCount() {

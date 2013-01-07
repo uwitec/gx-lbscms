@@ -89,18 +89,18 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 				hql.append(" ");
 				hql.append(page.getDir());
 			}
-			int start = 0;
-			if(page.getStart()>0)
-				start = page.getStart()/page.getLimit();
-			System.out.println(hql.toString());
+			//int start = 0;
+			//if(page.getStart()>0)
+			//	start = page.getStart()/page.getLimit();
 			query = getSession().createQuery(hql.toString());
 			for(int i= 0 ;i < values.length ; i++){
 				query.setParameter(i,values[i]);
 			}
-			query.setFirstResult(start*page.getLimit());
-			query.setMaxResults(page.getLimit());
+			query.setFirstResult((page.getPage()-1)*page.getRows());
+			query.setMaxResults(page.getRows());
 			List list = query.list();
 			page.setData(list);
+			page.setList(list);
 			page.setTotalCount(totalCount);
 			return page;
 		}catch(Exception ex){

@@ -14,6 +14,19 @@ public class SysUserRole implements java.io.Serializable {
 
 	// Constructors
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SysUserRole [id=");
+		builder.append(id);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", roleId=");
+		builder.append(roleId);
+		builder.append("]");
+		return builder.toString();
+	}
+
 	/** default constructor */
 	public SysUserRole() {
 	}
