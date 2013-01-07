@@ -4,7 +4,7 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="role" extends="global"  namespace="/role">
-	   <action name="role" class="bjwxsytx.system.entity.role.action.RoleAction">
+	   <action name="findRole" class="bjwxsytx.system.role.action.RoleAction"  method="findRole">
 	   </action>
 	</package>
 

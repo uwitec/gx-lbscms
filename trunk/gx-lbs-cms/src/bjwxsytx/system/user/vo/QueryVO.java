@@ -5,7 +5,13 @@ public class QueryVO {
 	private String nickname;
 	private String password;
 	private String captcha;
-
+	private String validateCode;
+	public String getValidateCode() {
+		return validateCode;
+	}
+	public void setValidateCode(String validateCode) {
+		this.validateCode = validateCode;
+	}
 	public String getCaptcha() {
 		return captcha;
 	}

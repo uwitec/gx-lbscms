@@ -55,11 +55,10 @@ public class AuthenticationAction extends BaseAction {
 	 * @return
 	 * @author zhaoj 新增日期：2008-11-14
 	 * @author libu 修改日期：2008-12-4
-	 * @throws OperationException 
-	 * @throws SystemException 
+	 * @throws Exception 
 	 * @since wapportal_manager version(2.0)
 	 */
-	public String login() throws OperationException,SystemException  {
+	public String login() throws Exception  {
 		this.result = new Result();
 		
 		SysUser user =userService.login(queryVO);
@@ -84,7 +83,23 @@ public class AuthenticationAction extends BaseAction {
 		AuthenticationUtil.setAuthenticationUrl(getSessionMap(), list);
 		return SUCCESS;
 	}
-
+	
+	public String validateCode(){
+		this.result = new Result();
+		if(queryVO!=null){
+			if(queryVO.getValidateCode()!=null){
+				if(this.queryVO.getValidateCode().equals(String.valueOf(this.getSessionMap().get(AuthenticationUtil.VALIDATE_CODE_KEY)))){
+					this.result.setFlag(Result.FLAG_SUCCESS);
+					return SUCCESS;
+				}else{
+					this.result.setFlag(Result.FLAG_FAILURE);
+				}
+			}
+		}
+		return SUCCESS;
+	}
+	
+	
 	public String isSessionNull(){
 		this.result = new Result();
 		if(BlankUtil.isBlank(AuthenticationUtil.getCurrentUserId(this.getSessionMap()))){

@@ -6,10 +6,13 @@
 -->
 <hibernate-mapping>
     <class name="bjwxsytx.system.entity.SysUser" table="SYS_USER" schema="LBS">
-        <id name="userId" type="java.lang.Long">
+
+       <id name="userId" type="java.lang.Long">
             <column name="USER_ID" precision="18" scale="0" />
-            <generator class="sequence" />
-        </id>
+            <generator class="sequence">         
+            	<param name="sequence">SEQ_SYS_USER</param>
+        	</generator>
+        </id>        
         <property name="loginName" type="string">
             <column name="[LOGIN_NAME]" length="20" />
         </property>

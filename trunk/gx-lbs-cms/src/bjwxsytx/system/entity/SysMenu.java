@@ -16,8 +16,16 @@ public class SysMenu implements java.io.Serializable {
 	private String description;
 	private Boolean deleteFlag;
 	private String jsname;
-
+	private Long isMenuTree;
 	// Constructors
+
+	public Long getIsMenuTree() {
+		return isMenuTree;
+	}
+
+	public void setIsMenuTree(Long isMenuTree) {
+		this.isMenuTree = isMenuTree;
+	}
 
 	/** default constructor */
 	public SysMenu() {
@@ -55,6 +63,29 @@ public class SysMenu implements java.io.Serializable {
 
 	public String getUrl() {
 		return this.url;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SysMenu [menuId=");
+		builder.append(menuId);
+		builder.append(", menuName=");
+		builder.append(menuName);
+		builder.append(", url=");
+		builder.append(url);
+		builder.append(", parentId=");
+		builder.append(parentId);
+		builder.append(", seq=");
+		builder.append(seq);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", deleteFlag=");
+		builder.append(deleteFlag);
+		builder.append(", jsname=");
+		builder.append(jsname);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	public void setUrl(String url) {
