@@ -10,6 +10,8 @@
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/src/jquery.parser.js"></script>
+	<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css">
 	<script>
 	
 	if(userId==null||userId==''){
@@ -17,16 +19,36 @@
 		top.location.href='index.jsp';
 	}
 		$(function(){
+			function addTab(title, url){
 
+				if ($('#tabs').tabs('exists', title)){
+					 $('#tabs').tabs('select', title);
+			    } else {
+					var content = '<iframe scrolling="auto" id="frameId" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+				     $('#tabs').tabs('add',{
+			            title:title,
+			            content:content,
+			            closable:true
+			        });
+			    }
+			}
 			 $.post(ctx+"/menu/menu!findMenuByUserId.action", {
 			 	}, function(json) {  
-			 	var array = new Array();
-			 	for(var i =  0 ; i < json.result.data.length ; i ++ ){
-				 	for(var key in json.result.data[i]){
-				 		array.push("id",json.result.data[i][key]);
-				 	    
-				 	}
-			 	}
+			 		$('#tree').tree({  
+                        //parent : node.target,  
+                        data : json.treeList,
+                        onClick: function(node){
+                        	
+                        	if(node.attributes){
+                        		addTab(node.text,ctx+"/"+node.attributes);
+                        	}
+                            //$(this).tree('toggle', node.target);
+                           //alert('you dbclick '+node.text);
+                        },onResize:function(){
+                        	alert(1);
+                        }
+                        
+                    });  
 			 });
 			$('#tt2').datagrid({
 				title:'My Title',
@@ -65,18 +87,19 @@
 <body class="easyui-layout">
 	<div data-options="region:'north',split:true" title="North Title" style="height:100px;padding:10px;">
 		<p>The north content.</p>
+		<a href="${ctx }/login/login!logout.action">退出</a>
 	</div>
 
-	<div id="tree" data-options="region:'west',iconCls:'icon-reload',split:true" title="Tree Menu" style="width:180px;">
+	<div id="tree" data-options="region:'west',iconCls:'icon-reload',split:true" title="导航栏" style="width:180px;">
 		<!-- <ul class="easyui-tree" data-options="url:'tree_data.json'"></ul> -->
 		<ul class="easyui-tree" ></ul>
 	</div>
 	
-	<div data-options="region:'center'" title="Main Title" style="overflow:hidden;">
-		<div class="easyui-tabs" data-options="fit:true,border:false">
-			<div title="Tab1" style="padding:20px;overflow:hidden;"> 
+	<div id="center" data-options="region:'center',border:false"  style="overflow:hidden;">
+		<div class="easyui-tabs" id="tabs" data-options="fit:true,border:false">
+			<div title="欢迎登录" style="padding:20px;overflow:hidden;"> 
 				<div style="margin-top:20px;">
-					<h3>jQuery EasyUI framework help you build your web page easily.</h3>
+					<h3>欢迎登录LBS后台管理系统!</h3>
 					<ul>
 						<li>easyui is a collection of user-interface plugin based on jQuery.</li> 
 						<li>using easyui you don't write many javascript code, instead you defines user-interface by writing some HTML markup.</li> 
@@ -84,10 +107,7 @@
 					</ul>
 				</div>
 			</div>
-			<div title="Tab2" data-options="closable:true" style="padding:20px;">This is Tab2 width close button.</div>
-			<div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="overflow:hidden;padding:5px;">
-				<table id="tt2"></table> 
-			</div>
+
 		</div>
 	</div>
 </body>
