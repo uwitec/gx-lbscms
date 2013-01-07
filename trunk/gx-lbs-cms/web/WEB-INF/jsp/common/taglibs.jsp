@@ -23,4 +23,6 @@ var FLAG_SUCCESS = 1;
 var FLAG_FAILURE = 3;
 var userId = ${userId};
 var ctx = '${ctx}';
+
+
 </script>
