@@ -10,11 +10,10 @@
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<constant name="struts.objectFactory" value="spring" />
 	<include file="struts-default.xml" />
-	 <include file="struts-menu.xml"/>
-	<!--<include file="struts-user.xml"/>
-	
+	<include file="struts-menu.xml"/>
+	<include file="struts-user.xml"/>
 	<include file="struts-role.xml"/>
- -->
+
 	
 	<package name="global" extends="json-default">
 		<interceptors>
@@ -30,7 +29,7 @@
 			<result name="operationException">/WEB-INF/jsp/common/operationException.jsp</result>
 			<result name="systemException">/WEB-INF/jsp/common/systemException.jsp</result> 
 			<result type="json" />
-			<result name="login">/WEB-INF/jsp/login.jsp</result>
+			<result name="login">/index.jsp</result>
 			<result name="timeout">/timeout.jsp</result>
 		</global-results>
 		<global-exception-mappings>
