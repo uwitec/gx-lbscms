@@ -62,3 +62,12 @@
 .icon-mini-refresh{
 	background:url('icons/mini_refresh.png') no-repeat 3px 2px;
 }
+.myicon-add{
+	background:url('icons/drop-add.gif') no-repeat 2px 0px;
+}
+.myicon-edit{
+	background:url('icons/edit_16x16.gif') no-repeat 2px 0px;
+}
+.myicon-delete{
+	background:url('icons/delete.gif') no-repeat 2px 0px;
+}
