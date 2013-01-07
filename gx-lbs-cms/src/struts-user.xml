@@ -4,8 +4,11 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="user" extends="global"  namespace="/user">
-	   <action name="user" class="bjwxsytx.system.entity.user.action.UserAction">
-
+	   <action name="userListPage" class="bjwxsytx.system.user.action.UserAction" method="userListPage">
+			<result name="success">/system/user/user-list.jsp</result>
+	   </action>
+	   <action name="list" class="bjwxsytx.system.user.action.UserAction" method="list">
+			
 	   </action>
 	</package>
 
