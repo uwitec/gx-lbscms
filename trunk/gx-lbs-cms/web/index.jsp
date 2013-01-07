@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/src/jquery.parser.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css">
 </head>
 
 <body style="background-color: #22468b;">
@@ -28,7 +29,7 @@
             </div>
             <div style="padding:5px 0;">
                 <label for="password">验证码:</label>
-                <input type="text" id="code" name="code" style="width:80px;"></input>
+                <input type="text" id="code" maxlength="4" name="queryVO.validateCode" style="width:80px;"></input> <img  style="vertical-align:middle;cursor:pointer;" alt="点击图片更新验证码"  class="text ui-widget-content ui-corner-all" onclick="this.src='${ctx }/image.jsp?d='+new Date();" id="code" height="22" width="60" src="${ctx }/image.jsp?d=' + new Date() + '" border="0"/>
             </div>            
              <div style="padding:5px 0;text-align: center;color: red;" id="showMsg"></div>
         </form>
@@ -69,41 +70,42 @@ function login(){
 		$("#showMsg").html("请输入验证码!");
 		code.focus();
 	}else{
-		 $.ajax({            
-             type:"POST",   //post提交方式默认是get
-             url:"login/login!login.action", 
-             data:$("#loginForm").serialize(),   //序列化               
-             error:function(XMLHttpRequest, textStatus, errorThrown) {      // 设置表单提交出错                 
-                 $("#showMsg").html(XMLHttpRequest);  //登录错误提示信息
-             },
-             success:function(data) {
-            	 if(data.result.flag==FLAG_FAILURE){
-            		 $("#showMsg").html(data.result.msg);  
-            	 }else{
-            		 $("#showMsg").html("");  
-            		 top.location.href = "main.jsp";
-            	 }
-                 //document.location = "index.action";
-             } 
-       });       
+		$.ajax({            
+            type:"POST",   //post提交方式默认是get
+            url:ctx+"/login/login!validateCode.action", 
+            data:$("#loginForm").serialize(),   //序列化               
+            error:function(XMLHttpRequest, textStatus, errorThrown) {      // 设置表单提交出错                 
+                $("#showMsg").html(XMLHttpRequest);  //登录错误提示信息
+            },
+            success:function(data) {
+            	
+           	 if(data.result.flag==FLAG_FAILURE){
+           		 $("#showMsg").html("验证码错误!");  
+           	 }else{
+           		$.ajax({            
+                    type:"POST",   //post提交方式默认是get
+                    url:ctx+"/login/login!login.action", 
+                    data:$("#loginForm").serialize(),   //序列化               
+                    error:function(XMLHttpRequest, textStatus, errorThrown) {      // 设置表单提交出错                 
+                        $("#showMsg").html(XMLHttpRequest);  //登录错误提示信息
+                    },
+                    success:function(data) {
+                   	 if(data.result.flag==FLAG_FAILURE){
+                   		 $("#showMsg").html(data.result.msg);  
+                   	 }else{
+                   		 $("#showMsg").html("");  
+                   		 top.location.href = ctx+"/main.jsp";
+                   	 }
+                        //document.location = "index.action";
+                    } 
+              }); 
+           	 }
+                //document.location = "index.action";
+            } 
+      });       
+
 	}
-    /* if($("input[name='login']").val()=="" || $("input[name='password']").val()==""){
-         $("#showMsg").html("用户名或密码为空，请输入");
-         $("input[name='login']").focus();
-    }else{
-            //ajax异步提交  
-           $.ajax({            
-                  type:"POST",   //post提交方式默认是get
-                  url:"login.action", 
-                  data:$("#loginForm").serialize(),   //序列化               
-                  error:function(request) {      // 设置表单提交出错                 
-                      $("#showMsg").html(request);  //登录错误提示信息
-                  },
-                  success:function(data) {
-                      document.location = "index.action";
-                  }            
-            });       
-        } */
+ 
 }
 </script>
 </html>
