@@ -12,19 +12,33 @@
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script>
+	function qq(value,name){
+		
+		//重新刷新datagrid，并增加两个参数key、type，这里是POST传值
+		if(name=='queryVO.loginName'){
+		$('#test').datagrid('load',{"queryVO.loginName":value});
+		}else if(name=='queryVO.username'){
+			$('#test').datagrid('load',{"queryVO.username":value});	
+		}
+	}
 		$(function(){
+
+		
+			var optFlag="";
 			$('#user-add').dialog({
 				autoOpen: false ,
 				modal:true,
 				width:320,   
+				closable:false,
 				height:300,
-				resizable:true,
+				resizable:false,
 				//noheader:true,
-				onOpen:function(){
-					
+				onBeforeOpen:function(){
 					$.getJSON(ctx+'/role/findRole', function(json) { 
 						$('#roleCombobox').combobox({
 							data : json.roleList, 
+							width:150,
+							panelHeight:150,
 							valueField:'roleId',
 							editable:false ,
 							textField:'roleName'
@@ -32,13 +46,53 @@
 						//alert(json.roleList[0].roleId);
 						$('#roleCombobox').combobox('setValue',json.roleList[0].roleId);
 					});
+					
+					if(optFlag=="add"){
+						$("#user-add").dialog("setTitle","添加用户!");
+						$('#loginName').removeAttr("readOnly");
+						$('#loginName').validatebox({   
+						    required: true,   
+						    validType: "exist['loginName']"  
+						});  
+						
+						$('#loginName').val("");
+					}else if(optFlag=="edit"){
+						
+						$("#user-add").dialog("setTitle","修改用户!");
+					
+						$('#loginName').validatebox({   
+						    required: false,   
+						    validType: ''  
+						});  
+						$('#loginName').attr("readOnly","true");
+
+						var row = $('#test').datagrid('getSelected');
+						$.getJSON(ctx+'/user/user!findUserById.action?queryVO.id='+row.userId, function(json) { 
+							$("#saveForm").form('load', {
+								"sysUser.loginName": json.sysUser.loginName,
+			                    "sysUser.loginPass": json.sysUser.loginPass,
+			                    "queryVO.password": json.sysUser.loginPass,
+			                    "sysUser.userName": json.sysUser.userName,
+			                    "sysUser.tel": json.sysUser.tel,
+			                    "sysUser.email": json.sysUser.email,
+			                    "sysUser.userId":json.sysUser.userId,
+			                    "sysUserRole.id":json.sysUserRole.id
+			                 });
+							$('#roleCombobox').combobox('setValue',json.sysUserRole.roleId);
+						});
+
+					}
+				},
+				
+				onOpen:function(){
+
+					
 				    
 				},
 				buttons:[{
 					text:'Ok',
 					iconCls:'icon-ok',
 					handler:function(){
-						
 						
 						$("#saveForm").form("submit", {
 					        url:ctx+"/user/saveUser",
@@ -50,7 +104,7 @@
 					        	if(datas.result.flag==FLAG_SUCCESS){
 					        		$.messager.alert('Success','添加成功！');
 					        		
-					        		$("#saveForm").form("destroy");
+					        		$("#saveForm").form("clear");
 					        		$('#user-add').dialog("close");
 					        		$('#test').datagrid('reload');
 					        	}
@@ -61,7 +115,12 @@
 					text:'Cancel',
 					handler:function(){
 					
-					
+						$('#loginName').val("");
+						$('#pwd1').val("");
+						$('#pwd2').val("");
+						$('#userName').val("");
+						$('#tel').val("");
+						$('#email').val("");
 						$('#user-add').dialog('close');
 					}
 				}]
@@ -70,7 +129,10 @@
 			
 			
 			function btnDisplay(rowIndex, rowData){
+				
+				
 				var rows = $('#test').datagrid('getSelections');
+			
 				if(rows.length==1){
 					$('#editBtn').linkbutton('enable');
 				}else{
@@ -82,6 +144,9 @@
 					$('#delBtn').linkbutton('disable');
 				}
 			}
+		
+			
+
 			//alert(parent.document.getElementById("frameId").offsetHeight);
 			$('#test').datagrid({
 				//title:'My DataGrid',
@@ -94,6 +159,9 @@
 				striped: true,
 				collapsible:true,
 				url:ctx+'/user/list',
+				onOpen:function(){
+					//$('#test').datagrid('load');
+				},
 				sortName: 'userId',
 				sortOrder: 'desc',
 				remoteSort: false,
@@ -131,6 +199,9 @@
 					text:'添加用户',
 					iconCls:'myicon-add',
 					handler:function(){
+						
+						optFlag="add";
+
 						$('#user-add').dialog("open");
 					}
 				},'-',{
@@ -139,7 +210,10 @@
 					iconCls:'myicon-edit',
 					disabled:true,
 					handler:function(){
-						alert('cut')
+						
+						optFlag = "edit";
+
+						 $('#user-add').dialog("open");
 					}
 				},'-',{
 					id:'delBtn',
@@ -156,9 +230,30 @@
 											for(var i=0;i<rows.length;i++){
 												ids = ids + rows[i].userId +",";
 											}
-											
+											$.ajax({  
+										          type : "post",  
+										          url : ctx+"/user/user!deleteUser.action",  
+										          data : "ids="+ids.substring(0,ids.length-1),  
+										          //async : false,  
+										          success : function(data){  
+										        	  
+										          	if(data.result.flag==FLAG_SUCCESS){
+										          		$('#test').datagrid('clearSelections');
+										          		$.messager.alert('Success','删除成功！');
 
-											$('#test').datagrid('reload');
+										          		$('#test').datagrid('reload');
+										          		$('#delBtn').linkbutton('disable');
+										          		$('#editBtn').linkbutton('disable');
+										          	}else if(data.result.flag==FLAG_FAILURE){
+										          		
+										          		$.messager.alert('Success','删除失败！'+data.result.msg);
+										          	}
+										          	
+										           		
+										          }  
+											});  
+
+											
 								   
 								        }   
 								   
@@ -167,39 +262,48 @@
 							
 						
 					}
-				}]
+				},'-' ]
+			}  
+			
+			);
+			
+			$('#ss').appendTo('.datagrid-toolbar');
+			$('#ss').searchbox({  
+				menu:'#mm'
 			});
+
 			var p = $('#test').datagrid('getPager');
 			$(p).pagination({
 				onBeforeRefresh:function(){
-					alert('before refresh');
+					//$('#test').datagrid('load');
 				}
 			});
 			$.extend($.fn.validatebox.defaults.rules,{
 				equalTo:{
 					 validator:function(value,param){   
-						 
-					 	
 					     var s = $("#"+param).val();
-					    
 					     //因为日期是统一格式的所以可以直接比较字符串 否则需要Date.parse(_date)转换
 					     return value==s;
 					    },
 				    message:'两次输入的密码不一至!'
 				  },
 				exist:{
-					validator:function(value,param){   
-						 
-					 	
-					     var s = $("#"+param).val();
-					    
-					     //因为日期是统一格式的所以可以直接比较字符串 否则需要Date.parse(_date)转换
-					     return value==s;
-					    },
-				    message:'两次输入的密码不一至!'
+					validator:function(value,param){  
+						$.ajax({  
+					          type : "post",  
+					          url : ctx+"/login/other!isUserExist.action",  
+					          data : "queryVO.username="+value,  
+					          async : false,  
+					          success : function(data){  
+					           		bl = data.userExist;
+					          }  
+						});  
+						return !bl;
+					},
+				    message:'该账号已存在'
 				}
 				
-				});
+			});
 		});
 		function resize(){
 			$('#test').datagrid('resize', {
@@ -249,7 +353,13 @@
 <div data-options="region:'center',border:false"  >
 	<table id="test" data-options="border:true" ></table>
 </div>
-
+<input id="ss" class="easyui-searchbox"
+		searcher="qq"
+		prompt="Please Input Value" menu="#mm" ></input>
+		<div id="mm" style="width:120px">
+	<div name="queryVO.loginName" iconCls="icon-ok">账号</div>
+	<div name="queryVO.username" iconCls="icon-ok">姓名</div>
+</div>
 	<div id="user-add" data-options="iconCls:'icon-save'" title="添加用户" closed="true" style="padding:5px;width:400px;height:200px;">
     <div class="easyui-panel"  fit="true" data-options="iconCls:'icon-save'" style="width:400px;border: 0px">  
         <div >  
@@ -269,20 +379,22 @@
                 </tr>                  
                 <tr>  
                     <td>用户姓名:</td>  
-                    <td><input class="easyui-validatebox" type="text" name="sysUser.userName" data-options=""></input></td>  
+                    <td><input class="easyui-validatebox" id="userName" type="text" name="sysUser.userName" data-options=""></input></td>  
                 </tr>  
                 <tr>  
                     <td>电话号码:</td>  
-                    <td><input class="easyui-validatebox easyui-numberbox" type="text" name="sysUser.tel" data-options=""></input></td>  
+                    <td><input class="easyui-validatebox easyui-numberbox" id="tel" type="text" name="sysUser.tel" data-options=""></input></td>  
                 </tr>  
                 <tr>  
                     <td>电子邮件:</td>  
-                    <td><input class="easyui-validatebox" type="text" name="sysUser.email" data-options="validType:'email'"></input></td>  
+                    <td><input class="easyui-validatebox" type="text" id="email" name="sysUser.email" data-options="validType:'email'"></input></td>  
                 </tr>                  
                 <tr>  
                     <td>角色:</td>  
                     <td>  
                         <select id="roleCombobox" class="easyui-combobox" name="sysUserRole.roleId"></select>  
+                        <input type="hidden"  name="sysUser.userId">
+                        <input type="hidden"  name="sysUserRole.id">
                     </td>  
                 </tr>  
             </table>  
