@@ -32,16 +32,17 @@ public class UserDAO extends CommonDAO<SysUser>{
 		List<String> params =null;
 		//page.setField(" u ");
 		page.setTableName("SysUser u ");
+		System.out.println(queryVO);
 		if(!BlankUtil.isBlank(queryVO)){
 			StringBuffer where = new StringBuffer();
 			params = new ArrayList<String>();
 			if(!BlankUtil.isBlank(queryVO.getUsername())){
 				params.add('%' + queryVO.getUsername().trim() + '%');
-				where.append(" and username like ? ");
+				where.append(" and u.userName like ? ");
 			}
-			if(!BlankUtil.isBlank(queryVO.getNickname())){
-				params.add('%' +queryVO.getNickname()+'%');
-				where.append(" and nickname like ? ");
+			if(!BlankUtil.isBlank(queryVO.getLoginName())){
+				params.add('%' + queryVO.getLoginName().trim() + '%');
+				where.append(" and u.loginName like ? ");
 			}
 			page.setCondition(where.toString());
 		}

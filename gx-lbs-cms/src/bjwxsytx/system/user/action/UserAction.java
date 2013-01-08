@@ -32,6 +32,15 @@ public class UserAction extends BaseAction {
 	private SysUser sysUser;
 	private SysRole sysRole;
 	private SysUserRole sysUserRole;
+	private String ids;
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
 	public SysUserRole getSysUserRole() {
 		return sysUserRole;
 	}
@@ -93,20 +102,47 @@ public class UserAction extends BaseAction {
 	}
 	
 	public String list(){
-		Page page = new Page(this.getHttpRequest());
-		this.userService.findUser(page, queryVO);
-		this.total = page.getTotalCount();
-		this.rows = page.getList();
+		try{
+			Page page = new Page(this.getHttpRequest());
+			//System.out.println(queryVO.getLoginName());
+			this.userService.findUser(page, queryVO);
+			this.total = page.getTotalCount();
+			this.rows = page.getList();			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
 		return SUCCESS;
 	}
 	
-	public String saveUser(){
+	public String saveUser() throws Exception{
 		this.result = new Result();
 		this.sysUser.setCreateTime(new Date());
-		this.userService.saveUser(sysUser);
-		this.sysUserRole.setUserId(sysUser.getUserId());
-		this.roleUserService.saveUserRole(sysUserRole);
+		System.out.println(sysUser);
+		this.userService.saveUser(sysUser,sysUserRole);
 		this.result.setFlag(Result.FLAG_SUCCESS);
+		return SUCCESS;
+	}
+	
+	public String deleteUser(){
+		try {
+			this.result = new Result();
+			this.userService.deleteUser(ids);
+
+			
+			result.setFlag(Result.FLAG_SUCCESS);
+		} catch (Exception e) {
+			result.setFlag(Result.FLAG_FAILURE);
+			this.result.setMsg(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+		
+		return SUCCESS;
+	}
+	
+	public String findUserById(){
+		this.sysUser = this.userService.findUserById(queryVO);
+		this.sysUserRole = this.roleUserService.findRoleUser(sysUser.getUserId());
 		return SUCCESS;
 	}
 }
