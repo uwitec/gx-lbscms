@@ -1,6 +1,20 @@
 package bjwxsytx.system.user.vo;
 
 public class QueryVO {
+	private Long id;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	private String loginName;
+	public String getLoginName() {
+		return loginName;
+	}
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 	private String username;
 	private String nickname;
 	private String password;

@@ -103,7 +103,7 @@ public class AuthenticationUtil {
 			for(int i = 0 ;i < list.size() ; i++){
 				SysMenu menu = list.get(i);
 				urlList.add(menu.getUrl());
-				System.out.println(menu.getUrl());
+				//''System.out.println(menu.getUrl());
 			//	Role role = list.get(i);
 				//Iterator ite = role.getMenus().iterator();
 				//System.out.println(role.getName());

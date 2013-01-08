@@ -165,4 +165,39 @@ public class SysUser implements java.io.Serializable {
 		this.linkMobile = linkMobile;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SysUser [userId=");
+		builder.append(userId);
+		builder.append(", loginName=");
+		builder.append(loginName);
+		builder.append(", loginPass=");
+		builder.append(loginPass);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", tel=");
+		builder.append(tel);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", areaId=");
+		builder.append(areaId);
+		builder.append(", departmentId=");
+		builder.append(departmentId);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", creatorId=");
+		builder.append(creatorId);
+		builder.append(", isDel=");
+		builder.append(isDel);
+		builder.append(", createTime=");
+		builder.append(createTime);
+		builder.append(", groupuserFlag=");
+		builder.append(groupuserFlag);
+		builder.append(", linkMobile=");
+		builder.append(linkMobile);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

@@ -99,6 +99,19 @@ public class AuthenticationAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	private boolean isUserExist;
+	public void setUserExist(boolean isUserExist) {
+		this.isUserExist = isUserExist;
+	}
+	public boolean getUserExist() {
+		return this.isUserExist;
+	}
+	public String isUserExist(){
+		
+		isUserExist = this.userService.isUserExist(queryVO);
+		
+		return SUCCESS;
+	}
 	
 	public String isSessionNull(){
 		this.result = new Result();
