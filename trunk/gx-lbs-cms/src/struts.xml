@@ -51,5 +51,8 @@
 	   <action name="login" class="bjwxsytx.system.user.action.AuthenticationAction">
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 	   </action>
+	   <action name="other" class="bjwxsytx.system.user.action.AuthenticationAction">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+	   </action>	   
 	</package>
 </struts>
