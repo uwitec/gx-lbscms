@@ -118,7 +118,6 @@ public class UserAction extends BaseAction {
 	public String saveUser() throws Exception{
 		this.result = new Result();
 		this.sysUser.setCreateTime(new Date());
-		System.out.println(sysUser);
 		this.userService.saveUser(sysUser,sysUserRole);
 		this.result.setFlag(Result.FLAG_SUCCESS);
 		return SUCCESS;
