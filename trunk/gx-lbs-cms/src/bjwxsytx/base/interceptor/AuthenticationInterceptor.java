@@ -44,14 +44,14 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		ActionContext actionContext = invocation.getInvocationContext();
-		System.out.println(1);
+		
 		_log.info("---AuthenticationInterceptor----" + invocation.getAction()
 				+ "!" + invocation.getResultCode());
 		Map session = actionContext.getSession();
 		HttpServletRequest request = (HttpServletRequest)actionContext.get(org.apache.struts2.StrutsStatics.HTTP_REQUEST);
 		String url = request.getServletPath();
 			url = url.substring(1);
-			System.out.println(url);
+			
 		if (AuthenticationUtil.isSessionActivated(session)) {
 			if(AuthenticationUtil.isAuthorized(url, session)){
 				return invocation.invoke();
