@@ -34,4 +34,9 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>	 	
+	<bean id="roleMenuDAO" class="bjwxsytx.system.role.dao.RoleMenuDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	 		
 </beans>

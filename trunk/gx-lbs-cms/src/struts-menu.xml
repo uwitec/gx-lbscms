@@ -9,6 +9,9 @@
 	   				
 
 	    </action>
+	   <action name="menuListPage" class="bjwxsytx.system.menu.action.MenuAction" method="menuListPage">
+			<result name="success">/system/menu/menu-list.jsp</result>
+	   </action>	    
 	</package>
 
 
