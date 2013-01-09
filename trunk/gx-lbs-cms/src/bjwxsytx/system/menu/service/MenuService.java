@@ -47,4 +47,8 @@ public class MenuService {
 	public Page findMenu(Page page,QueryVO queryVO){
 		return this.menuDAO.findMenu(page,queryVO);
 	}
+	
+	public void saveMenu(SysMenu entity){
+		this.menuDAO.save(entity);
+	}
 }

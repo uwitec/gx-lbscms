@@ -89,6 +89,22 @@ public class MenuAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	public String saveMenu(){
+		if(sysMenu.getParentId()==null){
+			sysMenu.setParentId(new Long(0));
+		}
+		if(sysMenu.getGread().intValue()==3){
+			sysMenu.setIsMenuTree(new Long(0));
+		}else{
+			sysMenu.setIsMenuTree(new Long(1));
+		}
+		this.menuService.saveMenu(sysMenu);
+		this.result = new Result();
+		this.result.setFlag(Result.FLAG_SUCCESS);
+		return SUCCESS;
+	}
+	
+	
 	public String updateMenu(){
 		this.menuService.updateMenu(queryVO);
 		this.result = new Result();
@@ -105,7 +121,7 @@ public class MenuAction extends BaseAction {
 			return SUCCESS;
 		}else{
 			System.out.println(sysMenu.getMenuId());
-			//this.menuService.deleteMenu(sysMenu);
+			this.menuService.deleteMenu(sysMenu);
 			this.result.setFlag(Result.FLAG_SUCCESS);
 		}
 		}catch(Exception ex){
@@ -133,12 +149,28 @@ public class MenuAction extends BaseAction {
 		System.out.println(page.getList().size());
 		return SUCCESS;
 	}
+	
+	
+	private List<SysMenu> listOne ;
+	private List<SysMenu> listTwo;
+	public List<SysMenu> getListOne() {
+		return listOne;
+	}
+	public void setListOne(List<SysMenu> listOne) {
+		this.listOne = listOne;
+	}
+	public List<SysMenu> getListTwo() {
+		return listTwo;
+	}
+	public void setListTwo(List<SysMenu> listTwo) {
+		this.listTwo = listTwo;
+	}
 	public String findMenuByUserId(){
 		try{
 		Object obj = this.getSessionMap().get(AuthenticationUtil.ID_SESSION_KEY);
 		Long userId = Long.parseLong(obj.toString());
-		List<SysMenu> listOne = menuService.findMenuOneByUserId(userId);
-		List<SysMenu> listTwo = menuService.findMenuTwoByUserId(userId);
+		listOne = menuService.findMenuOneByUserId(userId);
+		listTwo = menuService.findMenuTwoByUserId(userId);
 		List<Hashtable<String,Object>> list1 = new ArrayList<Hashtable<String,Object>>();
 		for(int i =  0 ; i < listOne.size() ; i ++){
 			SysMenu menuOne = listOne.get(i);

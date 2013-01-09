@@ -6,10 +6,12 @@
 -->
 <hibernate-mapping>
     <class name="bjwxsytx.system.entity.SysMenu" table="SYS_MENU" schema="LBS">
-        <id name="menuId" type="java.lang.Long">
+       <id name="menuId" type="java.lang.Long">
             <column name="MENU_ID" precision="18" scale="0" />
-            <generator class="sequence" />
-        </id>
+            <generator class="sequence">         
+            	<param name="sequence">SEQ_SYS_MENU</param>
+        	</generator>
+        </id>              
         <property name="menuName" type="java.lang.String">
             <column name="MENU_NAME" length="30" />
         </property>
