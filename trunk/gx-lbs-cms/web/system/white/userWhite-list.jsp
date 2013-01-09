@@ -22,6 +22,21 @@
 		}
 	}
 		$(function(){
+			// searchAction:
+				 $('#btnSearch').bind('click', function(){  
+					var mdn = $('#mdn').val();
+					alert(mdn);
+					$('#test').datagrid('load',{
+						"queryVO.mdn":mdn
+					
+					
+					});
+					
+				 
+				 }); 
+
+			
+			
 			
 		
 			var optFlag="";
@@ -130,10 +145,8 @@
 			
 			function btnDisplay(rowIndex, rowData){
 				
-				alert("rowIndex:"+rowIndex);
 				var rows = $('#test').datagrid('getSelections');
 
-			    alert("多少行："+rows.length);
 				if(rows.length==1){
 					$('#editBtn').linkbutton('enable');
 				}else{
@@ -151,7 +164,7 @@
 			//alert(parent.document.getElementById("frameId").offsetHeight);
 			$('#test').datagrid({
 				//title:'My DataGrid',
-				
+				pageList:[1,5,10],
 				iconCls:'icon-save',
 				width:'auto',
 				height:'auto',
@@ -164,9 +177,11 @@
 				onLoadSuccess:function () {  
 				     var separator = $("#separator"); //toolbar上的竖线   
 				      var grid = $(".datagrid-toolbar"); //datagrid   
-				     var date = $("#selfSearchBox");   
+				     var date = $("#selfSearchBox");
+				      
+				     //alert(grid.attr("style"));
 				     grid.append(separator);  
-				     grid.append(date);   
+				     grid.append(date);
 				},
 				// huhuadd
 				onOpen:function(){
@@ -367,8 +382,8 @@
 </div>
 <!-- huhuadd -->
 <div id="selfSearchBox">
-	开始时间:<input id="beginTime" name="beginTime" type="text"  class="easyui-datebox" required="required" />	
-	结束时间:<input id="endTime" class="easyui-datetimebox" name="endTime" data-options="required:true,showSeconds:false" value="15/1/2012 2:3" style="width:150px">
+	开始时间:<input id="beginTime" class="easyui-datebox"  name="beginTime" type="text" />	
+	结束时间:<input id="endTime" class="easyui-datebox" name="endTime" data-options="showSeconds:false" value="15/1/2012 2:3" style="width:150px">
 	<div id="separator" class="datagrid-btn-separator"></div>
 	号码:<input id="mdn" name="mdn" type="text"  style="width:110px" />
 	</br>
