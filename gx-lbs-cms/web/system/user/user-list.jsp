@@ -152,8 +152,9 @@
 				//title:'My DataGrid',
 				
 				iconCls:'icon-save',
-				width:parent.document.getElementById("frameId").offsetWeight,
-				height:parent.document.getElementById("frameId").offsetHeight,
+				width:"auto",
+				pageSize:20,
+				height:"auto",
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
@@ -219,6 +220,7 @@
 					id:'delBtn',
 					text:'删除用户',
 					disabled:true,
+					
 					iconCls:'myicon-delete',
 					handler:function(){
 						//if (confirm("真的要删除吗？")){

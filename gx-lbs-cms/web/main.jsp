@@ -24,7 +24,7 @@
 				if ($('#tabs').tabs('exists', title)){
 					 $('#tabs').tabs('select', title);
 			    } else {
-					var content = '<iframe scrolling="auto" id="frameId" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+					var content = '<iframe scrolling="auto" name="frameName"  frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
 				     $('#tabs').tabs('add',{
 			            title:title,
 			            content:content,
@@ -36,6 +36,7 @@
 			 	}, function(json) {  
 			 		$('#tree').tree({  
                         //parent : node.target,  
+                        animate:true,  
                         data : json.treeList,
                         onClick: function(node){
                         	
