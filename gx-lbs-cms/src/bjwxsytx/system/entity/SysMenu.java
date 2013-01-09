@@ -17,7 +17,34 @@ public class SysMenu implements java.io.Serializable {
 	private Boolean deleteFlag;
 	private String jsname;
 	private Long isMenuTree;
+	private String state;
+	private Long _parentId;
+	private Long gread;
 	// Constructors
+
+	public Long getGread() {
+		return gread;
+	}
+
+	public void setGread(Long gread) {
+		this.gread = gread;
+	}
+
+	public Long get_parentId() {
+		return _parentId;
+	}
+
+	public void set_parentId(Long _parentId) {
+		this._parentId = _parentId;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	public Long getIsMenuTree() {
 		return isMenuTree;
