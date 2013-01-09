@@ -142,7 +142,6 @@ public class HttpURLUtil {
 		String urlString = "http://211.95.193.85/wap/merchant/index.jsp?indexShow=1";
 		try {
 			String res = httpToString(urlString,"UTF-8");
-			System.out.println("res="+res);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

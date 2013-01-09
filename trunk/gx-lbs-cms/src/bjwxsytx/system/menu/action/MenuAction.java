@@ -120,7 +120,6 @@ public class MenuAction extends BaseAction {
 			result.setMsg("该菜单已关联角色,请先取消关联关系再删除该菜单!");
 			return SUCCESS;
 		}else{
-			System.out.println(sysMenu.getMenuId());
 			this.menuService.deleteMenu(sysMenu);
 			this.result.setFlag(Result.FLAG_SUCCESS);
 		}
@@ -146,7 +145,6 @@ public class MenuAction extends BaseAction {
 			
 		}
 		
-		System.out.println(page.getList().size());
 		return SUCCESS;
 	}
 	

@@ -98,11 +98,9 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 			for(int i= 0 ;i < values.length ; i++){
 				query.setParameter(i,values[i]);
 			}
-			System.out.println(page.getPage()+" "+page.getRows());
 			query.setFirstResult((page.getPage()-1)*page.getRows());
 			query.setMaxResults(page.getRows());
 			List list = query.list();
-			System.out.println(list.size()+"===========");
 			page.setData(list);
 			page.setList(list);
 			page.setTotalCount(totalCount);

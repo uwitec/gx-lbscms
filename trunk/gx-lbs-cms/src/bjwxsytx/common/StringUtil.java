@@ -87,6 +87,5 @@ public class StringUtil {
 	public static void main(String[] args) {
 		String str = "<a href=\"http://211.95.193.85/wap/campaign/detail.jsp?id=24&p=2&amp;o=4\">abc&gt;&gt; </a>";
 		String str2 = replaceString(str, "&", "&amp;");
-		System.out.println("str2===" + str2);
 	}
 }
