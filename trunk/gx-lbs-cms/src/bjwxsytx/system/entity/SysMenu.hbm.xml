@@ -34,5 +34,8 @@
         <property name="jsname" type="java.lang.String">
             <column name="JSNAME" length="100" />
         </property>
+         <property name="gread" type="java.lang.Long">
+            <column name="GREAD" precision="18" scale="0" />
+        </property>
     </class>
 </hibernate-mapping>
