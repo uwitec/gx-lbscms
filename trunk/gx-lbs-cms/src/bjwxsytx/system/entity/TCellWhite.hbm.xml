@@ -16,5 +16,8 @@
         <property name="memo" type="java.lang.String">
             <column name="MEMO" length="20" />
         </property>
+         <property name="createTime" type="java.util.Date">
+            <column name="CREATE_TIME" length="7" />
+        </property>
     </class>
 </hibernate-mapping>

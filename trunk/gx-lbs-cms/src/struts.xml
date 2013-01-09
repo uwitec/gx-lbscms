@@ -13,6 +13,7 @@
 	<include file="struts-menu.xml"/>
 	<include file="struts-user.xml"/>
 	<include file="struts-role.xml"/>
+	<include file="struts-white.xml"/>
 
 	
 	<package name="global" extends="json-default">
