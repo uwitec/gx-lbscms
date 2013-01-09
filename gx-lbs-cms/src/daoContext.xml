@@ -38,5 +38,10 @@
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
-	</bean>	 		
+	</bean>	 	
+		<bean id="whiteDAO" class="bjwxsytx.system.white.dao.WhiteDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>		
 </beans>

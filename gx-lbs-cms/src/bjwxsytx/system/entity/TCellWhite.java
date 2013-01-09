@@ -1,5 +1,7 @@
 package bjwxsytx.system.entity;
 
+import java.util.Date;
+
 /**
  * TCellWhite entity. @author MyEclipse Persistence Tools
  */
@@ -11,6 +13,7 @@ public class TCellWhite implements java.io.Serializable {
 	private Long id;
 	private String msisdn;
 	private String memo;
+	private Date createTime;
 
 	// Constructors
 
@@ -54,5 +57,30 @@ public class TCellWhite implements java.io.Serializable {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+	
+	public Date getCreateTime() {
+		return this.createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TCellWhite [id=");
+		builder.append(id);
+		builder.append(", msisdn=");
+		builder.append(msisdn);
+		builder.append(", memo=");
+		builder.append(memo);
+		builder.append(", createTime=");
+		builder.append(createTime);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 
 }

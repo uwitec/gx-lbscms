@@ -22,7 +22,7 @@
 		}
 	}
 		$(function(){
-
+			
 		
 			var optFlag="";
 			$('#user-add').dialog({
@@ -34,21 +34,21 @@
 				resizable:false,
 				//noheader:true,
 				onBeforeOpen:function(){
-					$.getJSON(ctx+'/role/findRole', function(json) { 
+					$.getJSON(ctx+'/user/list', function(json) { 
 						$('#roleCombobox').combobox({
-							data : json.roleList, 
+							data :sysUser, 
 							width:150,
 							panelHeight:150,
-							valueField:'roleId',
+							valueField:'sysUser.userId',
 							editable:false ,
-							textField:'roleName'
+							textField:'sysUser.userName'
 						});
 						//alert(json.roleList[0].roleId);
-						$('#roleCombobox').combobox('setValue',json.roleList[0].roleId);
+						$('#roleCombobox').combobox('setValue',sysUser.userName);
 					});
 					
 					if(optFlag=="add"){
-						$("#user-add").dialog("setTitle","添加用户!");
+						$("#user-add").dialog("setTitle","添加白名单!");
 						$('#loginName').removeAttr("readOnly");
 						$('#loginName').validatebox({   
 						    required: true,   
@@ -58,7 +58,7 @@
 						$('#loginName').val("");
 					}else if(optFlag=="edit"){
 						
-						$("#user-add").dialog("setTitle","修改用户!");
+						$("#user-add").dialog("setTitle","修改白名单!");
 					
 						$('#loginName').validatebox({   
 						    required: false,   
@@ -130,9 +130,10 @@
 			
 			function btnDisplay(rowIndex, rowData){
 				
-				
+				alert("rowIndex:"+rowIndex);
 				var rows = $('#test').datagrid('getSelections');
-				
+
+			    alert("多少行："+rows.length);
 				if(rows.length==1){
 					$('#editBtn').linkbutton('enable');
 				}else{
@@ -152,21 +153,29 @@
 				//title:'My DataGrid',
 				
 				iconCls:'icon-save',
-				width:"auto",
-				pageSize:20,
-				height:"auto",
+				width:'auto',
+				height:'auto',
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
 				collapsible:true,
-				url:ctx+'/user/list',
+				url:ctx+'/userWhite/list',
+				// huhuadd
+				onLoadSuccess:function () {  
+				     var separator = $("#separator"); //toolbar上的竖线   
+				      var grid = $(".datagrid-toolbar"); //datagrid   
+				     var date = $("#selfSearchBox");   
+				     grid.append(separator);  
+				     grid.append(date);   
+				},
+				// huhuadd
 				onOpen:function(){
 					//$('#test').datagrid('load');
 				},
-				sortName: 'userId',
+				sortName: 'msisdn',
 				sortOrder: 'desc',
 				remoteSort: false,
-				idField:'userId',
+				idField:'whiteId',
 				onSelect:btnDisplay,
 				onUnselect:btnDisplay,
 				onSelectAll:btnDisplay,
@@ -175,21 +184,23 @@
 					//alert(1);
 				},
 				frozenColumns:[[
-	                {field:'userId',checkbox:true},
-	                {title:'姓名',field:'userName',width:80,sortable:true}
+	                {field:'whiteId',checkbox:true}
 				]],
 				columns:[[
-					{field:'loginName',title:'登录账号',width:120},
-					{field:'tel',title:'联系电话',width:120},
-					{field:'email',title:'电子邮件',width:120},
-					{field:'createTime',title:'创建时间',width:220,sortable:true,
-						sorter:function(a,b){
-							return (a>b?1:-1);
+						{field:'msisdn',title:'号码',width:150,sortable:true},
+					{field:'userName',title:'所属EC/SI',width:220},
+					{field:'memo',title:'描述',width:120},
+					
+					{field:'createTime',title:'创建时间',width:180,sortable:true,
+						formatter:function(value,rec){
+						  var ctime =rec.createTime;
+						  ctime = ctime.replace(new RegExp("T","gm")," ");
+						  return ctime;
 						}
 					},
 					{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
 						formatter:function(value,rec){
-							return '<span style="color:red">Edit Delete</span>';
+							return '<span style="color:red">修改</span>';
 						}
 					}
 				]],
@@ -197,7 +208,7 @@
 				rownumbers:true,
 				toolbar:[{
 					id:'addBtn',
-					text:'添加用户',
+					text:'添加白名单',
 					iconCls:'myicon-add',
 					handler:function(){
 						
@@ -207,7 +218,7 @@
 					}
 				},'-',{
 					id:'editBtn',
-					text:'修改用户',
+					text:'修改白名单',
 					iconCls:'myicon-edit',
 					disabled:true,
 					handler:function(){
@@ -218,9 +229,8 @@
 					}
 				},'-',{
 					id:'delBtn',
-					text:'删除用户',
+					text:'删除白名单',
 					disabled:true,
-					
 					iconCls:'myicon-delete',
 					handler:function(){
 						//if (confirm("真的要删除吗？")){
@@ -268,11 +278,8 @@
 			}  
 			
 			);
-			
-			$('#ss').appendTo('.datagrid-toolbar');
-			$('#ss').searchbox({  
-				menu:'#mm'
-			});
+
+
 
 			var p = $('#test').datagrid('getPager');
 			$(p).pagination({
@@ -322,6 +329,7 @@
 		function getSelections(){
 			var ids = [];
 			var rows = $('#test').datagrid('getSelections');
+			alert("rows:"+rows);
 			for(var i=0;i<rows.length;i++){
 				ids.push(rows[i].code);
 			}
@@ -346,53 +354,44 @@
 				rowspan:2,
 				colspan:2
 			});
+			
+			
 		}
+
 	</script>
 
 </head>
 <body class="easyui-layout">
-
 <div data-options="region:'center',border:false"  >
 	<table id="test" data-options="border:true" ></table>
 </div>
-<input id="ss" class="easyui-searchbox"
-		searcher="qq"
-		prompt="Please Input Value" menu="#mm" ></input>
-		<div id="mm" style="width:120px">
-	<div name="queryVO.loginName" iconCls="icon-ok">账号</div>
-	<div name="queryVO.username" iconCls="icon-ok">姓名</div>
+<!-- huhuadd -->
+<div id="selfSearchBox">
+	开始时间:<input id="beginTime" name="beginTime" type="text"  class="easyui-datebox" required="required" />	
+	结束时间:<input id="endTime" class="easyui-datetimebox" name="endTime" data-options="required:true,showSeconds:false" value="15/1/2012 2:3" style="width:150px">
+	<div id="separator" class="datagrid-btn-separator"></div>
+	号码:<input id="mdn" name="mdn" type="text"  style="width:110px" />
+	</br>
+	企业账号:<input id="ecsiId" name="ecsiId"  type="text" style="width:110px"/>
+	企业名称:<input id="ecsiName" name = "ecsiName" type="text" style="width:200px" />
+	<a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> 
 </div>
+<div id="separator" class="datagrid-btn-separator"></div>
+<!-- huhuadd -->
+
+
 	<div id="user-add" data-options="iconCls:'icon-save'" title="添加用户" closed="true" style="padding:5px;width:400px;height:200px;">
     <div class="easyui-panel"  fit="true" data-options="iconCls:'icon-save'" style="width:400px;border: 0px">  
         <div >  
         <form id="saveForm" method="post">  
             <table>  
                 <tr>  
-                    <td>登录账号:</td>  
+                    <td>号码:</td>  
                     <td><input class="easyui-validatebox" id="loginName" type="text" validType="exist['loginName']" name="sysUser.loginName" data-options="required:true"></input></td>  
                 </tr>  
+                                 
                 <tr>  
-                    <td>登录密码:</td>  
-                    <td><input class="easyui-validatebox" type="password" id="pwd1"   name="sysUser.loginPass" data-options="required:true"></input></td>  
-                </tr>  
-                <tr>  
-                    <td>密码确认:</td>  
-                    <td><input class="easyui-validatebox" id="pwd2" validType="equalTo['pwd1']" type="password" name="queryVO.password" data-options="required:true"></input></td>  
-                </tr>                  
-                <tr>  
-                    <td>用户姓名:</td>  
-                    <td><input class="easyui-validatebox" id="userName" type="text" name="sysUser.userName" data-options=""></input></td>  
-                </tr>  
-                <tr>  
-                    <td>电话号码:</td>  
-                    <td><input class="easyui-validatebox easyui-numberbox" id="tel" type="text" name="sysUser.tel" data-options=""></input></td>  
-                </tr>  
-                <tr>  
-                    <td>电子邮件:</td>  
-                    <td><input class="easyui-validatebox" type="text" id="email" name="sysUser.email" data-options="validType:'email'"></input></td>  
-                </tr>                  
-                <tr>  
-                    <td>角色:</td>  
+                    <td>所属EC/SI:</td>  
                     <td>  
                         <select id="roleCombobox" class="easyui-combobox" name="sysUserRole.roleId"></select>  
                         <input type="hidden"  name="sysUser.userId">
