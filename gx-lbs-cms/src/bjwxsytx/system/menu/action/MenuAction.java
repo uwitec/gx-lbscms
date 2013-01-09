@@ -169,8 +169,9 @@ public class MenuAction extends BaseAction {
 		Long userId = Long.parseLong(obj.toString());
 		listOne = menuService.findMenuOneByUserId(userId);
 		listTwo = menuService.findMenuTwoByUserId(userId);
-		List<Hashtable<String,Object>> list1 = new ArrayList<Hashtable<String,Object>>();
+		
 		for(int i =  0 ; i < listOne.size() ; i ++){
+			List<Hashtable<String,Object>> list1 = new ArrayList<Hashtable<String,Object>>();
 			SysMenu menuOne = listOne.get(i);
 			_log.info(menuOne);
 			Hashtable<String,Object> h = new Hashtable<String, Object>();
