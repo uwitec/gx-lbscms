@@ -63,7 +63,7 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 				hql.append(" where 1=1 ");
 				hql.append(page.getCondition());
 			}
-			_log.info(hql.toString());
+			//_log.info(hql.toString());
 			Query query = getSession().createQuery(hql.toString());
 			for(int i = 0 ; i < values.length ; i++){
 				query.setParameter(i, values[i]);
@@ -90,7 +90,7 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 				hql.append(" ");
 				hql.append(page.getDir());
 			}
-			_log.info(hql.toString());
+			//_log.info(hql.toString());
 			//int start = 0;
 			//if(page.getStart()>0)
 			//	start = page.getStart()/page.getLimit();
@@ -120,7 +120,7 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 	private static String openCache;
 
 	public void setQueryCache(String queryCache) {
-		_log.info("-----setQueryCache-------" + queryCache);
+		//_log.info("-----setQueryCache-------" + queryCache);
 		if (queryCache != null) {
 			CommonDAO.queryCache = queryCache;
 		}
@@ -672,7 +672,7 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 			sb.append(" CategoryName:").append(s.getCategoryName());
 			sb.append("<-");
 		}
-		_log.info(sb.toString());
+		//_log.info(sb.toString());
 	}
 
 	public void before(String operator, Class className) {
