@@ -14,9 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
 import bjwxsytx.common.AuthenticationUtil;
+import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
 import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.menu.service.MenuService;
+import bjwxsytx.system.menu.vo.QueryVO;
+import bjwxsytx.system.role.service.RoleMenuService;
+import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.service.UserService;
 /***
  * 
@@ -34,6 +38,38 @@ public class MenuAction extends BaseAction {
 	private static Logger _log = Logger.getLogger(MenuAction.class);
 	@Autowired(required = true)
 	private MenuService menuService;
+	@Autowired(required = true)
+	private RoleUserService roleUserService;
+	@Autowired(required = true)
+	private RoleMenuService roleMenuService;
+	private long total;
+	private List<Object> rows; 
+	private QueryVO queryVO;
+	private SysMenu sysMenu;
+	public SysMenu getSysMenu() {
+		return sysMenu;
+	}
+	public void setSysMenu(SysMenu sysMenu) {
+		this.sysMenu = sysMenu;
+	}
+	public QueryVO getQueryVO() {
+		return queryVO;
+	}
+	public void setQueryVO(QueryVO queryVO) {
+		this.queryVO = queryVO;
+	}
+	public long getTotal() {
+		return total;
+	}
+	public void setTotal(long total) {
+		this.total = total;
+	}
+	public List<Object> getRows() {
+		return rows;
+	}
+	public void setRows(List<Object> rows) {
+		this.rows = rows;
+	}
 	List<Hashtable<String,Object>> treeList = new ArrayList<Hashtable<String,Object>>();
 	public List<Hashtable<String, Object>> getTreeList() {
 		return treeList;
@@ -47,6 +83,55 @@ public class MenuAction extends BaseAction {
 	}
 	public void setResult(Result result) {
 		this.result = result;
+	}
+	
+	public String menuListPage(){
+		return SUCCESS;
+	}
+	
+	public String updateMenu(){
+		this.menuService.updateMenu(queryVO);
+		this.result = new Result();
+		this.result.setFlag(Result.FLAG_SUCCESS);
+		return SUCCESS;
+	}
+	
+	public String deleteMenu(){
+		try{
+		this.result = new Result();
+		if(roleMenuService.findSysUserRoleByMenuId(this.sysMenu.getMenuId())!=null){
+			result.setFlag(Result.FLAG_FAILURE);
+			result.setMsg("该菜单已关联角色,请先取消关联关系再删除该菜单!");
+			return SUCCESS;
+		}else{
+			System.out.println(sysMenu.getMenuId());
+			//this.menuService.deleteMenu(sysMenu);
+			this.result.setFlag(Result.FLAG_SUCCESS);
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	
+	public String list() throws Exception{
+		Page page = new Page(this.getHttpRequest());
+		//System.out.println(queryVO.getLoginName());
+		this.menuService.findMenu(page, queryVO);
+		this.total = page.getTotalCount();
+		this.rows = page.getList();	
+		for(int i = 0 ; i  < rows.size() ; i++){
+			SysMenu sm = (SysMenu)rows.get(i);
+			if(sm.getGread().intValue()!=3){
+				sm.setState("closed");
+			}
+			sm.set_parentId(sm.getParentId());
+			
+		}
+		
+		System.out.println(page.getList().size());
+		return SUCCESS;
 	}
 	public String findMenuByUserId(){
 		try{
