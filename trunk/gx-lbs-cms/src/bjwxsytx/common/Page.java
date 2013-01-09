@@ -57,7 +57,7 @@ public class Page implements Serializable {
 	public Page(HttpServletRequest request){
 
 		if(BlankUtil.isBlank(request.getParameter("page"))){
-			this.page = 0;
+			this.page = 1;
 		}else{
 			this.page = Integer.parseInt(request.getParameter("page"));
 		}

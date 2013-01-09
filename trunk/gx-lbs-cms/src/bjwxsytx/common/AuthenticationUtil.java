@@ -135,7 +135,7 @@ public class AuthenticationUtil {
 		boolean result = false;
 		List<String> urlList = (List<String>)session.get(AUTHENTICATION_URL);
 		for(String urlItem : urlList){
-			System.out.println(urlItem+" urlItem"+" url="+url);
+		//	System.out.println(urlItem+" urlItem"+" url="+url);
 			if(BlankUtil.isBlank(urlItem))
 				continue;
 			if(url.startsWith(urlItem))

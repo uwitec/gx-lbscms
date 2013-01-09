@@ -63,6 +63,7 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 				hql.append(" where 1=1 ");
 				hql.append(page.getCondition());
 			}
+			_log.info(hql.toString());
 			Query query = getSession().createQuery(hql.toString());
 			for(int i = 0 ; i < values.length ; i++){
 				query.setParameter(i, values[i]);
@@ -89,6 +90,7 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 				hql.append(" ");
 				hql.append(page.getDir());
 			}
+			_log.info(hql.toString());
 			//int start = 0;
 			//if(page.getStart()>0)
 			//	start = page.getStart()/page.getLimit();
@@ -96,9 +98,11 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 			for(int i= 0 ;i < values.length ; i++){
 				query.setParameter(i,values[i]);
 			}
+			System.out.println(page.getPage()+" "+page.getRows());
 			query.setFirstResult((page.getPage()-1)*page.getRows());
 			query.setMaxResults(page.getRows());
 			List list = query.list();
+			System.out.println(list.size()+"===========");
 			page.setData(list);
 			page.setList(list);
 			page.setTotalCount(totalCount);
