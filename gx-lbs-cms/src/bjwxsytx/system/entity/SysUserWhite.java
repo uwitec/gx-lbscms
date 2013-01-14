@@ -50,4 +50,19 @@ public class SysUserWhite implements java.io.Serializable {
 		this.white = white;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SysUserWhite [id=");
+		builder.append(id);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", white=");
+		builder.append(white);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+
 }

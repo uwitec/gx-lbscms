@@ -12,29 +12,27 @@
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script>
-	function qq(value,name){
-		
-		//重新刷新datagrid，并增加两个参数key、type，这里是POST传值
-		if(name=='queryVO.loginName'){
-		$('#test').datagrid('load',{"queryVO.loginName":value});
-		}else if(name=='queryVO.username'){
-			$('#test').datagrid('load',{"queryVO.username":value});	
-		}
-	}
+
 		$(function(){
 			// searchAction:
-				 $('#btnSearch').bind('click', function(){  
-					var mdn = $('#mdn').val();
-					alert(mdn);
+				 $('#btnSearch').bind('click', function(){
+					var beginTime = $('#beginTime').datebox('getValue'); // 开始时间
+					var endTime = $('#endTime').datebox('getValue'); // 结束时间
+					var mdn = $('#mdn').val(); // 号码
+					var loginName = $('#loginName').val(); // 企业账号
+					var userName = $('#userName').val(); // 企业名称
+
 					$('#test').datagrid('load',{
-						"queryVO.mdn":mdn
-					
-					
+						"queryVO.beginTime":beginTime,
+						"queryVO.endTime":endTime,
+						"queryVO.mdn":mdn,
+						"queryVO.loginName":loginName,
+						"queryVO.userName":userName
 					});
 					
 				 
 				 }); 
-
+			//  end search 
 			
 			
 			
@@ -49,17 +47,20 @@
 				resizable:false,
 				//noheader:true,
 				onBeforeOpen:function(){
-					$.getJSON(ctx+'/user/list', function(json) { 
+					$.getJSON(ctx+'/userWhite/findAllUserWhenAddWhiteMdn', function(json) { 
 						$('#roleCombobox').combobox({
-							data :sysUser, 
+							data :json.sysUserList, 
 							width:150,
 							panelHeight:150,
-							valueField:'sysUser.userId',
+							valueField:'userId',
 							editable:false ,
-							textField:'sysUser.userName'
+							textField:'userName',
+							onLoadSuccess:function(){
+								$('#roleCombobox').combobox('setValue',json.sysUserList[0].userId);
+							}
 						});
 						//alert(json.roleList[0].roleId);
-						$('#roleCombobox').combobox('setValue',sysUser.userName);
+						
 					});
 					
 					if(optFlag=="add"){
@@ -110,7 +111,7 @@
 					handler:function(){
 						
 						$("#saveForm").form("submit", {
-					        url:ctx+"/user/saveUser",
+					        url:ctx+"/userWhite/saveWhiteMdn",
 					        onSubmit: function(){
 					              return $(this).form("validate");
 					        },
@@ -215,7 +216,7 @@
 					},
 					{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
 						formatter:function(value,rec){
-							return '<span style="color:red">修改</span>';
+							return '<span style="color:red">删除</span>';
 						}
 					}
 				]],
@@ -231,7 +232,9 @@
 
 						$('#user-add').dialog("open");
 					}
-				},'-',{
+				},
+				/**
+				'-',{
 					id:'editBtn',
 					text:'修改白名单',
 					iconCls:'myicon-edit',
@@ -242,7 +245,9 @@
 
 						 $('#user-add').dialog("open");
 					}
-				},'-',{
+				},
+				*/
+				'-',{
 					id:'delBtn',
 					text:'删除白名单',
 					disabled:true,
@@ -251,18 +256,18 @@
 						//if (confirm("真的要删除吗？")){
 							  $.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
 								  
-								       if (r){   
+								       if (r){
 								    	   var rows = $('#test').datagrid('getSelections');
 											var ids = "";
 											for(var i=0;i<rows.length;i++){
-												ids = ids + rows[i].userId +",";
+												ids = ids + rows[i].whiteId +",";
 											}
 											$.ajax({  
 										          type : "post",  
-										          url : ctx+"/user/user!deleteUser.action",  
+										          url : ctx+"/userWhite/userWhite!deleteWhiteMdn.action",  
 										          data : "ids="+ids.substring(0,ids.length-1),  
 										          //async : false,  
-										          success : function(data){  
+										          success : function(data){
 										        	  
 										          	if(data.result.flag==FLAG_SUCCESS){
 										          		$('#test').datagrid('clearSelections');
@@ -312,19 +317,19 @@
 				    message:'两次输入的密码不一至!'
 				  },
 				exist:{
-					validator:function(value,param){  
+					validator:function(value,param){
 						$.ajax({  
 					          type : "post",  
-					          url : ctx+"/login/other!isUserExist.action",  
-					          data : "queryVO.username="+value,  
+					          url : ctx+"/userWhite/userWhite!isWhiteMdnExist.action",  
+					          data : "queryVO.mdn="+value,  
 					          async : false,  
-					          success : function(data){  
-					           		bl = data.userExist;
+					          success : function(data){
+					           		bl = data.whiteMdnExist;
 					          }  
 						});  
 						return !bl;
 					},
-				    message:'该账号已存在'
+				    message:'该号码已存在'
 				}
 				
 			});
@@ -383,12 +388,12 @@
 <!-- huhuadd -->
 <div id="selfSearchBox">
 	开始时间:<input id="beginTime" class="easyui-datebox"  name="beginTime" type="text" />	
-	结束时间:<input id="endTime" class="easyui-datebox" name="endTime" data-options="showSeconds:false" value="15/1/2012 2:3" style="width:150px">
+	结束时间:<input id="endTime" class="easyui-datebox" name="endTime"  type="text">
 	<div id="separator" class="datagrid-btn-separator"></div>
 	号码:<input id="mdn" name="mdn" type="text"  style="width:110px" />
 	</br>
-	企业账号:<input id="ecsiId" name="ecsiId"  type="text" style="width:110px"/>
-	企业名称:<input id="ecsiName" name = "ecsiName" type="text" style="width:200px" />
+	企业账号:<input id="loginName" name="ecsiId"  type="text" style="width:110px"/>
+	企业名称:<input id="userName" name = "ecsiName" type="text" style="width:200px" />
 	<a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> 
 </div>
 <div id="separator" class="datagrid-btn-separator"></div>
@@ -400,17 +405,15 @@
         <div >  
         <form id="saveForm" method="post">  
             <table>  
-                <tr>  
-                    <td>号码:</td>  
-                    <td><input class="easyui-validatebox" id="loginName" type="text" validType="exist['loginName']" name="sysUser.loginName" data-options="required:true"></input></td>  
+                <tr> 
+                    <td>号码:</td>
+                    <td><input class="easyui-validatebox" id="whiteMdn" type="text" validType="exist['whiteMdn']" name="cellWhite.msisdn" data-options="required:true"></input></td>  
                 </tr>  
                                  
                 <tr>  
                     <td>所属EC/SI:</td>  
                     <td>  
-                        <select id="roleCombobox" class="easyui-combobox" name="sysUserRole.roleId"></select>  
-                        <input type="hidden"  name="sysUser.userId">
-                        <input type="hidden"  name="sysUserRole.id">
+                        <select id="roleCombobox" class="easyui-combobox" name="sysUserWhite.userId"></select>
                     </td>  
                 </tr>  
             </table>  

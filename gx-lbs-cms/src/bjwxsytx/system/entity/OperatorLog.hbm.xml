@@ -8,7 +8,9 @@
     <class name="bjwxsytx.system.entity.OperatorLog" table="OPERATOR_LOG" schema="LBS">
         <id name="logid" type="java.lang.Long">
             <column name="LOGID" precision="10" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence">         
+            	<param name="sequence">SEQ_OPERATOR_LOG</param>
+        	</generator>
         </id>
         <property name="adminid" type="java.lang.Long">
             <column name="ADMINID" precision="10" scale="0" />
