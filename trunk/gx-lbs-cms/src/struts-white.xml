@@ -4,13 +4,21 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="userWhite" extends="global"  namespace="/userWhite">
+	   <action name="userWhite" class="bjwxsytx.system.white.action.WhiteAction" >
+			
+	   </action>
+	   
+	   
 	   <action name="userWhiteListPage" class="bjwxsytx.system.white.action.WhiteAction" method="userWhiteListPage">
 			<result name="success">/system/white/userWhite-list.jsp</result>
 	   </action>
 	   <action name="list" class="bjwxsytx.system.white.action.WhiteAction" method="list">
 			
 	   </action>
-	   <action name="saveUserWhite" class="bjwxsytx.system.white.action.WhiteAction" method="saveUserWhite">
+	   <action name="findAllUserWhenAddWhiteMdn" class="bjwxsytx.system.white.action.WhiteAction" method="findAllUserWhenAddWhiteMdn">
+			
+	   </action>
+	   <action name="saveWhiteMdn" class="bjwxsytx.system.white.action.WhiteAction" method="saveWhiteMdn">
 			
 	   </action>
 

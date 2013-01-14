@@ -39,7 +39,12 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>	 	
-		<bean id="whiteDAO" class="bjwxsytx.system.white.dao.WhiteDAO">
+    <bean id="whiteDAO" class="bjwxsytx.system.white.dao.WhiteDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+	<bean id="userWhiteDAO" class="bjwxsytx.system.white.dao.UserWhiteDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

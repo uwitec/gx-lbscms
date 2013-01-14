@@ -19,11 +19,18 @@ public class QueryVO {
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
-	private String username;
+	private String userName;
 	private String nickname;
 	private String password;
 	private String captcha;
 	private String validateCode;
+	
+	private String beginTime;
+	private String endTime;
+	
+	
+	
+	
 	public String getValidateCode() {
 		return validateCode;
 	}
@@ -36,11 +43,11 @@ public class QueryVO {
 	public void setCaptcha(String captcha) {
 		this.captcha = captcha;
 	}
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getNickname() {
 		return nickname;
@@ -54,27 +61,52 @@ public class QueryVO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("QueryVO [username=");
-		builder.append(username);
-		builder.append(", nickname=");
-		builder.append(nickname);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", captcha=");
-		builder.append(captcha);
-		builder.append(", mdn=");
-		builder.append(mdn);
-		builder.append("]");
-		
-		return builder.toString();
-	}
+	
 	public String getMdn() {
 		return mdn;
 	}
 	public void setMdn(String mdn) {
 		this.mdn = mdn;
 	}
+	public String getBeginTime() {
+		return beginTime;
+	}
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("QueryVO [mdn=");
+		builder.append(mdn);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", loginName=");
+		builder.append(loginName);
+		builder.append(", username=");
+		builder.append(userName);
+		builder.append(", nickname=");
+		builder.append(nickname);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", captcha=");
+		builder.append(captcha);
+		builder.append(", validateCode=");
+		builder.append(validateCode);
+		builder.append(", beginTime=");
+		builder.append(beginTime);
+		builder.append(", endTime=");
+		builder.append(endTime);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+	
 }

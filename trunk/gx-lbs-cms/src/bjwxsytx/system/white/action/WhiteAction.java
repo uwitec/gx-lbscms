@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
 import bjwxsytx.system.entity.SysRole;
@@ -44,7 +45,15 @@ public class WhiteAction extends BaseAction {
 	private SysUserRole sysUserRole;
 	private String ids;
 	
-
+	private TCellWhite cellWhite;
+	
+	private SysUserWhite sysUserWhite;
+	
+	private List<SysUser> sysUserList;
+	
+	private boolean whiteMdnExist;
+	
+  
 	
 	public String getIds() {
 		return ids;
@@ -187,6 +196,24 @@ public class WhiteAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	
+	/**
+	 * 
+	* package_name: bjwxsytx.system.white.action
+	* file_name:    WhiteAction.java
+	* description:  添加白名单时，返回EC/SI列表
+	* 2013-1-10下午4:33:32
+	* Author: chenhui
+	 * @return
+	 * @throws Exception
+	 */
+	public String findAllUserWhenAddWhiteMdn() throws Exception{
+		String userId = AuthenticationUtil.getCurrentUserId(this.getSessionMap());
+		System.out.println("@@findAllUserWhenAddWhiteMdn@@userId:"+userId);
+		this.setSysUserList(whiteService.findAllUserWhenAddWhiteMdn()); 
+		return SUCCESS;
+	}
+	
 	/**
 	 * 
 	* package_name: bjwxsytx.system.white.action
@@ -197,16 +224,88 @@ public class WhiteAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String saveUserWhite() throws Exception{
-		this.result = new Result();
-		this.sysUser.setCreateTime(new Date());
-		System.out.println(sysUser);
-
-
+	public String saveWhiteMdn() throws Exception{
 		
+		this.result = new Result();
+		this.cellWhite.setCreateTime(new Date());
+        
+		this.whiteService.saveWhiteMdn(cellWhite,sysUserWhite);
 		this.result.setFlag(Result.FLAG_SUCCESS);
+		return SUCCESS;
+
+	}
+	
+	/**
+	 * 
+	* package_name: bjwxsytx.system.white.action
+	* file_name:    WhiteAction.java
+	* description: 删除白名单号码以及对于关联数据
+	* 2013-1-14上午1:01:46
+	* Author: chenhui
+	 * @return
+	 */
+	public String deleteWhiteMdn(){
+		try {
+			this.result = new Result();
+			this.whiteService.deleteWhiteMdn(ids);
+			result.setFlag(Result.FLAG_SUCCESS);
+		} catch (Exception e) {
+			result.setFlag(Result.FLAG_FAILURE);
+			this.result.setMsg(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 
+	* package_name: bjwxsytx.system.white.action
+	* file_name:    WhiteAction.java
+	* description: 判断白名单是否已经存在
+	* 2013-1-10下午5:38:04
+	* Author: chenhui
+	 * @return
+	 */
+	 public String isWhiteMdnExist(){
+		System.out.println("queryVO:"+queryVO);
+		whiteMdnExist = this.whiteService.isWhiteMdnExist(queryVO);
+		System.out.println("此号码已经存在于白名单:"+whiteMdnExist);
+		return SUCCESS;
+	}
+
+	public List<SysUser> getSysUserList() {
+		return sysUserList;
+	}
+
+	public void setSysUserList(List<SysUser> sysUserList) {
+		this.sysUserList = sysUserList;
+	}
+
+	public SysUserWhite getSysUserWhite() {
+		return sysUserWhite;
+	}
+
+	public void setSysUserWhite(SysUserWhite sysUserWhite) {
+		this.sysUserWhite = sysUserWhite;
+	}
+
+	public void setWhiteMdnExist(boolean whiteMdnExist) {
+		this.whiteMdnExist = whiteMdnExist;
+	}
+	
+	public boolean getWhiteMdnExist() {
+		return  whiteMdnExist;
+	}
+
+	public TCellWhite getCellWhite() {
+		return cellWhite;
+	}
+
+	public void setCellWhite(TCellWhite cellWhite) {
+		this.cellWhite = cellWhite;
+	}
+
+
 
 }
