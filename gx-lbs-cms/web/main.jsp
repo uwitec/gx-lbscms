@@ -38,8 +38,9 @@
                         //parent : node.target,  
                         animate:true,  
                         data : json.treeList,
+                       	
                         onClick: function(node){
-                        	
+                        	$(this).tree('toggle', node.target);
                         	if(node.attributes){
                         		addTab(node.text,ctx+"/"+node.attributes);
                         	}

@@ -55,7 +55,7 @@
 			height: document.body.scrollHeight,
 			rownumbers: true,  
 			animate:true,  
-			collapsible:true,  
+			//collapsible:true,  
 			fitColumns:true,  
 			showFooter:true ,				
 	        onBeforeLoad:function(row, param){
@@ -172,16 +172,22 @@
 						data:json.listOne,
 						valueField:'menuId',
 						textField:'menuName',
-						editable:false 
+						editable:false ,
+						onLoadSuccess:function(){
+							$('#parent1').combobox('setValue',json.listOne[0].menuId);
+						}
 					});
-					$('#parent1').combobox('setValue',json.listOne[0].menuId);
+					
 					$('#parent2').combobox({
 						data:json.listTwo,
 						valueField:'menuId',
 						textField:'menuName',
-						editable:false 
+						editable:false ,
+						onLoadSuccess:function(){
+							$('#parent2').combobox('setValue',json.listTwo[0].menuId);
+						}
 					});
-					$('#parent2').combobox('setValue',json.listTwo[0].menuId);
+					
 				});
 				
 				if(optFlag=="add"){
