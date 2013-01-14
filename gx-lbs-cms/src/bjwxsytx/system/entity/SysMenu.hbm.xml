@@ -13,7 +13,7 @@
         	</generator>
         </id>              
         <property name="menuName" type="java.lang.String">
-            <column name="MENU_NAME" length="30" />
+            <column name="MENU_NAME" length="80" />
         </property>
         <property name="url" type="java.lang.String">
             <column name="URL" length="100" />

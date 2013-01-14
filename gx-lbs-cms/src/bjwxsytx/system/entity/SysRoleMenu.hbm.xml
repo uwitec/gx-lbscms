@@ -6,9 +6,11 @@
 -->
 <hibernate-mapping>
     <class name="bjwxsytx.system.entity.SysRoleMenu" table="SYS_ROLE_MENU" schema="LBS">
-        <id name="id" type="java.lang.Long">
+       <id name="id" type="java.lang.Long">
             <column name="ID" precision="18" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence">         
+            	<param name="sequence">SEQ_SYS_ROLE_MENU</param>
+        	</generator>
         </id>
         <property name="roleId" type="java.lang.Long">
             <column name="ROLE_ID" precision="18" scale="0" />

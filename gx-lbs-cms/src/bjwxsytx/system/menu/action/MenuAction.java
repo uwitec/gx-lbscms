@@ -44,6 +44,13 @@ public class MenuAction extends BaseAction {
 	private RoleMenuService roleMenuService;
 	private long total;
 	private List<Object> rows; 
+	private List list;
+	public List getList() {
+		return list;
+	}
+	public void setList(List list) {
+		this.list = list;
+	}
 	private QueryVO queryVO;
 	private SysMenu sysMenu;
 	public SysMenu getSysMenu() {
@@ -201,6 +208,11 @@ public class MenuAction extends BaseAction {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+		return SUCCESS;
+	}
+	
+	public String findAllMenu(){
+		this.list = this.menuService.findAllMenu();
 		return SUCCESS;
 	}
 }
