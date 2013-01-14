@@ -41,10 +41,13 @@
 							panelHeight:150,
 							valueField:'roleId',
 							editable:false ,
-							textField:'roleName'
+							textField:'roleName',
+							onLoadSuccess:function(){
+								$('#roleCombobox').combobox('setValue',json.roleList[0].roleId);
+							}
 						});
 						//alert(json.roleList[0].roleId);
-						$('#roleCombobox').combobox('setValue',json.roleList[0].roleId);
+						
 					});
 					
 					if(optFlag=="add"){
@@ -154,7 +157,7 @@
 				iconCls:'icon-save',
 				width:"auto",
 				pageSize:20,
-				height:"auto",
+				height: document.body.scrollHeight,
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
@@ -353,7 +356,7 @@
 <body class="easyui-layout">
 
 <div data-options="region:'center',border:false"  >
-	<table id="test" data-options="border:true" ></table>
+	<table id="test" title="用户列表" data-options="border:true" ></table>
 </div>
 <input id="ss" class="easyui-searchbox"
 		searcher="qq"

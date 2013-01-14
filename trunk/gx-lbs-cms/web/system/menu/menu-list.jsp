@@ -20,7 +20,7 @@
 <body class="easyui-layout">
 	<div id="text">111</div>
 	<div data-options="region:'center',border:false"  >
-	<table id="tt" title="TreeGrid" class="easyui-treegrid" >
+	<table id="tt" title="菜单列表" class="easyui-treegrid" >
 	</table>
 	</div>
 <div id="menu-add" data-options="iconCls:'icon-save'" title="添加用户" closed="true" style="padding:5px;width:400px;height:200px;">	
