@@ -6,6 +6,12 @@
 	<package name="role" extends="global"  namespace="/role">
 	   <action name="findRole" class="bjwxsytx.system.role.action.RoleAction"  method="findRole">
 	   </action>
+	   <action name="roleListPage" class="bjwxsytx.system.role.action.RoleAction" method="roleListPage">
+			<result name="success">/system/role/role-list.jsp</result>
+	   </action>	   
+	   <action name="role" class="bjwxsytx.system.role.action.RoleAction" >
+
+	   </action>		    	   
 	</package>
 
 </struts>

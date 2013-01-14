@@ -1,5 +1,7 @@
 package bjwxsytx.system.role.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,16 @@ public class RoleMenuService {
 	
 	
 	public SysRoleMenu findSysUserRoleByMenuId(Long menuId){
-		
-
 		return this.roleMenuDAO.findSysUserRoleByMenuId(menuId);
 	}
+	
+	public void saveRoleMenu(SysRoleMenu entity){
+		this.roleMenuDAO.save(entity);
+	}
+	
+	public List<SysRoleMenu> findRoleMenuByRoleId(SysRoleMenu entity){
+		
+		return this.roleMenuDAO.searchAll(" from SysRoleMenu srm where srm.roleId = ? ", new Object[]{entity.getRoleId()});
+	}
+	
 }

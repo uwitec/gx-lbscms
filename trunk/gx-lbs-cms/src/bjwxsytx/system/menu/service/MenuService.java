@@ -1,5 +1,7 @@
 package bjwxsytx.system.menu.service;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,56 @@ public class MenuService {
 	
 	public void saveMenu(SysMenu entity){
 		this.menuDAO.save(entity);
+	}
+	
+	
+	public List<Hashtable<String,Object>> findAllMenu(){
+		Object[] obj = null;
+		List<SysMenu> list = this.menuDAO.searchAll(" from SysMenu sm ",obj);
+		List<Hashtable<String,Object>> listOne = new ArrayList<Hashtable<String,Object>>();
+		try{
+		for(int i = 0 ; i < list.size() ; i++){
+			SysMenu sm = list.get(i);
+			if(sm.getGread().intValue()==1){
+				List<Hashtable<String,Object>> list1 = new ArrayList<Hashtable<String,Object>>();
+				Hashtable<String,Object> hOne = new Hashtable<String, Object>();
+				hOne.put("id", sm.getMenuId());
+				hOne.put("text", sm.getMenuName()==null?"":sm.getMenuName());
+				hOne.put("state","open");
+				for(int j =0 ; j<list.size() ; j++){
+					SysMenu menuTwo = list.get(j);
+					if(menuTwo.getGread().intValue()==2){
+						List<Hashtable<String,Object>> list2 = new ArrayList<Hashtable<String,Object>>();
+						if(sm.getMenuId().toString().equals(menuTwo.getParentId().toString())){
+							Hashtable<String,Object> h1 = new Hashtable<String, Object>();
+							h1.put("id", menuTwo.getMenuId());
+							h1.put("text", menuTwo.getMenuName()==null?"":menuTwo.getMenuName());
+							h1.put("state","open");
+							for(int k = 0 ; k  < list.size() ; k++){
+								SysMenu menuThree = list.get(k);
+								if(menuThree.getGread().intValue()==3){
+									if(menuThree.getParentId().toString().equals(menuTwo.getMenuId().toString())){
+										Hashtable<String,Object> h2 = new Hashtable<String, Object>();
+										h2.put("id", menuThree.getMenuId());
+										h2.put("text", menuThree.getMenuName()==null?"":menuThree.getMenuName());
+										
+										list2.add(h2);
+									}
+								}
+							}
+							h1.put("children", list2);
+							list1.add(h1);
+						}
+					}
+				}				
+				hOne.put("children", list1);
+				listOne.add(hOne);
+			}
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return listOne;
+		
 	}
 }
