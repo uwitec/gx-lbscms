@@ -56,9 +56,13 @@ public class WhiteService {
 	* Author: chenhui
 	 * @return
 	 */
-	public List<SysUser> findAllUserWhenAddWhiteMdn(){
+	public List<SysUser> findAllUserWhenAddWhiteMdn(Long userId){
 		Object[]  o = null;
-		return this.userDAO.searchAll("from SysUser su", o);
+		if(userId.intValue()==1){
+			return this.userDAO.searchAll("from SysUser su ", o);
+		}else{
+			return this.userDAO.searchAll("from SysUser su where su.userId = ?", new Object[]{userId});
+		}
 		
 	}
 	
@@ -73,7 +77,7 @@ public class WhiteService {
 	 * @return
 	 */
 	public boolean isWhiteMdnExist(QueryVO queryVO){
-		List<TCellWhite> list = this.whiteDAO.searchAll(" from TCellWhite tw where tw.msisdn = ?", new Object[]{queryVO.getMdn()});
+		List list = this.whiteDAO.searchAll(" from TCellWhite tw ,SysUserWhite suw where suw.userId = ? and tw.id = suw.white and  tw.msisdn = ?  ", new Object[]{queryVO.getUserId(),queryVO.getMdn()});
 		if(list.size() ==0 ){
 			return false;
 		}else{

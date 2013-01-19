@@ -13,7 +13,16 @@ import bjwxsytx.system.role.dao.RoleUserDAO;
 import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.dao.UserDAO;
 import bjwxsytx.system.user.vo.QueryVO;
-
+/***
+ * 
+* 功能描述:XXXXXXXXX（可以分多行编写）
+* <p>版权所有：中太数据
+* <p>未经本公司许可，不得以任何方式复制或使用本程序任何部分
+*
+* @author 刘小明 新增日期：2013-1-16
+* @author 你的姓名 修改日期：2013-1-16
+* @since gx-cms
+ */
 @Service("userService")
 public class UserService {
 	@Autowired(required = true)
@@ -28,6 +37,9 @@ public class UserService {
 		return this.userDAO.findUser(page,queryVO);
 	}
 	
+	public void updatePwd(SysUser user) throws Exception{
+			this.userDAO.update(user);
+	}
 	public void saveUser(SysUser user,SysUserRole sur) throws Exception{
 		if(user.getUserId()!=null){
 			this.userDAO.update(user);
@@ -44,6 +56,15 @@ public class UserService {
 	
 	public boolean isUserExist(QueryVO queryVO){
 		List<SysUser> list = this.userDAO.searchAll(" from SysUser su where su.loginName = ?", new Object[]{queryVO.getUsername()});
+		if(list.size() ==0 ){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	public boolean validatePwd(QueryVO queryVO){
+		List<SysUser> list = this.userDAO.searchAll(" from SysUser su where su.loginPass= ? and su.userId = ?", new Object[]{queryVO.getOldPwd(),queryVO.getId()});
 		if(list.size() ==0 ){
 			return false;
 		}else{

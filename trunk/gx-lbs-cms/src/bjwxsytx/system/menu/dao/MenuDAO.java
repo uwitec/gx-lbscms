@@ -14,7 +14,16 @@ import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.menu.vo.QueryVO;
 import bjwxsytx.system.user.dao.UserDAO;
 
-
+/***
+ * 
+* 功能描述:菜单类（可以分多行编写）
+* <p>版权所有：中太数据
+* <p>未经本公司许可，不得以任何方式复制或使用本程序任何部分
+*
+* @author 刘小明 新增日期：2013-1-16
+* @author 你的姓名 修改日期：2013-1-16
+* @since gx-cms
+ */
 public class MenuDAO extends CommonDAO<SysMenu>{
 
 	public Page findMenu(Page page,QueryVO queryVO){
@@ -74,6 +83,30 @@ public class MenuDAO extends CommonDAO<SysMenu>{
 		hql.append(" SysUserRole sur ,SysRoleMenu srm, SysMenu sm ");
 		hql.append("  where sur.userId = ? and sur.roleId = srm.roleId ");
 		hql.append("  and sm.menuId = srm.menuId and sm.parentId <> 0 and sm.isMenuTree = 1");
+		
+		List<SysMenu> list = this.searchAll(hql.toString(),object);
+		return list;
+	}
+	
+	public List<SysMenu> findMenuOne() throws Exception{
+		Object[] object = null;
+
+		StringBuffer hql = new StringBuffer(" from ");
+		hql.append(" SysMenu sm ");
+		hql.append("  where  ");
+		hql.append("  sm.parentId = 0 and sm.isMenuTree = 1");
+		
+		List<SysMenu> list = this.searchAll(hql.toString(),object);
+		return list;
+	}
+	
+	public List<SysMenu> findMenuTwo()throws Exception{
+		Object[] object = null;
+
+		StringBuffer hql = new StringBuffer(" from ");
+		hql.append(" SysMenu sm ");
+		hql.append("  where ");
+		hql.append(" sm.parentId <> 0 and sm.isMenuTree = 1");
 		
 		List<SysMenu> list = this.searchAll(hql.toString(),object);
 		return list;

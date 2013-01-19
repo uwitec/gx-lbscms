@@ -22,7 +22,7 @@
             <column name="PASSWORD" length="20" not-null="true" />
         </property>
         <property name="memo" type="java.lang.String">
-            <column name="MEMO" length="50" />
+            <column name="MEMO" length="500" />
         </property>
     </class>
 </hibernate-mapping>

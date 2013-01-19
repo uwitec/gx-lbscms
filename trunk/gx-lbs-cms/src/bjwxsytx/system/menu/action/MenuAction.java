@@ -170,6 +170,17 @@ public class MenuAction extends BaseAction {
 	public void setListTwo(List<SysMenu> listTwo) {
 		this.listTwo = listTwo;
 	}
+	public String findMenu() throws Exception{
+		
+
+		listOne = menuService.findMenuOne();
+		listTwo = menuService.findMenuTwo();
+		
+		
+		return SUCCESS;
+	}
+	
+	
 	public String findMenuByUserId(){
 		try{
 		Object obj = this.getSessionMap().get(AuthenticationUtil.ID_SESSION_KEY);

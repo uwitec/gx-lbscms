@@ -100,6 +100,7 @@ public class AuthenticationAction extends BaseAction {
 	}
 	
 	private boolean isUserExist;
+	
 	public void setUserExist(boolean isUserExist) {
 		this.isUserExist = isUserExist;
 	}
@@ -109,6 +110,45 @@ public class AuthenticationAction extends BaseAction {
 	public String isUserExist(){
 		
 		isUserExist = this.userService.isUserExist(queryVO);
+		
+		return SUCCESS;
+	}
+	
+	public String updatePwd() {
+		try{
+			this.result = new Result();
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			queryVO.setId(userId);
+			if(userId!=null){
+				SysUser su = userService.findUserById(queryVO);
+				su.setLoginPass(queryVO.getPassword());
+				userService.updatePwd(su);
+				this.result.setFlag(Result.FLAG_SUCCESS);
+				return SUCCESS;
+			}
+			this.result.setFlag(Result.FLAG_FAILURE);
+			this.result.setMsg("登录超时!");
+		}catch(Exception ex){
+			ex.printStackTrace();
+			_log.info(ex);
+			this.result.setFlag(Result.FLAG_FAILURE);
+			this.result.setMsg(ex.getLocalizedMessage());
+			
+		}
+		
+		return SUCCESS;
+	}
+	
+	
+	public String validatePwd(){
+		this.result = new Result();
+		queryVO.setId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+		boolean bl = this.userService.validatePwd(queryVO);
+		if(bl){
+			this.result.setFlag(Result.FLAG_SUCCESS);
+		}else{
+			this.result.setFlag(Result.FLAG_FAILURE);
+		}
 		
 		return SUCCESS;
 	}

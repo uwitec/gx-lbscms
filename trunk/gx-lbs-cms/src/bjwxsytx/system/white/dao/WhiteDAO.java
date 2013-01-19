@@ -18,14 +18,23 @@ public class WhiteDAO extends CommonDAO<TCellWhite>{
 	private static Logger log = Logger.getLogger(WhiteDAO.class);
 	
 	public Page findWhiteMdn(Page page,QueryVO queryVO){
-		List<String> params =null;
+		List params =null;
 		//page.setField(" u ");
 		page.setTableName("TCellWhite tw ,SysUserWhite suw,SysUser su");
 		log.info("queryVO:"+queryVO);
 		StringBuffer where = new StringBuffer();
 		if(!BlankUtil.isBlank(queryVO)){
 			
-			params = new ArrayList<String>();
+			params = new ArrayList();
+			if(queryVO.getUserId().intValue()!=1){
+				params.add(queryVO.getUserId());
+				where.append(" and su.userId = ? and su.userId = suw.userId");
+			
+			}else{
+				where.append(" and su.userId = suw.userId ");
+			}
+			
+			
 			if(!BlankUtil.isBlank(queryVO.getMdn())){
 				params.add('%' + queryVO.getMdn().trim() + '%');
 				where.append(" and tw.msisdn like ? ");
@@ -48,7 +57,7 @@ public class WhiteDAO extends CommonDAO<TCellWhite>{
 			}
 
 		}
-		where.append(" and  tw.id = suw.white and su.userId = suw.userId ");
+		where.append(" and  tw.id = suw.white  ");
 		page.setCondition(where.toString());
 
 		return this.findResult(page,params);
