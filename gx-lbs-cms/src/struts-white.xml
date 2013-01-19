@@ -7,7 +7,18 @@
 	   <action name="userWhite" class="bjwxsytx.system.white.action.WhiteAction" >
 			
 	   </action>
-	   
+	  <action name="uploadWhiteMdn" class="bjwxsytx.system.white.action.WhiteAction" method="uploadWhiteMdn" >
+			 	    <result type="json" name="success">  
+                <param name="contentType">  
+                    text/html   
+                </param>  
+            </result>  
+            <result type="json" name="error">  
+                <param name="contentType">  
+                    text/html   
+                </param>  
+            </result>  
+	   </action>
 	   
 	   <action name="userWhiteListPage" class="bjwxsytx.system.white.action.WhiteAction" method="userWhiteListPage">
 			<result name="success">/system/white/userWhite-list.jsp</result>

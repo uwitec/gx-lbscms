@@ -49,4 +49,20 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>		
+	
+	<bean id="cellIpsDAO" class="bjwxsytx.system.ips.dao.CellIpsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>		
+	<bean id="userIpsDAO" class="bjwxsytx.system.ips.dao.UserIpsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>		
+	<bean id="poshisDAO" class="bjwxsytx.system.poshis.dao.PoshisDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>			
 </beans>
