@@ -39,6 +39,16 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class CommonDAO<T> extends HibernateDaoSupport {
 	private static Logger _log = Logger.getLogger(CommonDAO.class);
+	/***
+	 * 
+	* 方法用途和描述: EASYUI 分页查询（可以分多行编写）
+	* @param page
+	* @param params
+	* @return
+	* @author 刘小明 新增日期：2013-1-14
+	* @author 你的姓名 修改日期：2013-1-14
+	* @since gx-cms
+	 */
 	public Page findResult(Page page,List params){
 		//Result result = null;
 		Object[] values = null;
