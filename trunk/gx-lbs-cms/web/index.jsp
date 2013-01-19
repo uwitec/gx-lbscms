@@ -1,10 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/jsp/common/var.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>广西LBS后台管理系统</title>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<title>${title }</title>
+	<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/icon.css">
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery-1.8.0.min.js"></script>

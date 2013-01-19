@@ -49,15 +49,18 @@
 			idField: 'menuId',
 			url: ctx+"/menu/menu!list",  
 			pagination:true,  
+
+			pageSize:20,
 			onSelect:btnDisplay,
 			fitColumns:true,  
 			//loadMsg:''
-			height: document.body.scrollHeight,
+			striped: true,
 			rownumbers: true,  
 			animate:true,  
 			//collapsible:true,  
 			fitColumns:true,  
-			showFooter:true ,				
+			showFooter:true ,			
+			fit:true,
 	        onBeforeLoad:function(row, param){
 	    	   if(row==null){
 	    		   $('#editBtn').linkbutton('disable');
@@ -80,12 +83,13 @@
 	        toolbar:[{
 				id:'addBtn',
 				text:'添加菜单',
+				
 				iconCls:'myicon-add',
 				handler:function(){
 					optFlag = "add";
 					$('#menu-add').dialog("open");
 				}
-			},'-',{
+			},{
 				id:'cancelEditBtn',
 				text:'撤销修改',
 				iconCls:'myicon-edit',
@@ -100,7 +104,7 @@
 						$('#cancelEditBtn').linkbutton('disable');
 					}
 				}
-			},'-',{
+			},{
 				id:'editBtn',
 				text:'保存修改',
 				iconCls:'icon-save',
@@ -127,7 +131,7 @@
 				          }  
 					});
 				}
-			},'-',{
+			},{
 				id:'delBtn',
 				text:'删除菜单',
 				disabled:true,
@@ -157,7 +161,7 @@
 						}
 					});  
 				}
-			},'-' ]  
+			} ]  
 		 });
 		$('#menu-add').dialog({
 			autoOpen: false ,
@@ -167,7 +171,7 @@
 			height:300,
 			resizable:false,
 			onBeforeOpen:function(){
-				$.getJSON(ctx+'/menu/menu!findMenuByUserId.action', function(json) { 
+				$.getJSON(ctx+'/menu/menu!findMenu.action?', function(json) { 
 					$('#parent1').combobox({
 						data:json.listOne,
 						valueField:'menuId',
@@ -198,8 +202,6 @@
 				text:'确定',
 				iconCls:'icon-ok',
 				handler:function(){
-					
-					 
 					var v = $('#gread').combobox('getValue');
 					
 					if(v==1){
@@ -233,6 +235,7 @@
 				}
 			},{
 				text:'取消',
+				iconCls:'icon-cancel',
 				handler:function(){
 					$("#saveForm").form("clear");
 					$('#gread').combobox('setValue',1);   //\

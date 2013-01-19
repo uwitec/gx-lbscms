@@ -29,7 +29,7 @@
         <form id="saveForm" method="post">  
             <table>  
                 <tr>  
-                    <td>登录账号:</td>  
+                    <td>角色名称:</td>  
                     <td><input class="easyui-validatebox"  type="text" id="roleName"  name="sysRole.roleName" data-options="required:true"></input></td>  
                 </tr>  
                 <tr>  

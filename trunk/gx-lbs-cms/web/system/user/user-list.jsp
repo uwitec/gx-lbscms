@@ -23,7 +23,12 @@
 	}
 		$(function(){
 
-		
+			document.onkeydown = function(e){   
+				  e = e || event;
+				  if(e.keyCode==27){
+				      return false;
+				    }
+				 }
 			var optFlag="";
 			$('#user-add').dialog({
 				autoOpen: false ,
@@ -59,6 +64,7 @@
 						});  
 						
 						$('#loginName').val("");
+						$('#userId').val("");
 					}else if(optFlag=="edit"){
 						
 						$("#user-add").dialog("setTitle","修改用户!");
@@ -93,7 +99,7 @@
 				    
 				},
 				buttons:[{
-					text:'Ok',
+					text:'确定',
 					iconCls:'icon-ok',
 					handler:function(){
 						
@@ -115,7 +121,9 @@
 					});
 					}
 				},{
-					text:'Cancel',
+					
+					text:'取消',
+					iconCls:'icon-cancel',
 					handler:function(){
 					
 						$('#loginName').val("");
@@ -154,14 +162,14 @@
 			$('#test').datagrid({
 				//title:'My DataGrid',
 				
-				iconCls:'icon-save',
+			
 				width:"auto",
 				pageSize:20,
-				height: document.body.scrollHeight,
+				
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
-				collapsible:true,
+				
 				url:ctx+'/user/list',
 				onOpen:function(){
 					//$('#test').datagrid('load');
@@ -174,6 +182,7 @@
 				onUnselect:btnDisplay,
 				onSelectAll:btnDisplay,
 				onUnselectAll:btnDisplay,
+				fit:true,
 				onResize:function(){
 					//alert(1);
 				},
@@ -189,11 +198,6 @@
 						sorter:function(a,b){
 							return (a>b?1:-1);
 						}
-					},
-					{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
-						formatter:function(value,rec){
-							return '<span style="color:red">Edit Delete</span>';
-						}
 					}
 				]],
 				pagination:true,
@@ -208,7 +212,7 @@
 
 						$('#user-add').dialog("open");
 					}
-				},'-',{
+				},{
 					id:'editBtn',
 					text:'修改用户',
 					iconCls:'myicon-edit',
@@ -219,7 +223,7 @@
 
 						 $('#user-add').dialog("open");
 					}
-				},'-',{
+				},{
 					id:'delBtn',
 					text:'删除用户',
 					disabled:true,
@@ -267,7 +271,7 @@
 							
 						
 					}
-				},'-' ]
+				} ]
 			}  
 			
 			);
@@ -294,6 +298,8 @@
 				  },
 				exist:{
 					validator:function(value,param){  
+						
+						var bl = false;
 						$.ajax({  
 					          type : "post",  
 					          url : ctx+"/login/other!isUserExist.action",  
@@ -398,7 +404,7 @@
                     <td>角色:</td>  
                     <td>  
                         <select id="roleCombobox" class="easyui-combobox" name="sysUserRole.roleId"></select>  
-                        <input type="hidden"  name="sysUser.userId">
+                        <input type="hidden" id="userId"  name="sysUser.userId">
                         <input type="hidden"  name="sysUserRole.id">
                     </td>  
                 </tr>  
