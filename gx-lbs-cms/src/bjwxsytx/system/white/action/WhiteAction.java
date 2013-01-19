@@ -1,5 +1,11 @@
 package bjwxsytx.system.white.action;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -44,7 +50,15 @@ public class WhiteAction extends BaseAction {
 	private SysRole sysRole;
 	private SysUserRole sysUserRole;
 	private String ids;
-	
+	private File file;
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
 	private TCellWhite cellWhite;
 	
 	private SysUserWhite sysUserWhite;
@@ -53,8 +67,87 @@ public class WhiteAction extends BaseAction {
 	
 	private boolean whiteMdnExist;
 	
-  
+	public String uploadWhiteMdn(){
+		this.result = new Result();
+		BufferedReader reader = null;  
+		try{
+			//readFileByLines(file);
+			reader = new BufferedReader(new FileReader(file));  
+			String tempString = null;  
+			int line = 1;  
+			StringBuffer sb= new StringBuffer("");
+			//一次读入一行，直到读入null为文件结束  
+			while ((tempString = reader.readLine()) != null){  
+			//显示行号  
+				this.queryVO = new QueryVO();
+				this.queryVO.setMdn(tempString);
+
+				queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+				whiteMdnExist = this.whiteService.isWhiteMdnExist(queryVO);
+				if(!whiteMdnExist){
+					cellWhite = new TCellWhite();
+					cellWhite.setMsisdn(tempString);
+					cellWhite.setCreateTime(new Date());
+					this.whiteService.saveWhiteMdn(cellWhite,sysUserWhite);
+				}else{
+					if(line==1){
+						sb.append("<br>以下号码已存在,未添加<br>");
+					}
+					sb.append(tempString+"<br>");
+				} 
+				line++;  
+			}  
+			
+			this.result.setMsg(sb.toString());
+		
+			reader.close();  
+			
+			result.setFlag(Result.FLAG_SUCCESS);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}  
+			result.setFlag(Result.FLAG_FAILURE);
+		}
+		
+		return SUCCESS;
+	}
+   
 	
+	public  void readFileByLines(File file){  
+		
+		BufferedReader reader = null;  
+		try {  
+			System.out.println("以行为单位读取文件内容，一次读一整行：");  
+			reader = new BufferedReader(new FileReader(file));  
+			String tempString = null;  
+			int line = 1;  
+			//一次读入一行，直到读入null为文件结束  
+
+			while ((tempString = reader.readLine()) != null){  
+			//显示行号  
+				System.out.println("line " + line + ": " + tempString);  
+				line++;  
+			}  
+			reader.close();  
+		} catch (IOException e) {  
+			e.printStackTrace();  
+		} finally {  
+			if (reader != null){  
+				try {  
+					reader.close();  
+				} catch (IOException e1) {  
+					
+				}  
+			}  
+		}  
+		}  
+	
+	
+
 	public String getIds() {
 		return ids;
 	}
@@ -152,6 +245,10 @@ public class WhiteAction extends BaseAction {
 			
 			Page page = new Page(this.getHttpRequest());
 			//System.out.println(queryVO.getLoginName());
+			if(queryVO==null){
+				queryVO = new QueryVO();
+			}
+			queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
 			this.whiteService.findWhiteMdn(page, queryVO);
 			this.total = page.getTotalCount();
 //			this.rows = page.getList();
@@ -210,7 +307,8 @@ public class WhiteAction extends BaseAction {
 	public String findAllUserWhenAddWhiteMdn() throws Exception{
 		String userId = AuthenticationUtil.getCurrentUserId(this.getSessionMap());
 		System.out.println("@@findAllUserWhenAddWhiteMdn@@userId:"+userId);
-		this.setSysUserList(whiteService.findAllUserWhenAddWhiteMdn()); 
+		
+		this.setSysUserList(whiteService.findAllUserWhenAddWhiteMdn(Long.parseLong(userId)));
 		return SUCCESS;
 	}
 	
@@ -269,6 +367,7 @@ public class WhiteAction extends BaseAction {
 	 */
 	 public String isWhiteMdnExist(){
 		System.out.println("queryVO:"+queryVO);
+		queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
 		whiteMdnExist = this.whiteService.isWhiteMdnExist(queryVO);
 		System.out.println("此号码已经存在于白名单:"+whiteMdnExist);
 		return SUCCESS;

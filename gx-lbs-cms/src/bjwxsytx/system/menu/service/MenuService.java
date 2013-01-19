@@ -13,7 +13,16 @@ import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.menu.dao.MenuDAO;
 import bjwxsytx.system.menu.vo.QueryVO;
 import bjwxsytx.system.role.dao.RoleUserDAO;
-
+/***
+ * 
+* 功能描述:（可以分多行编写）
+* <p>版权所有：中太数据
+* <p>未经本公司许可，不得以任何方式复制或使用本程序任何部分
+*
+* @author 刘小明 新增日期：2013-1-16
+* @author 你的姓名 修改日期：2013-1-16
+* @since gx-cms
+ */
 @Service("menuService")
 public class MenuService {
 
@@ -46,6 +55,14 @@ public class MenuService {
 		return this.menuDAO.findMenuTwoByUserId(userId);
 	}
 	
+	
+	public List<SysMenu> findMenuOne()throws Exception{
+		return this.menuDAO.findMenuOne();
+	}
+	
+	public List<SysMenu> findMenuTwo()throws Exception{
+		return this.menuDAO.findMenuTwo();
+	}
 	public Page findMenu(Page page,QueryVO queryVO){
 		return this.menuDAO.findMenu(page,queryVO);
 	}
