@@ -14,7 +14,8 @@
 	<include file="struts-user.xml"/>
 	<include file="struts-role.xml"/>
 	<include file="struts-white.xml"/>
-
+	<include file="struts-ips.xml"/>
+	<include file="struts-poshis.xml"/>
 	
 	<package name="global" extends="json-default">
 		<interceptors>
