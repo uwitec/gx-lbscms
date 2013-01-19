@@ -37,11 +37,13 @@
 					 });
 					
 					if(optFlag=="add"){
-						$("#role-add").dialog("setTitle","添加用户!");
+						$("#role-add").dialog("setTitle","添加角色!");
 						$('#roleName').val("");
+					
+						$('#test').datagrid('clearSelections');
 					}else if(optFlag=="edit"){
 						var row = $('#test').datagrid('getSelected');
-						$("#role-add").dialog("setTitle","修改用户!");
+						$("#role-add").dialog("setTitle","修改角色!");
 						$("#roleName").val(row.roleName);
 						
 						$.getJSON(ctx+'/role/role!findRoleMenuByRoleId?sysRoleMenu.roleId='+row.roleId, function(json) { 
@@ -141,14 +143,15 @@
 			$('#test').datagrid({
 				//title:'My DataGrid',
 				
-				iconCls:'icon-save',
+				
 				width:"auto",
 				pageSize:20,
 				height: document.body.scrollHeight,
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
-				collapsible:true,
+				fit:true,
+				
 				url:ctx+'/role/role!list',
 				onOpen:function(){
 					//$('#test').datagrid('load');
@@ -168,9 +171,9 @@
 	                {field:'roleId',checkbox:true},
 	                {title:'角色名称',field:'roleName'}
 				]],
-				columns:[[
-					{field:'description',title:'备注'}
-				]],	
+				//''columns:[[
+				//	{field:'description',title:'备注'}
+				//]],	
 				pagination:true,
 				rownumbers:true,
 				toolbar:[{
@@ -181,7 +184,7 @@
 						optFlag="add";
 						$('#role-add').dialog("open");
 					}
-				},'-',{
+				},{
 					id:'editBtn',
 					text:'修改角色',
 					iconCls:'myicon-edit',
@@ -192,7 +195,7 @@
 
 						 $('#role-add').dialog("open");
 					}
-				},'-',{
+				},{
 					id:'delBtn',
 					text:'删除角色',
 					disabled:true,
@@ -240,7 +243,7 @@
 							
 						
 					}
-				},'-' ]
+				} ]
 			}  
 			
 			);
@@ -280,135 +283,4 @@
 				
 			});
 		});
-		function resize(){
-			$('#test').datagrid('resize', {
-				width:700,
-				height:400
-			});
-		}
-		function getSelected(){
-			var selected = $('#test').datagrid('getSelected');
-			if (selected){
-				alert(selected.code+":"+selected.name+":"+selected.addr+":"+selected.col4);
-			}
-		}
-		function getSelections(){
-			var ids = [];
-			var rows = $('#test').datagrid('getSelections');
-			for(var i=0;i<rows.length;i++){
-				ids.push(rows[i].code);
-			}
-			alert(ids.join(':'));
-		}
-		function clearSelections(){
-			$('#test').datagrid('clearSelections');
-		}
-		function selectRow(){
-			$('#test').datagrid('selectRow',2);
-		}
-		function selectRecord(){
-			$('#test').datagrid('selectRecord','002');
-		}
-		function unselectRow(){
-			$('#test').datagrid('unselectRow',2);
-		}
-		function mergeCells(){
-			$('#test').datagrid('mergeCells',{
-				index:2,
-				field:'addr',
-				rowspan:2,
-				colspan:2
-			});
-		}function reload(){
-			var node = $('#tt2').tree('getSelected');
-			if (node){
-				$('#tt2').tree('reload', node.target);
-			} else {
-				$('#tt2').tree('reload');
-			}
-		}
-		function getChildren(){
-			var node = $('#tt2').tree('getSelected');
-			if (node){
-				var children = $('#tt2').tree('getChildren', node.target);
-			} else {
-				var children = $('#tt2').tree('getChildren');
-			}
-			var s = '';
-			for(var i=0; i<children.length; i++){
-				s += children[i].text + ',';
-			}
-			alert(s);
-		}
-		function getChecked(){
-			var nodes = $('#tt2').tree('getChecked');
-			var s = '';
-			for(var i=0; i<nodes.length; i++){
-				if (s != '') s += ',';
-				s += nodes[i].text;
-			}
-			alert(s);
-		}
-		function getSelected(){
-			var node = $('#tt2').tree('getSelected');
-			alert(node.text);
-		}
-		function collapse(){
-			var node = $('#tt2').tree('getSelected');
-			$('#tt2').tree('collapse',node.target);
-		}
-		function expand(){
-			var node = $('#tt2').tree('getSelected');
-			$('#tt2').tree('expand',node.target);
-		}
-		function collapseAll(){
-			var node = $('#tt2').tree('getSelected');
-			if (node){
-				$('#tt2').tree('collapseAll', node.target);
-			} else {
-				$('#tt2').tree('collapseAll');
-			}
-		}
-		function expandAll(){
-			var node = $('#tt2').tree('getSelected');
-			if (node){
-				$('#tt2').tree('expandAll', node.target);
-			} else {
-				$('#tt2').tree('expandAll');
-			}
-		}
-		function append(){
-			var node = $('#tt2').tree('getSelected');
-			$('#tt2').tree('append',{
-				parent: (node?node.target:null),
-				data:[{
-					text:'new1',
-					checked:true
-				},{
-					text:'new2',
-					state:'closed',
-					children:[{
-						text:'subnew1'
-					},{
-						text:'subnew2'
-					}]
-				}]
-			});
-		}
-		function remove(){
-			var node = $('#tt2').tree('getSelected');
-			$('#tt2').tree('remove', node.target);
-		}
-		function update(){
-			var node = $('#tt2').tree('getSelected');
-			if (node){
-				node.text = '<span style="font-weight:bold">new text</span>';
-				node.iconCls = 'icon-save';
-				$('#tt2').tree('update', node);
-			}
-		}
-		function isLeaf(){
-			var node = $('#tt2').tree('getSelected');
-			var b = $('#tt2').tree('isLeaf', node.target);
-			alert(b)
-		}
+		

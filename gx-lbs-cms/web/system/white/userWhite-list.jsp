@@ -8,12 +8,23 @@
 	<link rel="stylesheet" type="text/css" href="${ctx}/jquery-easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/jquery-easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css">
+
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${ctx }/js/upload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="${ctx }/system/white/upload.js"></script>
+			
+		
 	<script>
 
 		$(function(){
+
+
+			
+			
+			
+			
 			// searchAction:
 				 $('#btnSearch').bind('click', function(){
 					var beginTime = $('#beginTime').datebox('getValue'); // 开始时间
@@ -42,8 +53,9 @@
 				autoOpen: false ,
 				modal:true,
 				width:320,   
+				
 				closable:false,
-				height:300,
+				height:200,
 				resizable:false,
 				//noheader:true,
 				onBeforeOpen:function(){
@@ -65,37 +77,12 @@
 					
 					if(optFlag=="add"){
 						$("#user-add").dialog("setTitle","添加白名单!");
-						$('#loginName').removeAttr("readOnly");
-						$('#loginName').validatebox({   
-						    required: true,   
-						    validType: "exist['loginName']"  
-						});  
+
 						
 						$('#loginName').val("");
 					}else if(optFlag=="edit"){
 						
-						$("#user-add").dialog("setTitle","修改白名单!");
 					
-						$('#loginName').validatebox({   
-						    required: false,   
-						    validType: ''  
-						});  
-						$('#loginName').attr("readOnly","true");
-
-						var row = $('#test').datagrid('getSelected');
-						$.getJSON(ctx+'/user/user!findUserById.action?queryVO.id='+row.userId, function(json) { 
-							$("#saveForm").form('load', {
-								"sysUser.loginName": json.sysUser.loginName,
-			                    "sysUser.loginPass": json.sysUser.loginPass,
-			                    "queryVO.password": json.sysUser.loginPass,
-			                    "sysUser.userName": json.sysUser.userName,
-			                    "sysUser.tel": json.sysUser.tel,
-			                    "sysUser.email": json.sysUser.email,
-			                    "sysUser.userId":json.sysUser.userId,
-			                    "sysUserRole.id":json.sysUserRole.id
-			                 });
-							$('#roleCombobox').combobox('setValue',json.sysUserRole.roleId);
-						});
 
 					}
 				},
@@ -106,7 +93,7 @@
 				    
 				},
 				buttons:[{
-					text:'Ok',
+					text:'确定',
 					iconCls:'icon-ok',
 					handler:function(){
 						
@@ -128,7 +115,8 @@
 					});
 					}
 				},{
-					text:'Cancel',
+					text:'取消',
+					iconCls:'icon-cancel',
 					handler:function(){
 					
 						$('#loginName').val("");
@@ -162,27 +150,77 @@
 		
 			
 
+			$("#addBtn").click(function(){
+				optFlag="add";
+
+				$('#user-add').dialog("open");
+			
+				});
+			$("#delBtn").click(function(){
+				var rows = $('#test').datagrid('getSelections');
+
+				if(rows.length>0){
+					$.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
+						  
+					       if (r){
+					    	   var rows = $('#test').datagrid('getSelections');
+								var ids = "";
+								for(var i=0;i<rows.length;i++){
+									ids = ids + rows[i].whiteId +",";
+								}
+								$.ajax({  
+							          type : "post",  
+							          url : ctx+"/userWhite/userWhite!deleteWhiteMdn.action",  
+							          data : "ids="+ids.substring(0,ids.length-1),  
+							          //async : false,  
+							          success : function(data){
+							        	  
+							          	if(data.result.flag==FLAG_SUCCESS){
+							          		$('#test').datagrid('clearSelections');
+							          		$.messager.alert('Success','删除成功！');
+
+							          		$('#test').datagrid('reload');
+							          		$('#delBtn').linkbutton('disable');
+							          		$('#editBtn').linkbutton('disable');
+							          	}else if(data.result.flag==FLAG_FAILURE){
+							          		
+							          		$.messager.alert('Success','删除失败！'+data.result.msg);
+							          	}
+							          	
+							           		
+							          }  
+								});  
+
+								
+					   
+					        }   
+					   
+					    });  
+				}
+
+				
+				
+			});
+			
 			//alert(parent.document.getElementById("frameId").offsetHeight);
 			$('#test').datagrid({
 				//title:'My DataGrid',
-				pageList:[1,5,10],
-				iconCls:'icon-save',
+				pageList:[10,20,30,40,50],
+				
 				width:'auto',
-				height:'auto',
+				
+			
 				nowrap: true,
 				autoRowHeight: false,
+				toolbar: '#tb',
+
 				striped: true,
-				collapsible:true,
+				fit:true,
+				pageSize:20,
 				url:ctx+'/userWhite/list',
 				// huhuadd
 				onLoadSuccess:function () {  
-				     var separator = $("#separator"); //toolbar上的竖线   
-				      var grid = $(".datagrid-toolbar"); //datagrid   
-				     var date = $("#selfSearchBox");
-				      
-				     //alert(grid.attr("style"));
-				     grid.append(separator);  
-				     grid.append(date);
+	
 				},
 				// huhuadd
 				onOpen:function(){
@@ -205,7 +243,7 @@
 				columns:[[
 						{field:'msisdn',title:'号码',width:150,sortable:true},
 					{field:'userName',title:'所属EC/SI',width:220},
-					{field:'memo',title:'描述',width:120},
+					//{field:'memo',title:'描述',width:120},
 					
 					{field:'createTime',title:'创建时间',width:180,sortable:true,
 						formatter:function(value,rec){
@@ -213,88 +251,11 @@
 						  ctime = ctime.replace(new RegExp("T","gm")," ");
 						  return ctime;
 						}
-					},
-					{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
-						formatter:function(value,rec){
-							return '<span style="color:red">删除</span>';
-						}
 					}
 				]],
 				pagination:true,
-				rownumbers:true,
-				toolbar:[{
-					id:'addBtn',
-					text:'添加白名单',
-					iconCls:'myicon-add',
-					handler:function(){
-						
-						optFlag="add";
-
-						$('#user-add').dialog("open");
-					}
-				},
-				/**
-				'-',{
-					id:'editBtn',
-					text:'修改白名单',
-					iconCls:'myicon-edit',
-					disabled:true,
-					handler:function(){
-						
-						optFlag = "edit";
-
-						 $('#user-add').dialog("open");
-					}
-				},
-				*/
-				'-',{
-					id:'delBtn',
-					text:'删除白名单',
-					disabled:true,
-					iconCls:'myicon-delete',
-					handler:function(){
-						//if (confirm("真的要删除吗？")){
-							  $.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
-								  
-								       if (r){
-								    	   var rows = $('#test').datagrid('getSelections');
-											var ids = "";
-											for(var i=0;i<rows.length;i++){
-												ids = ids + rows[i].whiteId +",";
-											}
-											$.ajax({  
-										          type : "post",  
-										          url : ctx+"/userWhite/userWhite!deleteWhiteMdn.action",  
-										          data : "ids="+ids.substring(0,ids.length-1),  
-										          //async : false,  
-										          success : function(data){
-										        	  
-										          	if(data.result.flag==FLAG_SUCCESS){
-										          		$('#test').datagrid('clearSelections');
-										          		$.messager.alert('Success','删除成功！');
-
-										          		$('#test').datagrid('reload');
-										          		$('#delBtn').linkbutton('disable');
-										          		$('#editBtn').linkbutton('disable');
-										          	}else if(data.result.flag==FLAG_FAILURE){
-										          		
-										          		$.messager.alert('Success','删除失败！'+data.result.msg);
-										          	}
-										          	
-										           		
-										          }  
-											});  
-
-											
-								   
-								        }   
-								   
-								    });  
-							
-							
-						
-					}
-				},'-' ]
+				rownumbers:true
+				
 			}  
 			
 			);
@@ -318,6 +279,7 @@
 				  },
 				exist:{
 					validator:function(value,param){
+						var bl =false;
 						$.ajax({  
 					          type : "post",  
 					          url : ctx+"/userWhite/userWhite!isWhiteMdnExist.action",  
@@ -382,11 +344,40 @@
 
 </head>
 <body class="easyui-layout">
+
+
+
+
+
+
 <div data-options="region:'center',border:false"  >
-	<table id="test" data-options="border:true" ></table>
+	<table id="test" title="白名单列表" data-options="border:true" ></table>
 </div>
 <!-- huhuadd -->
-<div id="selfSearchBox">
+<div id="tb" style="padding:5px;height:auto">    
+    <div style="margin-bottom:5px">    
+       
+       <a href="#" class="easyui-linkbutton"  id="addBtn" iconCls="myicon-add" plain="true">添加白名单</a> 
+        <a href="#" class="easyui-linkbutton" id="delBtn" iconCls="myicon-delete" disabled="disabled" plain="true">删除白名单</a>
+       
+        <a href="#" class="easyui-linkbutton" id="uploadBtn" iconCls="myicon-add"  plain="true">上传白名单</a>
+
+    </div>   
+     
+    <div>    
+     
+       
+       开始时间: <input id="beginTime" class="easyui-datebox" name="beginTime" readOnly="readOnly" style="width:90px" type="text">    
+        结束时间: <input id="endTime" class="easyui-datebox" name="endTime" readOnly style="width:90px" type="text">
+       号码:<input id="mdn" name="mdn" type="text"  style="width:110px" />
+       企业账号:<input id="loginName" name="ecsiId"  type="text" style="width:110px"/>
+      企业名称:<input id="userName" name = "ecsiName" type="text" style="width:110px" />
+	<a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>        
+         
+    </div>    
+</div>    
+
+<!-- <div id="selfSearchBox">
 	开始时间:<input id="beginTime" class="easyui-datebox"  name="beginTime" type="text" />	
 	结束时间:<input id="endTime" class="easyui-datebox" name="endTime"  type="text">
 	<div id="separator" class="datagrid-btn-separator"></div>
@@ -395,13 +386,13 @@
 	企业账号:<input id="loginName" name="ecsiId"  type="text" style="width:110px"/>
 	企业名称:<input id="userName" name = "ecsiName" type="text" style="width:200px" />
 	<a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> 
-</div>
+</div> -->
 <div id="separator" class="datagrid-btn-separator"></div>
 <!-- huhuadd -->
 
 
 	<div id="user-add" data-options="iconCls:'icon-save'" title="添加用户" closed="true" style="padding:5px;width:400px;height:200px;">
-    <div class="easyui-panel"  fit="true" data-options="iconCls:'icon-save'" style="width:400px;border: 0px">  
+    <div class="easyui-panel"   fit="true" data-options="iconCls:'icon-save'" style="width:400px;border: 0px">  
         <div >  
         <form id="saveForm" method="post">  
             <table>  
@@ -423,5 +414,38 @@
         </div>
         
 	</div>
+	<div id="upload-white" data-options="iconCls:'icon-save'" title="上传白名单" closed="true" style="padding:5px;width:400px;height:200px;">
+    <div class="easyui-panel"   fit="true" data-options="iconCls:'icon-save'" style="width:400px;border: 0px">  
+        <div >  
+        <form id="uploadForm" enctype="multipart/form-data" method="post">  
+            <table>  
+                <tr> 
+                    <td>号码:</td>
+                    <td>
+                        <img src="${ctx }/js/upload/loading.gif" id="loading" style="display: none;">
+        <input type="file" id="file" name="file" />
+        <br />
+       
+
+
+                    
+                    </td>  
+                </tr>  
+                                 
+                <tr>  
+                    <td>所属EC/SI:</td>  
+                    <td>  
+                        <select id="roleCombobox1" class="easyui-combobox" name="sysUserWhite.userId"></select>
+                    </td>  
+                </tr>  
+            </table>  
+        </form>  
+        </div>  
+
+        </div>
+        
+	</div>
+	
+	
 </body>
 </html>
