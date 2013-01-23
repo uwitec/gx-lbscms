@@ -61,7 +61,15 @@ public class WhiteAction extends BaseAction {
 	}
 
 	private TCellWhite cellWhite;
-	
+	private List<TCellWhite> cellWhiteList;
+	public List<TCellWhite> getCellWhiteList() {
+		return cellWhiteList;
+	}
+
+	public void setCellWhiteList(List<TCellWhite> cellWhiteList) {
+		this.cellWhiteList = cellWhiteList;
+	}
+
 	private SysUserWhite sysUserWhite;
 	
 	private List<SysUser> sysUserList;
@@ -80,7 +88,7 @@ public class WhiteAction extends BaseAction {
 			StringBuffer sb1= new StringBuffer("");
 			//一次读入一行，直到读入null为文件结束  
 			int l = 0;
-			sb1.append("<br>以下号码不正确，未添加<br>");
+			cellWhiteList = new ArrayList<TCellWhite>();
 			while ((tempString = reader.readLine()) != null){  
 			//显示行号  
 				this.queryVO = new QueryVO();
@@ -89,6 +97,7 @@ public class WhiteAction extends BaseAction {
 				queryVO.setUserId(sysUserWhite.getUserId());
 				boolean bl = StringUtil.isMobileNO(tempString);
 				if(bl==false){
+					l++;
 					sb1.append(tempString+"<br>");
 					
 				}else{
@@ -97,6 +106,7 @@ public class WhiteAction extends BaseAction {
 						cellWhite = new TCellWhite();
 						cellWhite.setMsisdn(tempString);
 						cellWhite.setCreateTime(new Date());
+						//cellWhiteList.add(cellWhite);
 						this.whiteService.saveWhiteMdn(cellWhite,sysUserWhite);
 					}else{
 						if(line==1){
@@ -108,6 +118,10 @@ public class WhiteAction extends BaseAction {
 				line++;  
 			}  
 			
+			if(l>0){
+				sb1.insert(0, "<br>以下号码不正确，未添加<br>");
+			}
+			//this.whiteService.saveBatchMdn(cellWhiteList, sysUserWhite);
 			this.result.setMsg(sb.toString()+sb1.toString());
 		
 			reader.close();  
@@ -120,6 +134,7 @@ public class WhiteAction extends BaseAction {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}  
+			result.setMsg(ex.getLocalizedMessage());
 			result.setFlag(Result.FLAG_FAILURE);
 		}
 		

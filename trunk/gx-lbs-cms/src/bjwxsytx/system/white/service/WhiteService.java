@@ -1,8 +1,12 @@
 package bjwxsytx.system.white.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Service;
 
 import bjwxsytx.base.exception.OperationException;
@@ -102,9 +106,40 @@ public class WhiteService {
 			this.whiteDAO.save(tCellWhite);
 			sysUserWhite.setWhite(tCellWhite.getId());
 			this.userWhiteDAO.save(sysUserWhite);
+			
 
 	}
 	
+	
+	public Object saveBatchMdn(final List<TCellWhite> list,final SysUserWhite sysUserWhite){
+		return this.whiteDAO.getHibernateTemplate().execute(new HibernateCallback<Object>() {
+
+			 public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {				
+				 QueryVO queryVO = new QueryVO();
+				 
+
+					
+				for(int i = 0 ; i < list.size() ; i++){
+					TCellWhite entity = list.get(i);
+					queryVO.setMdn(entity.getMsisdn());
+					queryVO.setUserId(sysUserWhite.getUserId());
+					boolean whiteMdnExist =isWhiteMdnExist(queryVO);
+					if(whiteMdnExist==false){
+						session.save(entity);
+						sysUserWhite.setWhite(entity.getId());
+						session.save(sysUserWhite);
+						if(i % 20 == 0 ){
+						    session.flush();
+				            session.clear();
+						}
+					}
+				}
+				return null;
+			}
+			
+		});
+	}
 	/**
 	 * 
 	* package_name: bjwxsytx.system.white.service
