@@ -86,7 +86,7 @@ public class WhiteAction extends BaseAction {
 				this.queryVO = new QueryVO();
 				this.queryVO.setMdn(tempString);
 
-				queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+				queryVO.setUserId(sysUserWhite.getUserId());
 				boolean bl = StringUtil.isMobileNO(tempString);
 				if(bl==false){
 					sb1.append(tempString+"<br>");
