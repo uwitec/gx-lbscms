@@ -21,12 +21,27 @@
 				//noheader:true,
 				onBeforeOpen:function(){
 					 $.post(ctx+"/menu/menu!findAllMenu", {
-					 	}, function(json) {  
+					 	}, function(json1) {  
+					 		 var json = $.parseJSON(json1);
 					 		$('#tt2').tree({  
 		                        //parent : node.target,  
 		                        animate:true,  
 		                        data : json.list,
-		                        
+		                        onLoadSuccess:function(){
+							 		 if(optFlag=="edit"){
+											$.getJSON(ctx+'/role/role!findRoleMenuByRoleId?sysRoleMenu.roleId='+row.roleId, function(json) { 
+												//alert(json.listSysRoleMenu.menuId);var node = $('#tt').tree('find', 12);
+												//$('#tt').tree('select', node.target);
+											//	alert(json.listSysRoleMenu.length );
+												for(var i = 0 ; i < json.listSysRoleMenu.length ; i++){
+													var obj = json.listSysRoleMenu[i];
+													var node = $('#tt2').tree('find', obj.menuId);
+													$('#tt2').tree('check', node.target);
+												}
+												//$('#roleCombobox').combobox('setValue',json.sysUserRole.roleId);
+											});
+									 		 }
+		                        },
 		                        cascadeCheck:false,
 		                        onClick: function(node){
 		                        	$(this).tree('toggle', node.target);
@@ -34,6 +49,7 @@
 		                        }
 		                        
 		                    });  
+
 					 });
 					
 					if(optFlag=="add"){
@@ -46,7 +62,7 @@
 						$("#role-add").dialog("setTitle","修改角色!");
 						$("#roleName").val(row.roleName);
 						
-						$.getJSON(ctx+'/role/role!findRoleMenuByRoleId?sysRoleMenu.roleId='+row.roleId, function(json) { 
+						/*$.getJSON(ctx+'/role/role!findRoleMenuByRoleId?sysRoleMenu.roleId='+row.roleId, function(json) { 
 							//alert(json.listSysRoleMenu.menuId);var node = $('#tt').tree('find', 12);
 							//$('#tt').tree('select', node.target);
 							for(var i = 0 ; i < json.listSysRoleMenu.length ; i++){
@@ -55,7 +71,7 @@
 								$('#tt2').tree('check', node.target);
 							}
 							//$('#roleCombobox').combobox('setValue',json.sysUserRole.roleId);
-						});
+						});*/
 
 					}
 				},
@@ -216,8 +232,8 @@
 										          url : ctx+"/role/role!deleteRole",  
 										          data : "ids="+ids.substring(0,ids.length-1),  
 										          //async : false,  
-										          success : function(data){  
-										        	  
+										          success : function(data1){  
+										        	  var data = $.parseJSON(data1);
 										          	if(data.result.flag==FLAG_SUCCESS){
 										          		$('#test').datagrid('clearSelections');
 										          		$.messager.alert('Success','删除成功！');
@@ -272,7 +288,8 @@
 					          url : ctx+"/login/other!isUserExist.action",  
 					          data : "queryVO.username="+value,  
 					          async : false,  
-					          success : function(data){  
+					          success : function(data1){  
+					        	  var data = $.parseJSON(data1);
 					           		bl = data.userExist;
 					          }  
 						});  

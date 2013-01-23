@@ -122,7 +122,8 @@
 				          type : "post",  
 				          url : ctx+"/menu/menu!updateMenu",  
 				          data : "queryVO.menuName="+rows.menuName+"&queryVO.menuId="+rows.menuId+"&queryVO.url="+rows.url,   
-				          success : function(data){  
+				          success : function(data1){  
+				        	  var data = $.parseJSON(data1);
 				        	  if(data.result.flag==FLAG_SUCCESS){
 				        		  $.messager.alert('Success','保存成功！');
 				        	  }else{
@@ -145,7 +146,8 @@
 					         	url : ctx+"/menu/menu!deleteMenu",  
 					         	data : "sysMenu.menuId="+row.menuId,  
 					         	async : false,  
-					         	success : function(data){  
+					         	success : function(data1){  
+					         		var data = $.parseJSON(data1);
 					         		if(data.result.flag==FLAG_SUCCESS){
 						          		$('#tt').treegrid('clearSelections');
 						          		$('#tt').treegrid('beginEdit', row.menuId);

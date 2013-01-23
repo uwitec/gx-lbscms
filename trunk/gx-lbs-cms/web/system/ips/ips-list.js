@@ -1,6 +1,6 @@
 function qq(value,name){
 		
-		//重新刷新datagrid，并增加两个参数key、type，这里是POST传值
+		//重新刷新datagrid，并增加两个参数key、type，这里是POST传值  1111
 		if(name=='queryVO.loginName'){
 		$('#test').datagrid('load',{"queryVO.loginName":value});
 		}else if(name=='queryVO.username'){
@@ -56,12 +56,12 @@ function qq(value,name){
 								}
 								//alert(cellIps);
 								$.ajax({  
-							          type : "post",  
+							          type : "post",   
 							          url : ctx+"/ips/ips!delete?cellIpsIds="+cellIps.substring(0,cellIps.length-1)+"&userIpsIds="+userIps.substring(0,userIps.length-1),  
 							         // data : "cellIps="+cellIps.substring(0,cellIps.length-1)+"&userIps="+userIps.substring(0,userIps.length-1),  
 							          //async : false,  
-							          success : function(data){
-							        	  
+							          success : function(data1){
+							        	  var data = $.parseJSON(data1);
 							          	if(data.result.flag==FLAG_SUCCESS){
 							          		$('#test').datagrid('clearSelections');
 							          		$.messager.alert('Success','删除成功！');
@@ -159,9 +159,8 @@ function qq(value,name){
 					        onSubmit: function(){
 					              return $(this).form("validate");
 					        },
-					        success:function(data){
-					        	
-					        	var datas = eval("("+data+")");
+					        success:function(data1){
+					        	var datas = $.parseJSON(data1);
 					        	if(datas.result.flag==FLAG_SUCCESS){
 					        		$.messager.alert('Success','添加成功！');
 					        		$('#cellIpsId').val("");
@@ -288,7 +287,8 @@ function qq(value,name){
 					          url : ctx+"/login/other!isUserExist.action",  
 					          data : "queryVO.username="+value,  
 					          async : false,  
-					          success : function(data){  
+					          success : function(data1){  
+					        	  var data = $.parseJSON(data1);
 					           		bl = data.userExist;
 					          }  
 						});  

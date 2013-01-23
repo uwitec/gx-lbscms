@@ -109,9 +109,11 @@
 					              return $(this).form("validate");
 					        },
 					        success:function(data){
+					        	
+					       
 					        	var datas = eval("("+data+")");
 					        	if(datas.result.flag==FLAG_SUCCESS){
-					        		$.messager.alert('Success','添加成功！');
+					        		$.messager.alert('Success','操作成功！');
 					        		
 					        		$("#saveForm").form("clear");
 					        		$('#user-add').dialog("close");
@@ -244,8 +246,8 @@
 										          url : ctx+"/user/user!deleteUser.action",  
 										          data : "ids="+ids.substring(0,ids.length-1),  
 										          //async : false,  
-										          success : function(data){  
-										        	  
+										          success : function(data1){  
+										        	  var data = $.parseJSON(data1);
 										          	if(data.result.flag==FLAG_SUCCESS){
 										          		$('#test').datagrid('clearSelections');
 										          		$.messager.alert('Success','删除成功！');
@@ -305,7 +307,9 @@
 					          url : ctx+"/login/other!isUserExist.action",  
 					          data : "queryVO.username="+value,  
 					          async : false,  
-					          success : function(data){  
+					          success : function(data1){  
+					        	  var data = $.parseJSON(data1);
+					         
 					           		bl = data.userExist;
 					          }  
 						});  
