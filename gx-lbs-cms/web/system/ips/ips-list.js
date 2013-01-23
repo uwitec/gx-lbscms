@@ -54,7 +54,7 @@ function qq(value,name){
 								for(var i=0;i<rows.length;i++){
 									userIps = userIps + rows[i].reId +",";
 								}
-								alert(cellIps);
+								//alert(cellIps);
 								$.ajax({  
 							          type : "post",  
 							          url : ctx+"/ips/ips!delete?cellIpsIds="+cellIps.substring(0,cellIps.length-1)+"&userIpsIds="+userIps.substring(0,userIps.length-1),  
