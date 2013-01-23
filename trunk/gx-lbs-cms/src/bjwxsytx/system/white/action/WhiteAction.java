@@ -18,6 +18,7 @@ import bjwxsytx.base.action.BaseAction;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
+import bjwxsytx.common.StringUtil;
 import bjwxsytx.system.entity.SysRole;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.entity.SysUserRole;
@@ -76,29 +77,38 @@ public class WhiteAction extends BaseAction {
 			String tempString = null;  
 			int line = 1;  
 			StringBuffer sb= new StringBuffer("");
+			StringBuffer sb1= new StringBuffer("");
 			//一次读入一行，直到读入null为文件结束  
+			int l = 0;
+			sb1.append("<br>以下号码不正确，未添加<br>");
 			while ((tempString = reader.readLine()) != null){  
 			//显示行号  
 				this.queryVO = new QueryVO();
 				this.queryVO.setMdn(tempString);
 
 				queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
-				whiteMdnExist = this.whiteService.isWhiteMdnExist(queryVO);
-				if(!whiteMdnExist){
-					cellWhite = new TCellWhite();
-					cellWhite.setMsisdn(tempString);
-					cellWhite.setCreateTime(new Date());
-					this.whiteService.saveWhiteMdn(cellWhite,sysUserWhite);
+				boolean bl = StringUtil.isMobileNO(tempString);
+				if(bl==false){
+					sb1.append(tempString+"<br>");
+					
 				}else{
-					if(line==1){
-						sb.append("<br>以下号码已存在,未添加<br>");
-					}
-					sb.append(tempString+"<br>");
-				} 
+					whiteMdnExist = this.whiteService.isWhiteMdnExist(queryVO);
+					if(!whiteMdnExist){
+						cellWhite = new TCellWhite();
+						cellWhite.setMsisdn(tempString);
+						cellWhite.setCreateTime(new Date());
+						this.whiteService.saveWhiteMdn(cellWhite,sysUserWhite);
+					}else{
+						if(line==1){
+							sb.append("<br>以下号码已存在,未添加<br>");
+						}
+						sb.append(tempString+"<br>");
+					} 
+				}
 				line++;  
 			}  
 			
-			this.result.setMsg(sb.toString());
+			this.result.setMsg(sb.toString()+sb1.toString());
 		
 			reader.close();  
 			
