@@ -10,8 +10,10 @@
 	request.setAttribute("basePath",basePath);
 	String userId = String.valueOf(session.getAttribute(AuthenticationUtil.ID_SESSION_KEY));
 	request.setAttribute("userId",userId);
+	request.setAttribute("themes", "default");//gray default
 %>
 
+<s:set name="themes" value="#request.themes"/>
 <s:set name="ctx" value="#request.path"/>
 <s:set name="appPath" value="#request.basePath"/>
 <s:set name="filePath" value="#request.filePath"/>

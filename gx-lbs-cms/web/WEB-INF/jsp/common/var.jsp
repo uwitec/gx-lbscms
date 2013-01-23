@@ -5,6 +5,7 @@
 <%
 	
 	request.setAttribute("title", "广西LBS后台管理系统");
+
 %>
 
 <s:set name="title" value="#request.title"/>

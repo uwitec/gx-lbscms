@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Complex Layout - jQuery EasyUI Demo</title>
-	<link rel="stylesheet" type="text/css" href="${ctx}/jquery-easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/${themes }/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/jquery-easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css">
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery-1.8.0.min.js"></script>
