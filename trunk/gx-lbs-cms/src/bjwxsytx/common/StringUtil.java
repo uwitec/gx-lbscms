@@ -1,5 +1,8 @@
 package bjwxsytx.common;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 
  * 功能描述:字符串处理公共类
@@ -83,8 +86,13 @@ public class StringUtil {
 		}
 		return flag;
 	}
-
+	public static boolean isMobileNO(String mobiles) {  
+        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[^1^4,\\D]))\\d{8}");  
+        Matcher m = p.matcher(mobiles);  
+        return m.matches();  
+    }  
 	public static void main(String[] args) {
+		System.out.println(isMobileNO("18613056507"));
 		String str = "<a href=\"http://211.95.193.85/wap/campaign/detail.jsp?id=24&p=2&amp;o=4\">abc&gt;&gt; </a>";
 		String str2 = replaceString(str, "&", "&amp;");
 	}
