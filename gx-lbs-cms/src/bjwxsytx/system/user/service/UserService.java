@@ -76,8 +76,9 @@ public class UserService {
 		//this.userDAO.deleteAll(list);
 		///roleUserDAO.deleteByHql(hql, values)
 		Object[] obj = null;
-		this.userDAO.deleteByHql("delete  SysUser su where su.userId in ("+ids+")", obj);
-		this.roleUserDAO.deleteByHql("delete SysUserRole sur where sur.userId in ("+ids+")", obj);
+		this.userDAO.deleteByHql("delete  SysUser su where su.userId in ("+ids+") and su.userId  <> 1", obj);
+		this.roleUserDAO.deleteByHql("delete SysUserRole sur where sur.userId in ("+ids+") and sur.userId  <> 1", obj);
+		
 	}
 	
 	public SysUser findUserById(QueryVO vo){

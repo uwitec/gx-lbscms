@@ -56,7 +56,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 			if(AuthenticationUtil.isAuthorized(url, session)){
 				return invocation.invoke();
 			}else{
-				throw new OperationException("您无权访问该页面数据！");
+				throw new OperationException("您无权执行此操作！");
 			}
 		}
 		return TIMEOUT;

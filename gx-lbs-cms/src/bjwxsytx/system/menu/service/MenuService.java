@@ -70,7 +70,13 @@ public class MenuService {
 	public void saveMenu(SysMenu entity){
 		this.menuDAO.save(entity);
 	}
-	
+	public List<SysMenu>  findAllMenu(Long userId){
+		
+		List<SysMenu> list = this.menuDAO.searchAll("select sm  from SysMenu sm ,SysUserRole sur,SysRoleMenu srm where sur.userId = ? and sur.roleId = srm.roleId and srm.menuId = sm.menuId and sm.gread = 3 ",new Object[]{userId});
+		
+		return list;
+		
+	}
 	
 	public List<Hashtable<String,Object>> findAllMenu(){
 		Object[] obj = null;

@@ -1,18 +1,24 @@
 package bjwxsytx.system.role.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.relation.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
+import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.entity.SysRole;
 import bjwxsytx.system.entity.SysRoleMenu;
+import bjwxsytx.system.menu.service.MenuService;
 import bjwxsytx.system.role.service.RoleMenuService;
 import bjwxsytx.system.role.service.RoleService;
+import bjwxsytx.system.role.service.RoleUserService;
 /***
  * 
 * 功能描述:XXXXXXXXX（可以分多行编写）
@@ -30,6 +36,9 @@ public class RoleAction extends BaseAction{
 	private RoleService roleService;
 	@Autowired(required = true)
 	private RoleMenuService roleMenuService;
+	
+	@Autowired(required = true)
+	private RoleUserService roleUserService;
 	private List<SysRole> roleList ;
 	private SysRole sysRole;
 	private Result result;
@@ -57,12 +66,18 @@ public class RoleAction extends BaseAction{
 		this.roleList = this.roleService.findRole();
 		return SUCCESS;
 	}
-	
-	public String saveRole(){
+	@Autowired(required = true)
+	private MenuService menuService;
+	public String saveRole() throws Exception{
 		result = new Result();
-		
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
 		this.roleService.saveRole(sysRole, ids);
 		result.setFlag(Result.FLAG_SUCCESS);
+		//List<SysMenu> list = menuService.findMenuByUserId(userId);
+		//System.out.println(roleMenuList.size());
+		//_log.info("role size"+roleMenuList.size());
+		//System.out.println(roleMenuList.size());
+		//AuthenticationUtil.setAuthenticationUrl(getSessionMap(), list);
 		return SUCCESS;
 	}
 	
@@ -70,8 +85,35 @@ public class RoleAction extends BaseAction{
 		
 		result = new Result();
 		try{
-
-			this.roleService.deleteRole(this.ids);
+			result.setMsg("");
+			
+			Map map = new HashMap();
+			List list = roleUserService.findRoleUser(ids);
+			for(int i = 0  ; i  < list.size() ; i++){
+				Long id = (Long)list.get(i);
+				map.put(id.toString(), id.toString());
+			}
+			
+			String tempIds = "";
+			String msg = "";
+			String arr[] =  ids.split(",");
+			for(int i = 0 ; i  <arr.length;i++){
+				String id = arr[i];
+				if(map.get(id)==null){
+					tempIds = tempIds + id+",";
+				}else{
+					msg = msg + id+",";
+				}
+				
+			}
+			if(tempIds.length()>0){
+				this.roleService.deleteRole(tempIds.substring(0,tempIds.length()-1));
+			}
+			if(msg.length()>0){
+				result.setMsg("<br/>以下角色与用户关联，不能删除!<br/>角色ID:"+msg);
+			}else{
+				
+			}
 			result.setFlag(Result.FLAG_SUCCESS);
 		}catch(Exception ex){
 			result.setFlag(Result.FLAG_FAILURE);

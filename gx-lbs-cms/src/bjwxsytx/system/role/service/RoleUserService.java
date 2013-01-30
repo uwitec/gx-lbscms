@@ -36,4 +36,11 @@ public class RoleUserService {
 	}
 	
 
+	public List findRoleUser(String ids){
+		Object[] obj = null;
+		
+		List list =   this.roleUserDAO.getHibernateTemplate().find("select distinct(sur.roleId) from SysUserRole sur where sur.roleId in("+ids+")");
+		
+		return list;
+	}
 }

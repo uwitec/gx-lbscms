@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.base.exception.SystemException;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
@@ -72,7 +73,6 @@ public class PoshisAction extends BaseAction {
 					queryVO.setRespResult(true);
 				}
 			}
-			System.out.println(queryVO.getBeginTime());
 			queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
 			//System.out.println(queryVO.getLoginName());
 			this.poshisService.list(page, queryVO);
@@ -116,8 +116,16 @@ public class PoshisAction extends BaseAction {
 			}
 			
 			this.rows = rowsList;
+			//int a = 1/0;
+			this.result = new Result();
+			this.result.setFlag(Result.FLAG_SUCCESS);
 		}catch(Exception ex){
+			
+			_log.info(ex);
 			ex.printStackTrace();
+			this.result = new Result();
+			this.result.setFlag(Result.FLAG_ERROE);
+			this.result.setMsg(ex.getLocalizedMessage());
 		}
 
 		return SUCCESS;

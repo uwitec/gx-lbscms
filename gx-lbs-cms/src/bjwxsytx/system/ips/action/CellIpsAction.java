@@ -79,6 +79,20 @@ public class CellIpsAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	public String update(){
+		this.result = new Result();
+		try{
+
+			this.cellIpsService.save(cellIps, userIps);
+			
+			this.result.setFlag(Result.FLAG_SUCCESS);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			this.result.setFlag(Result.FLAG_FAILURE);
+			this.result.setMsg(ex.getLocalizedMessage());
+		}
+		return SUCCESS;
+	}
 	public void setUserIps(SysUserIps userIps) {
 		this.userIps = userIps;
 	}
