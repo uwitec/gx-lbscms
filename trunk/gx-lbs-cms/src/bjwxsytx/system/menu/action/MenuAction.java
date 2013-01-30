@@ -226,4 +226,17 @@ public class MenuAction extends BaseAction {
 		this.list = this.menuService.findAllMenu();
 		return SUCCESS;
 	}
+	
+	
+	public String findAllMenuByUserId(){
+		try{
+			Object obj = this.getSessionMap().get(AuthenticationUtil.ID_SESSION_KEY);
+			Long userId = Long.parseLong(obj.toString());
+			this.list = this.menuService.findAllMenu(userId);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return SUCCESS;
+	}
 }

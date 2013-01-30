@@ -1,4 +1,12 @@
 package bjwxsytx.system.ips.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bjwxsytx.system.ips.dao.UserIpsDAO;
+
 /***
  * 
 * 功能描述（可以分多行编写）
@@ -9,6 +17,16 @@ package bjwxsytx.system.ips.service;
 * @author 你的姓名 修改日期：2013-1-16
 * @since gx-cms
  */
+@Service("userIpsService")
 public class UserIpsService {
-
+	@Autowired(required = true)
+	private UserIpsDAO userIpsDAO;
+	
+	public List findUserIps(String ids){
+		Object[] obj = null;
+		
+		List list =   this.userIpsDAO.getHibernateTemplate().find("select distinct(sui.userId) from SysUserIps sui where sui.userId in("+ids+")");
+		
+		return list;
+	}
 }

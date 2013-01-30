@@ -142,14 +142,22 @@ public class AuthenticationAction extends BaseAction {
 	
 	public String validatePwd(){
 		this.result = new Result();
-		queryVO.setId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
-		boolean bl = this.userService.validatePwd(queryVO);
-		if(bl){
-			this.result.setFlag(Result.FLAG_SUCCESS);
-		}else{
-			this.result.setFlag(Result.FLAG_FAILURE);
+		try{
+			if(AuthenticationUtil.getCurrentUserId(this.getSessionMap())==null){
+				return "timeout";
+			}
+			queryVO.setId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+			boolean bl = this.userService.validatePwd(queryVO);
+			if(bl){
+				this.result.setFlag(Result.FLAG_SUCCESS);
+			}else{
+				this.result.setFlag(Result.FLAG_FAILURE);
+			}
+			
+		}catch(Exception ex){
+			this.result.setFlag(Result.FLAG_ERROE);
+			this.result.setMsg(ex.getLocalizedMessage());
 		}
-		
 		return SUCCESS;
 	}
 	

@@ -36,6 +36,14 @@ public class WhiteService {
 	private UserWhiteDAO userWhiteDAO;
 	
 	
+	public List findUserWhite(String ids){
+		Object[] obj = null;
+		
+		List list =   this.userWhiteDAO.getHibernateTemplate().find("select distinct(suw.userId) from SysUserWhite suw where suw.userId in("+ids+")");
+		
+		return list;
+	}
+	
 	/**
 	 * 
 	* package_name: bjwxsytx.system.white.service
@@ -157,5 +165,21 @@ public class WhiteService {
 		this.whiteDAO.deleteByHql("delete  TCellWhite tw where tw.id in ("+ids+")", obj);
 		this.userWhiteDAO.deleteByHql("delete SysUserWhite suw where suw.white in ("+ids+")", obj);
 	}
-
+	/**
+	 * 
+	* package_name: bjwxsytx.system.white.service
+	* file_name:    WhiteService.java
+	* description: 删除白名单号码以及对于关联数据
+	* 2013-1-14上午1:02:19
+	* Author: chenhui
+	 * @param ids
+	 * @throws Exception
+	 */
+	public void deleteWhiteByUserId(Long userId) throws Exception{
+		//this.userDAO.deleteAll(list);
+		///roleUserDAO.deleteByHql(hql, values)
+		Object[] obj = null;
+		//this.whiteDAO.deleteByHql("delete  TCellWhite tw where tw.id in ("+ids+")", obj);
+		//this.userWhiteDAO.deleteByHql("delete SysUserWhite suw where suw.white in ("+ids+") and userId <> 1", obj);
+	}
 }

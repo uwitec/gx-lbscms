@@ -1,7 +1,9 @@
 package bjwxsytx.system.user.action;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,10 +13,12 @@ import bjwxsytx.common.Result;
 import bjwxsytx.system.entity.SysRole;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.entity.SysUserRole;
+import bjwxsytx.system.ips.service.UserIpsService;
 import bjwxsytx.system.role.service.RoleService;
 import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.service.UserService;
 import bjwxsytx.system.user.vo.QueryVO;
+import bjwxsytx.system.white.service.WhiteService;
 /***
  * 
 * 功能描述:XXXXXXXXX（可以分多行编写）
@@ -34,6 +38,11 @@ public class UserAction extends BaseAction {
 	private RoleService roleService;
 	@Autowired(required = true)
 	private RoleUserService roleUserService;
+	@Autowired(required = true)
+	private WhiteService whiteService;
+	
+	@Autowired(required = true)
+	private UserIpsService userIpsService;
 	private Result result;
 	private long total;
 	private List<Object> rows; 
@@ -135,9 +144,45 @@ public class UserAction extends BaseAction {
 	public String deleteUser(){
 		try {
 			this.result = new Result();
-			this.userService.deleteUser(ids);
-
+			//this.userService.deleteUser(ids);
+			List userWhiteList =  whiteService.findUserWhite(ids);
+			List userIpsList = userIpsService.findUserIps(ids);
 			
+			for(int i = 0  ; i  < userWhiteList.size() ; i++){
+				Long id = (Long)userWhiteList.get(i);
+				if(!userIpsList.contains(id)){  
+					userIpsList.add(id);    
+		        }  
+			}
+//			for(int i = 0  ; i  < userIpsList.size() ; i++){
+//				Long id = (Long)userIpsList.get(i);
+//				System.out.println(id);
+//			}
+			Map map = new HashMap();
+			for(int i = 0  ; i  < userWhiteList.size() ; i++){
+				Long id = (Long)userWhiteList.get(i);
+				map.put(id.toString(), id.toString());
+			}
+			String tempIds = "";
+			String msg = "";
+			String arr[] =  ids.split(",");
+			for(int i = 0 ; i  <arr.length;i++){
+				String id = arr[i];
+				if(map.get(id)==null){
+					tempIds = tempIds + id+",";
+				}else{
+					msg = msg + id+",";
+				}
+			}
+			
+			if(tempIds.length()>0){
+				this.userService.deleteUser(tempIds.substring(0,tempIds.length()-1));
+			}
+			if(msg.length()>0){
+				result.setMsg("<br/>以下用户与白名单或IP账号数据关联，不能删除!请先删除白名单或IP账号数据再删除该用户!<br/>用户ID:"+msg);
+			}else{
+				result.setMsg("");
+			}
 			result.setFlag(Result.FLAG_SUCCESS);
 		} catch (Exception e) {
 			result.setFlag(Result.FLAG_FAILURE);
