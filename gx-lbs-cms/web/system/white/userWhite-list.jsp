@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${ctx }/js/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript" src="${ctx }/system/white/upload.js"></script>
-			
+<script type="text/javascript" src="${ctx }/js/util.js"></script>			
 		
 	<script>
 
@@ -60,6 +60,7 @@
 				//noheader:true,
 				onBeforeOpen:function(){
 					$.getJSON(ctx+'/userWhite/findAllUserWhenAddWhiteMdn', function(json) { 
+
 						$('#roleCombobox').combobox({
 							data :json.sysUserList, 
 							width:150,
@@ -111,6 +112,10 @@
 					        		$("#saveForm").form("clear");
 					        		$('#user-add').dialog("close");
 					        		$('#test').datagrid('reload');
+					        	}else{
+					        		
+						        		  $.messager.alert('Error','操作失败！'+data.result.msg);
+						        	 
 					        	}
 					        }
 					});
@@ -153,13 +158,23 @@
 
 			$("#addBtn").click(function(){
 				optFlag="add";
+				if(!valiMenu("userWhite/saveWhiteMdn")){
+					
+					$.messager.alert('Success','您无权执行该操作!');
 
+					return;
+				}
 				$('#user-add').dialog("open");
 			
 				});
 			$("#delBtn").click(function(){
 				var rows = $('#test').datagrid('getSelections');
+				if(!valiMenu("userWhite/userWhite!deleteWhiteMdn.action")){
+					
+					$.messager.alert('Success','您无权执行该操作!');
 
+					return;
+				}
 				if(rows.length>0){
 					$.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
 						  
@@ -183,7 +198,7 @@
 							          		$('#test').datagrid('reload');
 							          		$('#delBtn').linkbutton('disable');
 							          		$('#editBtn').linkbutton('disable');
-							          	}else if(data.result.flag==FLAG_FAILURE){
+							          	}else {
 							          		
 							          		$.messager.alert('Success','删除失败！'+data.result.msg);
 							          	}
@@ -209,12 +224,16 @@
 				pageList:[10,20,30,40,50],
 				
 				width:'auto',
-				
+				onLoadError:function(){
+					$.messager.alert('Error','加载数据失败!,或登录超时！请重新登录，如问题仍未解决请联系管理员!','error',function(){
+						 top.location.href=ctx+"/index.jsp";  
+					});
+				},
 			
 				nowrap: true,
 				autoRowHeight: false,
 				toolbar: '#tb',
-
+				fitColumns:true,  
 				striped: true,
 				fit:true,
 				pageSize:20,
@@ -406,7 +425,7 @@
                 <tr>  
                     <td>所属EC/SI:</td>  
                     <td>  
-                        <select id="roleCombobox" class="easyui-combobox" name="sysUserWhite.userId"></select>
+                        <select id="roleCombobox" class="easyui-combobox" name="sysUserWhite.userId" data-options="required:true"></select>
                     </td>  
                 </tr>  
             </table>  
@@ -426,20 +445,25 @@
                     <td>
                         <img src="${ctx }/js/upload/loading.gif" id="loading" style="display: none;">
         <input type="file" id="file" name="file" />
-        <br />
        
 
 
                     
                     </td>  
                 </tr>  
-                                 
+                                <tr>  
+                    <td>格式:</td>  
+                    <td>  
+                        txt文本，每行一个号码。
+                    </td>  
+                </tr>                                   
                 <tr>  
                     <td>所属EC/SI:</td>  
                     <td>  
-                        <select id="roleCombobox1" class="easyui-combobox" name="sysUserWhite.userId"></select>
+                        <select id="roleCombobox1" class="easyui-combobox" name="sysUserWhite.userId" data-options="required:true"></select>
                     </td>  
                 </tr>  
+
             </table>  
         </form>  
         </div>  

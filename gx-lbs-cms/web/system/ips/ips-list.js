@@ -24,6 +24,13 @@ function qq(value,name){
 			 }); 
 			
 			$("#editBtn").click(function(){
+				if(!valiMenu("ips/ips!save")){
+					
+					$.messager.alert('Success','您无权执行该操作!');
+
+					return;
+				}
+				$('#combobox').combobox('setValue',"");
 				optFlag="edit";
 				var rows = $('#test').datagrid('getSelections');
 
@@ -34,13 +41,25 @@ function qq(value,name){
 			});
 			$("#addBtn").click(function(){
 				optFlag="add";
+				if(!valiMenu("ips/ips!save")){
+					
+					$.messager.alert('Success','您无权执行该操作!');
+
+					return;
+				}
+				$('#combobox').combobox('setValue',"");
 
 				$('#ips-add').dialog("open");
 			
 				});
 			$("#delBtn").click(function(){
 				var rows = $('#test').datagrid('getSelections');
+				if(!valiMenu("ips/ips!delete")){
+					
+					$.messager.alert('Success','您无权执行该操作!');
 
+					return;
+				}
 				if(rows.length>0){
 					$.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
 						  
@@ -69,7 +88,7 @@ function qq(value,name){
 							          		$('#test').datagrid('reload');
 							          		$('#delBtn').linkbutton('disable');
 							          		$('#editBtn').linkbutton('disable');
-							          	}else if(data.result.flag==FLAG_FAILURE){
+							          	}else {
 							          		
 							          		$.messager.alert('Success','删除失败！'+data.result.msg);
 							          	}
@@ -99,12 +118,14 @@ function qq(value,name){
 				autoOpen: false ,
 				modal:true,
 				width:320,   
+				
 				closable:false,
 				height:300,
 				resizable:false,
 				//noheader:true,
 				onBeforeOpen:function(){
-					$.getJSON(ctx+'/userWhite/findAllUserWhenAddWhiteMdn', function(json) { 
+					$.getJSON(ctx+'/userWhite/findAllUserWhenAddWhiteMdn', function(json) {
+
 						$('#combobox').combobox({
 							data :json.sysUserList, 
 							width:150,
@@ -124,11 +145,14 @@ function qq(value,name){
 						$("#ips-add").dialog("setTitle","添加用户!");
 						$('#cellIpsId').val("");
 						$('#ipsId').val();
+						$('#cliendId1').val("");
+						
 					}else if(optFlag=="edit"){
 						
 						$("#ips-add").dialog("setTitle","修改用户!");
 						var row = $('#test').datagrid('getSelected');
-						$.getJSON(ctx+'/ips/ips!findCellIps.action?queryVO.id='+row.id+"&queryVO.reId="+row.reId, function(json) { 
+						$.getJSON(ctx+'/ips/ips!findCellIps.action?queryVO.id='+row.id+"&queryVO.reId="+row.reId, function(json) {
+							
 							$("#saveForm").form('load', {
 								"cellIps.ip": json.cellIps.ip,
 			                    "cellIps.clientid": json.cellIps.clientid,
@@ -187,6 +211,7 @@ function qq(value,name){
 						$('#clientId1').val("");
 						$('#cellIpsId').val("");
 						$('#ipsId').val("");
+						$('#memo').val("");
 						
 						$('#ips-add').dialog('close');
 					}
@@ -218,14 +243,18 @@ function qq(value,name){
 			$('#test').datagrid({
 				//title:'My DataGrid',
 				
-				
+				width:"auto",
 				fit:true,
 				pageSize:20,
-				
+				fitColumns:true,  
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
-				
+				onLoadError:function(){
+					$.messager.alert('Error','加载数据失败!,或登录超时！请重新登录，如问题仍未解决请联系管理员!','error',function(){
+						 top.location.href=ctx+"/index.jsp";  
+					});
+				},
 				toolbar: '#tb',
 				url:ctx+'/ips/ips!list',
 				onOpen:function(){
@@ -247,11 +276,11 @@ function qq(value,name){
 	                
 				]],
 				columns:[[
-						{field:'ip',title:'IP',width:120},
+						{field:'ip',title:'IP'},
 						{field:'clientId',title:'接口账号',width:120},
-						{title:'企业名称',field:'userName'},
+						{title:'企业名称',field:'userName',width:120},
 						{field:'loginName',title:'登录账号',width:120},
-						{field:'memo',title:'备注'},
+						{field:'memo',title:'备注',width:120},
 						{field:'reId',hidden:true},
 				]],
 				pagination:true,

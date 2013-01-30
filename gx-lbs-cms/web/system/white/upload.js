@@ -60,6 +60,12 @@ $(function() {
 		} ]
 	});
 	$("#uploadBtn").click(function() {
+		if(!valiMenu("userWhite/uploadWhiteMdn")){
+			
+			$.messager.alert('Success','您无权执行该操作!');
+
+			return;
+		}
 		//alert( ctx+'/js/uploadify/uploadify.swf');
 		$('#upload-white').dialog('open');
 	});

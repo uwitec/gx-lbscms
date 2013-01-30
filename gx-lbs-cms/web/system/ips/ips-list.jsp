@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="${ctx }/system/ips/ips-list.js"></script>
+	<script type="text/javascript" src="${ctx }/js/util.js"></script>
 	<script>
 	
 	</script>
@@ -67,7 +68,7 @@
                 <tr>  
                     <td>所属EC/SI:</td>  
                     <td>  
-                        <select id="combobox" class="easyui-combobox" name="userIps.userId"></select>
+                        <select id="combobox" class="easyui-combobox" name="userIps.userId" data-options="required:true"></select>
                     </td>  
                 </tr>
                 <tr> 

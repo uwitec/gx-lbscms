@@ -9,7 +9,7 @@
 	}
 		$(function(){
 
-		
+
 			var optFlag="";
 			$('#role-add').dialog({
 				autoOpen: false ,
@@ -85,6 +85,9 @@
 					text:'确定',
 					iconCls:'icon-ok',
 					handler:function(){
+						validateSessionIsNull();
+
+						
 						var ids = "";
 						var nodes = $('#tt2').tree('getChecked');	// get checked nodes
 						for(var i = 0 ; i < nodes.length ; i++){
@@ -109,11 +112,13 @@
 					        	//alert(data);
 					        	var datas = eval("("+data+")");
 					        	if(datas.result.flag==FLAG_SUCCESS){
-					        		$.messager.alert('Success','添加成功！');
+					        		$.messager.alert('Success','操作成功！');
 					        		
 					        		$("#saveForm").form("clear");
 					        		$('#role-add').dialog("close");
 					        		$('#test').datagrid('reload');
+					        	}else{
+					        		  $.messager.alert('Error','操作失败！'+data.result.msg);
 					        	}
 					        }
 					});
@@ -159,10 +164,12 @@
 			$('#test').datagrid({
 				//title:'My DataGrid',
 				
-				
-				width:"auto",
+				onLoadError:function(){
+					$.messager.alert('Error','加载数据失败!,或登录超时！请重新登录，如问题仍未解决请联系管理员!','error',function(){
+						 top.location.href=ctx+"/index.jsp";  
+					});
+				},
 				pageSize:20,
-				height: document.body.scrollHeight,
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
@@ -175,6 +182,7 @@
 				sortName: 'roleId',
 				sortOrder: 'desc',
 				remoteSort: false,
+				fitColumns:true,  
 				idField:'roleId',
 				onSelect:btnDisplay,
 				onUnselect:btnDisplay,
@@ -185,11 +193,15 @@
 				},
 				frozenColumns:[[
 	                {field:'roleId',checkbox:true},
-	                {title:'角色名称',field:'roleName'}
+
 				]],
-				//''columns:[[
-				//	{field:'description',title:'备注'}
-				//]],	
+				columns:[[
+						                {field:'roleId1',title:'角色Id',						
+            	formatter:function(value,rec){
+					  return rec.roleId;
+					},width:120},
+              {title:'角色名称',field:'roleName',width:120}
+				]],	
 				pagination:true,
 				rownumbers:true,
 				toolbar:[{
@@ -197,6 +209,14 @@
 					text:'添加角色',
 					iconCls:'myicon-add',
 					handler:function(){
+						validateSessionIsNull();
+						if(!valiMenu("role/role!saveRole")){
+							
+							$.messager.alert('Success','您无权执行该操作!');
+
+							return;
+						}
+						
 						optFlag="add";
 						$('#role-add').dialog("open");
 					}
@@ -206,6 +226,13 @@
 					iconCls:'myicon-edit',
 					disabled:true,
 					handler:function(){
+						validateSessionIsNull();
+						if(!valiMenu("role/role!saveRole")){
+							
+							$.messager.alert('Success','您无权执行该操作!');
+
+							return;
+						}
 						
 						optFlag = "edit";
 
@@ -218,6 +245,14 @@
 					
 					iconCls:'myicon-delete',
 					handler:function(){
+						validateSessionIsNull();
+						if(!valiMenu("role/role!deleteRole")){
+							
+							$.messager.alert('Success','您无权执行该操作!');
+
+							return;
+						}
+						
 						//if (confirm("真的要删除吗？")){
 							  $.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
 								  
@@ -236,7 +271,7 @@
 										        	  var data = $.parseJSON(data1);
 										          	if(data.result.flag==FLAG_SUCCESS){
 										          		$('#test').datagrid('clearSelections');
-										          		$.messager.alert('Success','删除成功！');
+										          		$.messager.alert('Success','删除成功！'+data.result.msg);
 
 										          		$('#test').datagrid('reload');
 										          		$('#delBtn').linkbutton('disable');
@@ -244,6 +279,8 @@
 										          	}else if(data.result.flag==FLAG_FAILURE){
 										          		
 										          		$.messager.alert('Success','删除失败！'+data.result.msg);
+										          	}else{
+										          	  $.messager.alert('Error','操作失败！'+data.result.msg);
 										          	}
 										          	
 										           		
