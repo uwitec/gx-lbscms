@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/javascript" src="${ctx }/js/util.js"></script>
 	<script>
 	function qq(value,name){
 		
@@ -40,6 +41,17 @@
 				//noheader:true,
 				onBeforeOpen:function(){
 					$.getJSON(ctx+'/role/findRole', function(json) { 
+						
+						if(json.result!=null){
+							if(json.result.flag!=null){
+								
+								if(json.result.flag==4){
+									$.messager.alert('Error',json.result.msg);
+									$('#roleCombobox').combobox('setValue',"");
+									return;
+								}
+							}
+						}
 						$('#roleCombobox').combobox({
 							data : json.roleList, 
 							width:150,
@@ -56,6 +68,8 @@
 					});
 					
 					if(optFlag=="add"){
+						
+					
 						$("#user-add").dialog("setTitle","添加用户!");
 						$('#loginName').removeAttr("readOnly");
 						$('#loginName').validatebox({   
@@ -76,7 +90,19 @@
 						$('#loginName').attr("readOnly","true");
 
 						var row = $('#test').datagrid('getSelected');
-						$.getJSON(ctx+'/user/user!findUserById.action?queryVO.id='+row.userId, function(json) { 
+						$.getJSON(ctx+'/user/user!findUserById.action?queryVO.id='+row.userId, function(json) {
+							
+							if(json.result!=null){
+								if(json.result.flag!=null){
+									
+									if(json.result.flag==4){
+										$.messager.alert('Error',json.result.msg);
+										$('#roleCombobox').combobox('setValue',"");
+										$('#user-add').dialog("close");
+										return;
+									}
+								}
+							}
 							$("#saveForm").form('load', {
 								"sysUser.loginName": json.sysUser.loginName,
 			                    "sysUser.loginPass": json.sysUser.loginPass,
@@ -102,15 +128,13 @@
 					text:'确定',
 					iconCls:'icon-ok',
 					handler:function(){
-						
+						validateSessionIsNull();
 						$("#saveForm").form("submit", {
 					        url:ctx+"/user/saveUser",
 					        onSubmit: function(){
 					              return $(this).form("validate");
 					        },
 					        success:function(data){
-					        	
-					       
 					        	var datas = eval("("+data+")");
 					        	if(datas.result.flag==FLAG_SUCCESS){
 					        		$.messager.alert('Success','操作成功！');
@@ -118,6 +142,8 @@
 					        		$("#saveForm").form("clear");
 					        		$('#user-add').dialog("close");
 					        		$('#test').datagrid('reload');
+					        	}else{
+					        		$.messager.alert('Error','操作失败！'+datas.result.msg);
 					        	}
 					        }
 					});
@@ -164,10 +190,14 @@
 			$('#test').datagrid({
 				//title:'My DataGrid',
 				
-			
+				onLoadError:function(){
+					$.messager.alert('Error','加载数据失败!,或登录超时！请重新登录，如问题仍未解决请联系管理员!','error',function(){
+						 top.location.href=ctx+"/index.jsp";  
+					});
+				},
 				width:"auto",
 				pageSize:20,
-				
+				fitColumns:true,  
 				nowrap: true,
 				autoRowHeight: false,
 				striped: true,
@@ -189,17 +219,21 @@
 					//alert(1);
 				},
 				frozenColumns:[[
-	                {field:'userId',checkbox:true},
-	                {title:'姓名',field:'userName',width:80,sortable:true}
+	                {field:'userId',checkbox:true}
+	               
 				]],
 				columns:[[
+					{field:'userId1',title:'用户ID',formatter:function(value,rec){ return rec.userId;}},
+					{title:'姓名',field:'userName',width:80,sortable:true},
 					{field:'loginName',title:'登录账号',width:120},
 					{field:'tel',title:'联系电话',width:120},
 					{field:'email',title:'电子邮件',width:120},
 					{field:'createTime',title:'创建时间',width:220,sortable:true,
-						sorter:function(a,b){
-							return (a>b?1:-1);
-						}
+						formatter:function(value,rec){
+							  var ctime =rec.createTime;
+							  ctime = ctime.replace(new RegExp("T","gm")," ");
+							  return ctime;
+							}
 					}
 				]],
 				pagination:true,
@@ -209,7 +243,14 @@
 					text:'添加用户',
 					iconCls:'myicon-add',
 					handler:function(){
-						
+						validateSessionIsNull();
+						if(!valiMenu("user/saveUser")){
+							
+							$.messager.alert('Success','您无权执行该操作!');
+
+							return;
+						}
+						$('#roleCombobox').combobox('setValue',"");
 						optFlag="add";
 
 						$('#user-add').dialog("open");
@@ -220,7 +261,14 @@
 					iconCls:'myicon-edit',
 					disabled:true,
 					handler:function(){
-						
+						validateSessionIsNull();
+						if(!valiMenu("user/saveUser")){
+							
+							$.messager.alert('Success','您无权执行该操作!');
+
+							return;
+						}
+						$('#roleCombobox').combobox('setValue',"");
 						optFlag = "edit";
 
 						 $('#user-add').dialog("open");
@@ -232,6 +280,14 @@
 					
 					iconCls:'myicon-delete',
 					handler:function(){
+
+						validateSessionIsNull();
+						if(!valiMenu("user/user!deleteUser.action")){
+							
+							$.messager.alert('Success','您无权执行该操作!');
+
+							return;
+						}
 						//if (confirm("真的要删除吗？")){
 							  $.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
 								  
@@ -248,9 +304,13 @@
 										          //async : false,  
 										          success : function(data1){  
 										        	  var data = $.parseJSON(data1);
+										        	  
+										        	  if(data.result.flag==4){
+										        		  $.messager.alert('Error','操作失败！'+data.result.msg);
+										        	  }else
 										          	if(data.result.flag==FLAG_SUCCESS){
 										          		$('#test').datagrid('clearSelections');
-										          		$.messager.alert('Success','删除成功！');
+										          		$.messager.alert('Success','删除成功！'+data.result.msg);
 
 										          		$('#test').datagrid('reload');
 										          		$('#delBtn').linkbutton('disable');
@@ -394,7 +454,7 @@
                 </tr>                  
                 <tr>  
                     <td>用户姓名:</td>  
-                    <td><input class="easyui-validatebox" id="userName" type="text" name="sysUser.userName" data-options=""></input></td>  
+                    <td><input class="easyui-validatebox" id="userName" type="text" name="sysUser.userName" data-options="required:true"></input></td>  
                 </tr>  
                 <tr>  
                     <td>电话号码:</td>  
@@ -407,7 +467,7 @@
                 <tr>  
                     <td>角色:</td>  
                     <td>  
-                        <select id="roleCombobox" class="easyui-combobox" name="sysUserRole.roleId"></select>  
+                        <select id="roleCombobox" class="easyui-combobox" name="sysUserRole.roleId" data-options="required:true"></select>  
                         <input type="hidden" id="userId"  name="sysUser.userId">
                         <input type="hidden"  name="sysUserRole.id">
                     </td>  

@@ -14,6 +14,7 @@
 	<script type="text/javascript" src="${ctx}/jquery-easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="${ctx }/system/poshis/poshis-list.js"></script>
+	<script type="text/javascript" src="${ctx }/js/util.js"></script>
 	<script>
 	
 	</script>

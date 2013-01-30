@@ -49,7 +49,11 @@
 			idField: 'menuId',
 			url: ctx+"/menu/menu!list",  
 			pagination:true,  
-
+			onLoadError:function(){
+				$.messager.alert('Error','加载数据失败!,或登录超时！请重新登录，如问题仍未解决请联系管理员!','error',function(){
+					 top.location.href=ctx+"/index.jsp";  
+				});
+			},
 			pageSize:20,
 			onSelect:btnDisplay,
 			fitColumns:true,  
@@ -87,6 +91,13 @@
 				iconCls:'myicon-add',
 				handler:function(){
 					optFlag = "add";
+					validateSessionIsNull();
+					if(!valiMenu("menu/menu!saveMenu")){
+						
+						$.messager.alert('Success','您无权执行该操作!');
+
+						return;
+					}
 					$('#menu-add').dialog("open");
 				}
 			},{
@@ -95,6 +106,7 @@
 				iconCls:'myicon-edit',
 				disabled:true,
 				handler:function(){
+					validateSessionIsNull();
 					var rows = $('#tt').treegrid('getSelected');
 					if(rows!=null){
 						$('#tt').treegrid('cancelEdit', rows.menuId);
@@ -110,6 +122,13 @@
 				iconCls:'icon-save',
 				disabled:true,
 				handler:function(){
+					validateSessionIsNull();
+					if(!valiMenu("menu/menu!updateMenu")){
+						
+						$.messager.alert('Success','您无权执行该操作!');
+
+						return;
+					}
 					var rows = $('#tt').datagrid('getSelected');
 					if(rows!=null){
 						$('#tt').treegrid('endEdit', rows.menuId);
@@ -127,7 +146,7 @@
 				        	  if(data.result.flag==FLAG_SUCCESS){
 				        		  $.messager.alert('Success','保存成功！');
 				        	  }else{
-				        		  $.messager.alert('FAILURE','保存失败！');
+				        		  $.messager.alert('FAILURE','保存失败！'+  data.result.msg);
 				        	  }
 				          }  
 					});
@@ -138,6 +157,13 @@
 				disabled:true,
 				iconCls:'myicon-delete',
 				handler:function(){
+					validateSessionIsNull();
+					if(!valiMenu("menu/menu!deleteMenu")){
+						
+						$.messager.alert('Success','您无权执行该操作!');
+
+						return;
+					}
 					$.messager.confirm('Confirm','确认要删除选中数据？',function(r){   
 						if (r){   
 							var row = $('#tt').datagrid('getSelected');
@@ -155,7 +181,7 @@
 						          		$.messager.alert('Success','删除成功！');
 						          		$('#delBtn').linkbutton('disable');
 						          		$('#editBtn').linkbutton('disable');
-					         		}else if(data.result.flag==FLAG_FAILURE){
+					         		}else {
 					         			$.messager.alert('Success','删除失败！'+data.result.msg);
 					         		}		
 								}  
@@ -204,6 +230,7 @@
 				text:'确定',
 				iconCls:'icon-ok',
 				handler:function(){
+					validateSessionIsNull();
 					var v = $('#gread').combobox('getValue');
 					
 					if(v==1){

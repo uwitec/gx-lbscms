@@ -25,10 +25,19 @@ $(function(){
 		autoRowHeight: false,
 		striped: true,
 		singleSelect:true,
+		fitColumns:true,  
 		toolbar: '#tb',
 		url:ctx+'/poshis/poshis!list',
 		onOpen:function(){
 			//$('#test').datagrid('load');
+		},
+		onLoadError:function(){
+			$.messager.alert('Error','加载数据失败!,或登录超时！请重新登录，如问题仍未解决请联系管理员!','error',function(){
+				 top.location.href=ctx+"/index.jsp";  
+			});
+		},
+		onLoadSuccess:function(data){
+			//alert(data);
 		},
 		sortName: 'id',
 		sortOrder: 'desc',
@@ -38,15 +47,20 @@ $(function(){
 			//alert(1);
 		},
 		columns:[[
-				{field:'mdn',title:'号码'},
-				{field:'respResult',title:'结果'},
-				{field:'respCode',title:'结果码'},
+				{field:'mdn',title:'号码',width:120},
+				{field:'respResult',title:'结果',width:120},
+				{field:'respCode',title:'结果码',width:120},
 				
-				{field:'cellLac',title:'CellLac'},
-				{field:'cellCi',title:'CellCi'},
-				{field:'jindu',title:'经度'},
-				{field:'weidu',title:'纬度'},
-				{field:'reqTime',title:'时间'},
+				{field:'cellLac',title:'CellLac',width:120},
+				{field:'cellCi',title:'CellCi',width:120},
+				{field:'jindu',title:'经度',width:120},
+				{field:'weidu',title:'纬度',width:120},
+				{field:'reqTime',title:'时间',						formatter:function(value,rec){
+					  var ctime =rec.reqTime;
+					  ctime = ctime.replace(new RegExp("T","gm")," ");
+					  return ctime;
+					}},
+				
 				{field:'userName',title:'企业名称'},
 				{field:'loginName',title:'登录账号'},
 				{field:'respMemo',title:'备注'},
