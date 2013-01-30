@@ -1,0 +1,29 @@
+*{ margin:0; padding:0;}
+body{ font-size:12px; color:#000;}
+.page{ width:940px; margin:0 auto;}
+h1,h2,h3{ font-size:14px;}
+ul li{list-style:none;}
+a{ text-decoration:none; color:#000;}
+.clear{ clear:both; width:100%; height:0; overflow:hidden;}
+img{ border:none;}
+
+
+.login{background:url(../images/bg_body.jpg) repeat-x; height:613px;}
+.main{width:726px; margin:0 auto;}
+.xinxi{background:url(../images/top2.jpg) no-repeat; height:125px; padding-top:80px;}
+.xinxi_l{width:240px; float:left; margin-left:225px;}
+.xinxi_r{width:68px;  float:right; margin-right:156px;}
+.xinxi_ll{width:70px; float:left; text-align:right; font-size:14px; color:#92bfed; line-height:36px;}
+.xinxi_lr{width:160px; float:right; line-height:36px;}
+.xinxi_lr p{margin-bottom:7px;}
+.xinxi_lr p img{vertical-align:middle; margin-left:10px;}
+.xinxi_lr input{line-height:26px; vertical-align:middle; height:26px;}
+
+
+.top{background:url(../images/bg_t.jpg) repeat-x;  }
+.header{background:url(../images/top.jpg) no-repeat right;  }
+.name{padding-top:30px; padding-left:50px;}
+.info{float:right; margin-right:100px; height:20px; line-height:20px;}
+.info img{margin-right:10px; margin-left:10px; vertical-align:middle;}
+.info a{color:#FFF; cursor:pointer; margin-right:10px;}
+.info a:hover{text-decoration:underline; color:#FF0;}
