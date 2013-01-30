@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="${ctx }/jquery-easyui/src/jquery.parser.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css">
+	<script type="text/javascript" src="${ctx }/js/util.js"></script>
 	<script>
 	
 	if(userId==null||userId==''){
@@ -34,56 +36,46 @@
 			    }
 			}
 			 $.post(ctx+"/menu/menu!findMenuByUserId.action", {
-			 	}, function(json) {  
+			 	}, function(data1) {  
+			 		var json = $.parseJSON(data1);
+			 		
 			 		$('#tree').tree({  
                         //parent : node.target,  
+                        //dataType:"json",
                         animate:true,  
                         data : json.treeList,
                        	
                         onClick: function(node){
+                        	$.ajax({  
+								type : "post",  
+								  url:ctx+"/login/other!isSessionNull",
+					         	async : false,  
+					         	success : function(data1){  
+					         		var data = $.parseJSON(data1);
+					         		
+					         		if(data.result.flag==2){
+					         			$.messager.alert('Success','登录超时，请重新登录!','error',function(){
+					         				top.location.href=ctx+"/index.jsp";
+					         			});
+					         			return;
+					         			//	
+					         		}	
+								}  
+							});  
+                        	
+                        	
+                        	
                         	$(this).tree('toggle', node.target);
                         	if(node.attributes){
                         		addTab(node.text,ctx+"/"+node.attributes);
                         	}
                             //$(this).tree('toggle', node.target);
                            //alert('you dbclick '+node.text);
-                        },onResize:function(){
-                        	alert(1);
                         }
                         
                     });  
 			 });
-			$('#tt2').datagrid({
-				title:'My Title',
-				iconCls:'icon-save',
-				width:600,
-				height:350,
-				nowrap: false,
-				striped: true,
-				fit: true,
-				url:'datagrid_data.json',
-				sortName: 'code',
-				sortOrder: 'desc',
-				idField:'code',
-				frozenColumns:[[
-	                {field:'ck',checkbox:true},
-	                {title:'code',field:'code',width:80,sortable:true}
-				]],
-				columns:[[
-			        {title:'Base Information',colspan:3},
-					{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
-						formatter:function(value,rec){
-							return '<span style="color:red">Edit Delete</span>';
-						}
-					}
-				],[
-					{field:'name',title:'Name',width:120},
-					{field:'addr',title:'Address',width:120,rowspan:2,sortable:true},
-					{field:'col4',title:'Col41',width:150,rowspan:2}
-				]],
-				pagination:true,
-				rownumbers:true
-			});
+
 			$('#pwd-update').dialog({
 				autoOpen: false ,
 				modal:true,
@@ -102,8 +94,9 @@
 					        onSubmit: function(){
 					              return $(this).form("validate");
 					        },
-					        success:function(data){
-					        	var datas = eval("("+data+")");
+					        success:function(data1){
+					        	var datas = $.parseJSON(data1);
+					        	//var datas = eval("("+data+")");
 					        	if(datas.result.flag==FLAG_SUCCESS){
 					        		$.messager.alert('Success','修改成功！');
 					        		
@@ -150,9 +143,16 @@
 					          url : ctx+"/login/other!validatePwd.action",  
 					          data : "queryVO.oldPwd="+value,  
 					          async : false,  
-					          success : function(data){  
-					        	  
-					        	  if(data.result.flag==3){
+					          success : function(data1){  
+					        	  var data = $.parseJSON(data1);
+					        	  if(data.result.flag==4){
+					        		  $.messager.alert('Success','登录超时，请重新登录！','error',function(){
+					        			  top.location.href=ctx+"/index.jsp";  
+					        		  });
+					        		  
+					        	  }else if(data.result.flag==2){
+					        		  $.messager.alert('Error',data.result.msg);
+					        	  }else if(data.result.flag==3){
 					        		  bl = false;
 					        	  }else{
 					        		  bl= true;
@@ -171,21 +171,24 @@
 	</script>
 </head>
 <body class="easyui-layout">
-	<div data-options="region:'north',split:true" title="广西LBS后台管理系统" style="height:100px;padding:10px;text-align: right;">
-		
-		<a href="${ctx }/login/login!logout.action">退出</a>   <a id="updatePwdBtn" href="#">修改密码</a>
+	<div data-options="region:'north',split:true" class="top" style="height: 100px" >
+		    <div class="header">
+      <p class="name"><img src="${ctx }/images/name.png" /><p>
+      <p class="info"><img src="${ctx }/images/ico1.png"><a href="${ctx }/login/login!logout.action">退出</a><img src="images/ico2.png" /><a href="#" id="updatePwdBtn">修改密码</a></p> 
+    </div>
+
 	</div>
 
-	<div id="tree" data-options="region:'west',iconCls:'icon-reload',split:true" title="导航栏" style="width:180px;">
+	<div id="tree" data-options="region:'west',iconCls:'icon-reload',split:true" title="导航栏" style="width:180px;background-color: #e9f2ff">
 		<!-- <ul class="easyui-tree" data-options="url:'tree_data.json'"></ul> -->
 		<ul class="easyui-tree" ></ul>
 	</div>
-	<div data-options="region:'south',split:true" style="height:30px;background:#fafafa;margin-left: auto;margin-right: auto;text-align: center;">CopyRight ©  北京无限盛元通迅有限公司 all rights reserved. </div>
+	<div data-options="region:'south',split:true" style="height:30px;background:#fafafa;margin-left: auto;margin-right: auto;text-align: center;">Copyright © 中国联合网络通信有限公司广西分公司 All Rights Reserved</div>
 	<div id="center" data-options="region:'center',border:false"  style="overflow:hidden;">
 		<div class="easyui-tabs" id="tabs" data-options="fit:true,border:false">
-			<div title="欢迎登录" style="padding:20px;overflow:hidden;"> 
-				<div style="margin-top:20px;">
-					<h3>欢迎登录LBS后台管理系统!</h3>
+			<div title="欢迎登录" style="padding:20px;overflow:hidden;background-color: #e9f2ff"> 
+				<div style="margin-top:20px;background-color: #e9f2ff">
+					<h3>尊敬的<font color="red"><%=session.getAttribute(AuthenticationUtil.ACCOUNT_SESSION_KEY) %></font>欢迎登录LBS后台管理系统!</h3>
 					<!-- <ul>
 						<li>easyui is a collection of user-interface plugin based on jQuery.</li> 
 						<li>using easyui you don't write many javascript code, instead you defines user-interface by writing some HTML markup.</li> 
