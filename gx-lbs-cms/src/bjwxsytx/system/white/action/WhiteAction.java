@@ -274,6 +274,7 @@ public class WhiteAction extends BaseAction {
 				queryVO = new QueryVO();
 			}
 			queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+			queryVO.setGroupUserFlag(AuthenticationUtil.getGroupUserFlag(this.getSessionMap()));
 			this.whiteService.findWhiteMdn(page, queryVO);
 			this.total = page.getTotalCount();
 //			this.rows = page.getList();
@@ -332,8 +333,8 @@ public class WhiteAction extends BaseAction {
 	public String findAllUserWhenAddWhiteMdn() throws Exception{
 		String userId = AuthenticationUtil.getCurrentUserId(this.getSessionMap());
 		System.out.println("@@findAllUserWhenAddWhiteMdn@@userId:"+userId);
-		
-		this.setSysUserList(whiteService.findAllUserWhenAddWhiteMdn(Long.parseLong(userId)));
+		String groupUserFlag = AuthenticationUtil.getGroupUserFlag(this.getSessionMap());
+		this.setSysUserList(whiteService.findAllUserWhenAddWhiteMdn(Long.parseLong(userId),groupUserFlag));
 		return SUCCESS;
 	}
 	

@@ -96,10 +96,10 @@ function ajaxFileUpload()
             	//alert(obj.result.flag);
             	//eval( "data = " + data );
             	if(obj.result.flag = 1){
-            		$.messager.alert('Success','上传成功！'+obj.result.msg);
+            		$.messager.alert('Success','处理成功！'+obj.result.msg);
             		$('#test').datagrid('reload');
             	}else{
-            		$.messager.alert('Success','上传失败！');
+            		$.messager.alert('Success','处理失败！');
             	}
             },
             error: function (data, status, e){

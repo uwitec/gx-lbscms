@@ -6,18 +6,7 @@ public class QueryVO {
 	private String reqTime;
 	private String beginTime;
 	private String endTime;
-	public String getBeginTime() {
-		return beginTime;
-	}
-	public void setBeginTime(String beginTime) {
-		this.beginTime = beginTime;
-	}
-	public String getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
+	
 	private Boolean respResult;
 	private String respCode;
 	private String respMemo;
@@ -30,6 +19,22 @@ public class QueryVO {
 	private Long userId;
 	private Long id;
 	private String result;
+	private String groupUserFlag; // 0:cms管理员；1：企业定位用户
+	
+	
+	public String getBeginTime() {
+		return beginTime;
+	}
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	
 	public String getResult() {
 		return result;
 	}
@@ -113,6 +118,12 @@ public class QueryVO {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getGroupUserFlag() {
+		return groupUserFlag;
+	}
+	public void setGroupUserFlag(String groupUserFlag) {
+		this.groupUserFlag = groupUserFlag;
 	}
 	
 	

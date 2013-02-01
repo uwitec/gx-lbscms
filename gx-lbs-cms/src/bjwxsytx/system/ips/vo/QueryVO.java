@@ -12,6 +12,11 @@ package bjwxsytx.system.ips.vo;
 public class QueryVO {
 	private Long id;
 	private Long reId;
+	
+	private String groupUserFlag; // 0:cms管理员；1：企业定位用户
+	
+	
+	
 	public Long getReId() {
 		return reId;
 	}
@@ -71,6 +76,14 @@ public class QueryVO {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getGroupUserFlag() {
+		return groupUserFlag;
+	}
+
+	public void setGroupUserFlag(String groupUserFlag) {
+		this.groupUserFlag = groupUserFlag;
 	}
 	
 }

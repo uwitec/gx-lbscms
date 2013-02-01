@@ -75,6 +75,8 @@ public class AuthenticationAction extends BaseAction {
 		AuthenticationUtil.setCurrentUserName(getSessionMap(), user.getUserName());
 		AuthenticationUtil.setCurrentUserAccount(getSessionMap(), user.getLoginName());
 		AuthenticationUtil.setCurrentUserId(getSessionMap(), user.getUserId().toString());
+//		0:CMS管理员用户;1:EC/SI定位企业
+		AuthenticationUtil.setGroupUserFlag(getSessionMap(), user.getGroupUserFlag().toString());
 		//获取用户权限信息
 		List<SysMenu> list = menuService.findMenuByUserId(user.getUserId());
 		//System.out.println(roleMenuList.size());

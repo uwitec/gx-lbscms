@@ -74,6 +74,7 @@ public class PoshisAction extends BaseAction {
 				}
 			}
 			queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+			queryVO.setGroupUserFlag(AuthenticationUtil.getGroupUserFlag(this.getSessionMap()));
 			//System.out.println(queryVO.getLoginName());
 			this.poshisService.list(page, queryVO);
 			this.total = page.getTotalCount();

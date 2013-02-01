@@ -31,6 +31,9 @@
 				    }
 				 }
 			var optFlag="";
+//============================================================
+//			添加，修改 用户 弹出框 start
+//============================================================
 			$('#user-add').dialog({
 				autoOpen: false ,
 				modal:true,
@@ -114,6 +117,7 @@
 			                    "sysUserRole.id":json.sysUserRole.id
 			                 });
 							$('#roleCombobox').combobox('setValue',json.sysUserRole.roleId);
+							$('#groupUserFlagCombobox').combobox('setValue',json.sysUser.groupUserFlag);
 						});
 
 					}
@@ -164,7 +168,9 @@
 					}
 				}]
 			});
-
+//============================================================
+//	添加，修改 用户 弹出框 end
+//============================================================	
 			
 			
 			function btnDisplay(rowIndex, rowData){
@@ -472,6 +478,15 @@
                         <input type="hidden"  name="sysUserRole.id">
                     </td>  
                 </tr>  
+                <tr>  
+                <td>用户类型:</td>  
+                    <td>
+                        <select id="groupUserFlagCombobox" class="easyui-combobox" name="sysUser.groupUserFlag" data-options="required:true">
+                        	<option value="0">管理员</option>
+                        	<option value="1">定位企业</option>
+                        </select>
+                    </td>  
+                </tr>                  
             </table>  
         </form>  
         </div>  
