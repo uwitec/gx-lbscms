@@ -1,0 +1,54 @@
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (2, 1, '13223239996', to_date('14-01-2013 02:59:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '本地数据库未存此基站信息', '1878', '10326', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (6, 1, '13223239996', to_date('14-01-2013 03:01:51', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站经纬值','1878','40326', '103.2201', '22.0888', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (13, 1, '13223239991', to_date('14-01-2013 10:37:34', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值','20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (16, 1, '13223239992', to_date('14-01-2013 10:39:11', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值','20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (22, 1, '13223239993', to_date('14-01-2013 10:43:42', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null,null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (23, 1, '13223239994', to_date('14-01-2013 10:47:00', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '2561,用户目前不可到达',null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (3, 1, '13223239996', to_date('14-01-2013 02:59:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '本地数据库未存此基站信息', '1878', '10326', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (7, 1, '13223239996', to_date('14-01-2013 03:01:55', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站经纬值', '1878','40326', '103.2201', '22.0888', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (15, 1, '13223239996', to_date('14-01-2013 10:39:11', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值','20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (19, 1, '13223239996', to_date('14-01-2013 10:41:28', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '2560,本地数据库未存此基站信息', '0', '0', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (4, 1, '13223239996', to_date('14-01-2013 02:59:34', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '本地数据库未存此基站信息', '1878', '40326', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (5, 1, '13223239996', to_date('14-01-2013 03:01:44', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站经纬值', '1878','40326', '103.2201', '22.0888', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (10, 1, '13223239996', to_date('14-01-2013 10:24:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null,null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (21, 1, '13223239996', to_date('14-01-2013 10:43:42', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null,null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (25, 1, '13223239996', to_date('14-01-2013 10:47:00', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '2561,用户目前不可到达',null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (26, 1, '13760650000', to_date('14-01-2013 10:50:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '109', '非白名单,禁止定位',null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (8, 1, '13223239996', to_date('14-01-2013 10:24:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null,null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (11, 1, '13223239996', to_date('14-01-2013 10:37:34', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值','20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (18, 1, '13223239996', to_date('14-01-2013 10:41:28', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '2560,本地数据库未存此基站信息', '0', '0', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (24, 1, '13223239996', to_date('14-01-2013 10:47:00', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '2561,用户目前不可到达',null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (27, 1, '13760650000', to_date('14-01-2013 10:50:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '109', '非白名单,禁止定位',null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (28, 1, '13760650000', to_date('14-01-2013 10:50:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '109', '非白名单,禁止定位',null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (9, 1, '13223239996', to_date('14-01-2013 10:24:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null,null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (12, 1, '13223239996', to_date('14-01-2013 10:37:34', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值','20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (14, 1, '13223239996', to_date('14-01-2013 10:39:11', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值','20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (17, 1, '13223239996', to_date('14-01-2013 10:41:28', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '2560,本地数据库未存此基站信息', '0', '0', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU,MEMO1, MEMO2, FLAG1, FLAG2)
+values (20, 1, '13223239996', to_date('14-01-2013 10:43:42', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null,null, null, null, null, null, null, null);

@@ -1,0 +1,22 @@
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (265, 'b', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (264, 'a', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (266, 'c', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (267, 'd', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (284, '1', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (1, '管理员', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (285, '2', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (286, '3', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (288, '1', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (290, '1', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (292, '1', null, null);

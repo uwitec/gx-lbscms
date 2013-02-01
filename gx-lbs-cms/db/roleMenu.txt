@@ -1,0 +1,150 @@
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1005, 267, 10);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1006, 267, 7);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1007, 267, 11);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1008, 267, 12);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1009, 267, 140);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1010, 267, 160);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1011, 267, 161);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1012, 267, 162);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (954, 264, 1);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (955, 264, 3);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (956, 264, 8);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (957, 264, 10);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (958, 264, 5);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (959, 264, 16);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (960, 264, 17);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (961, 264, 18);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (962, 264, 19);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (963, 264, 20);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (964, 264, 21);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (965, 264, 121);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (966, 264, 2);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (967, 264, 6);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (968, 264, 22);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (969, 264, 23);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (970, 264, 24);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (971, 264, 25);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (972, 264, 26);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (973, 264, 100);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (974, 264, 120);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (975, 264, 122);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (976, 264, 140);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (977, 264, 160);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (978, 264, 161);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (979, 264, 162);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (980, 264, 163);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (981, 264, 164);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (982, 264, 180);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1616, 1, 122);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1617, 1, 140);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1618, 1, 160);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1619, 1, 161);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1620, 1, 162);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1586, 1, 1);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1587, 1, 3);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1588, 1, 8);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1589, 1, 9);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1590, 1, 10);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1621, 1, 163);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1622, 1, 164);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1623, 1, 180);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1591, 1, 7);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1592, 1, 4);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1593, 1, 11);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1594, 1, 12);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1595, 1, 13);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1596, 1, 14);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1597, 1, 15);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1598, 1, 5);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1599, 1, 16);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1600, 1, 17);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1601, 1, 18);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1602, 1, 19);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1603, 1, 20);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1604, 1, 21);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1605, 1, 121);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1606, 1, 181);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1607, 1, 2);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1608, 1, 6);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1609, 1, 22);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1610, 1, 23);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1611, 1, 24);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1612, 1, 25);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1613, 1, 26);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1614, 1, 100);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1615, 1, 120);

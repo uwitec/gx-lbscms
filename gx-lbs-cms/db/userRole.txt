@@ -1,0 +1,16 @@
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (170, 241, 264);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (169, 240, 264);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (104, 1, 1);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (171, 242, 264);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (172, 243, 265);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (173, 244, 265);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (174, 245, 265);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (127, 198, 241);
