@@ -1,0 +1,400 @@
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1042, 235, 1709);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1043, 235, 1710);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1044, 236, 1711);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1081, 1, 1736);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (551, 1, 1228);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (553, 1, 1230);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (557, 1, 1234);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (559, 1, 1236);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (562, 1, 1239);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (566, 1, 1243);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (568, 1, 1245);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (570, 1, 1247);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (573, 1, 1250);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (575, 1, 1252);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (577, 1, 1254);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (579, 1, 1256);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (581, 1, 1258);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (583, 1, 1260);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (585, 1, 1262);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (587, 1, 1264);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (589, 1, 1266);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (591, 1, 1268);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (593, 1, 1270);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (595, 1, 1272);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (597, 1, 1274);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (599, 1, 1276);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (601, 1, 1278);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (603, 1, 1280);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (605, 1, 1282);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (608, 1, 1285);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (610, 1, 1287);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (612, 1, 1289);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (614, 1, 1291);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (616, 1, 1293);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (618, 1, 1295);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (620, 1, 1297);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (622, 1, 1299);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (624, 1, 1301);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (626, 1, 1303);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (628, 1, 1305);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (630, 1, 1307);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (633, 1, 1310);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (636, 1, 1313);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (642, 1, 1319);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (645, 1, 1322);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (650, 1, 1327);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (654, 1, 1331);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (656, 1, 1333);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (659, 1, 1336);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (661, 1, 1338);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (666, 1, 1343);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (668, 1, 1345);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (670, 1, 1347);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (673, 1, 1350);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (679, 1, 1356);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (681, 1, 1358);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (683, 1, 1360);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (685, 1, 1362);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (687, 1, 1364);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (689, 1, 1366);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (691, 1, 1368);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (693, 1, 1370);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (696, 1, 1373);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (698, 1, 1375);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (700, 1, 1377);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (702, 1, 1379);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (704, 1, 1381);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (706, 1, 1383);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (708, 1, 1385);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (710, 1, 1387);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (712, 1, 1389);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (715, 1, 1392);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (717, 1, 1394);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (725, 1, 1402);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (734, 1, 1411);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (736, 1, 1413);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (738, 1, 1415);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (740, 1, 1417);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (743, 1, 1420);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (745, 1, 1422);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (747, 1, 1424);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (749, 1, 1426);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (751, 1, 1428);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (753, 1, 1430);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (755, 1, 1432);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (757, 1, 1434);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (759, 1, 1436);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (761, 1, 1438);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (763, 1, 1440);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (765, 1, 1442);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (767, 1, 1444);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (769, 1, 1446);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (771, 1, 1448);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (773, 1, 1450);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (775, 1, 1452);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (777, 1, 1454);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (779, 1, 1456);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (781, 1, 1458);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (783, 1, 1460);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (785, 1, 1462);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (787, 1, 1464);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (789, 1, 1466);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (794, 1, 1471);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (799, 1, 1476);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (801, 1, 1478);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (805, 1, 1482);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (808, 1, 1485);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (812, 1, 1489);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (815, 1, 1492);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (818, 1, 1495);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (820, 1, 1497);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (822, 1, 1499);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (824, 1, 1501);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (826, 1, 1503);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (828, 1, 1505);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (830, 1, 1507);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (832, 1, 1509);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (834, 1, 1511);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (836, 1, 1513);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (838, 1, 1515);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (840, 1, 1517);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (842, 1, 1519);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (844, 1, 1521);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (846, 1, 1523);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (849, 1, 1526);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (851, 1, 1528);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (853, 1, 1530);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (856, 1, 1533);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (858, 1, 1535);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (860, 1, 1537);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (863, 1, 1540);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (865, 1, 1542);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (867, 1, 1544);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (869, 1, 1546);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (871, 1, 1548);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (873, 1, 1550);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (876, 1, 1553);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (878, 1, 1555);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (881, 1, 1558);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (883, 1, 1560);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (886, 1, 1563);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (888, 1, 1565);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (890, 1, 1567);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (892, 1, 1569);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (894, 1, 1571);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (897, 1, 1574);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (899, 1, 1576);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (902, 1, 1579);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (904, 1, 1581);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (906, 1, 1583);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (908, 1, 1585);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (910, 1, 1587);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (912, 1, 1589);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (914, 1, 1591);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (916, 1, 1593);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (918, 1, 1595);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (920, 1, 1597);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (922, 1, 1599);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (924, 1, 1601);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (926, 1, 1603);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (928, 1, 1605);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (930, 1, 1607);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (932, 1, 1609);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (934, 1, 1611);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (936, 1, 1613);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (938, 1, 1615);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (940, 1, 1617);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (942, 1, 1619);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (944, 1, 1621);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (947, 1, 1624);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (950, 1, 1627);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (952, 1, 1629);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (954, 1, 1631);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (956, 1, 1633);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (958, 1, 1635);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (960, 1, 1637);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (962, 1, 1639);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (964, 1, 1641);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (966, 1, 1643);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (970, 1, 1647);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (972, 1, 1649);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (974, 1, 1651);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (976, 1, 1653);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (979, 1, 1656);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (981, 1, 1658);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (984, 1, 1661);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (987, 1, 1664);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (989, 1, 1666);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (991, 1, 1668);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (994, 1, 1671);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (997, 1, 1674);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1000, 1, 1677);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1002, 1, 1679);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1004, 1, 1681);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1007, 1, 1684);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1009, 1, 1686);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1011, 1, 1688);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1014, 1, 1691);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1016, 1, 1693);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1018, 1, 1695);

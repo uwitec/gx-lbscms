@@ -1,0 +1,22 @@
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (41, 1, 36);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (43, 196, 38);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (44, 198, 39);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (48, 1, 43);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (65, 236, 50);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (68, 1, 53);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (46, 1, 41);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (42, 196, 37);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (45, 1, 40);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (47, 1, 42);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (49, 1, 44);

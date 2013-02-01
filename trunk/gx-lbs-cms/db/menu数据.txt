@@ -1,0 +1,76 @@
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (8, '用户列表', 'user/list', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (9, '删除用户', 'user/user!deleteUser.action', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (10, '跟据ID查询用户', 'user/user!findUserById.action', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (11, '添加用户时查角色', 'role/findRole', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (12, '删除角色', 'role/role!deleteRole', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (13, '跟据角色ID查询所属菜单ID', 'role/role!findRoleMenuByRoleId', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (1, '系统管理', 'menu/menu!findMenuByUserId.action', 0, 1, '1', 1, '1', 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (2, '白名单管理', null, 0, null, null, null, null, 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (3, '用户管理', 'user/userListPage', 1, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (4, '角色管理', 'role/roleListPage', 1, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (5, '菜单管理', 'menu/menuListPage', 1, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (6, '系统白名单管理', 'userWhite/userWhiteListPage', 2, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (7, '添加用户', 'user/saveUser', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (14, '添加角色', 'role/role!saveRole', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (15, '角色管理列表', 'role/role!list', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (16, '跟据登录用户查菜单', 'menu/menu!findMenuByUserId.action', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (17, '角色用查全部菜单', 'menu/menu!findAllMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (18, '菜单列表', 'menu/menu!list', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (19, '添加菜单', 'menu/menu!saveMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (20, '修改菜单', 'menu/menu!updateMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (21, '删除菜单', 'menu/menu!deleteMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (22, '删除白名单号码', 'userWhite/userWhite!deleteWhiteMdn.action', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (23, '白名单列表', 'userWhite/list', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (24, '添加白名单', 'userWhite/saveWhiteMdn', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (25, '检验白名单号码是否存在', 'userWhite/userWhite!isWhiteMdnExist.action', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (26, '查找所有企业账号', 'userWhite/findAllUserWhenAddWhiteMdn', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (100, '上传白名单', 'userWhite/uploadWhiteMdn', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (120, 'IP账号管理', null, 0, null, null, null, null, 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (140, 'IPS列表', 'ips/ips!list', 122, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (160, '添加IPS', 'ips/ips!save', 122, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (161, '跟据ID查找IPS', 'ips/ips!findCellIps', 122, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (163, '定位历史', null, 0, null, null, null, null, 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (164, '定位查询', 'poshis/poshisListPage', 163, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (180, '定位查询列表', 'poshis/poshis!list', 164, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (121, '查1、2级菜单', 'menu/menu!findMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (122, 'IP账号管理', 'ips/ipsListPage', 120, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (181, '跟据登录ID查所有权限', 'menu/menu!findAllMenuByUserId.action', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (162, '删除IPS', 'ips/ips!delete', 122, null, null, null, null, 0, 3);
