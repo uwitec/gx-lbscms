@@ -26,11 +26,11 @@ public class WhiteDAO extends CommonDAO<TCellWhite>{
 		if(!BlankUtil.isBlank(queryVO)){
 			
 			params = new ArrayList();
-			if(queryVO.getUserId().intValue()!=1){
+			if(queryVO.getGroupUserFlag().equals("1")){ // 是定位用户，则查企业自己的白名单
 				params.add(queryVO.getUserId());
 				where.append(" and su.userId = ? and su.userId = suw.userId");
 			
-			}else{
+			}else{ // 是管理员用户，可以查所有白名单
 				where.append(" and su.userId = suw.userId ");
 			}
 			

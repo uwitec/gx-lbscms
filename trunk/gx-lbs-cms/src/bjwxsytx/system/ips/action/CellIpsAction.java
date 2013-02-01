@@ -123,6 +123,7 @@ public class CellIpsAction extends BaseAction {
 				queryVO = new QueryVO();
 			}
 			queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
+			queryVO.setGroupUserFlag(AuthenticationUtil.getGroupUserFlag(this.getSessionMap()));
 			this.cellIpsService.list(page, queryVO);
 			this.total = page.getTotalCount();
 			List tempList = page.getList();

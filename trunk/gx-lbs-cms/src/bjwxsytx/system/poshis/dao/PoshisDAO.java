@@ -19,11 +19,13 @@ public Page list(Page page,QueryVO queryVO){
 		StringBuffer where = new StringBuffer();
 		params = new ArrayList();
 		if(queryVO!=null){
-			if(queryVO.getUserId().intValue()!=1){
+//			if(queryVO.getUserId().intValue()!=1){
+			if("0".equals(queryVO.getGroupUserFlag())){ // CMS 管理员用户
+				where.append(" and th.userId = su.userId ");
+			}else{  // 定位企业用户
 				params.add(queryVO.getUserId());
 				where.append(" and th.userId = ? and th.userId = su.userId ");
-			}else{
-				where.append(" and th.userId = su.userId ");
+				
 			}
 			if(!BlankUtil.isBlank(queryVO.getMdn())){
 				params.add('%' +queryVO.getMdn().trim() + '%');

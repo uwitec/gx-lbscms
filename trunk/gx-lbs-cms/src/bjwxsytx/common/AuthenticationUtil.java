@@ -32,6 +32,25 @@ public class AuthenticationUtil {
 	static final public String ID_SESSION_KEY = "currentUserId";
 	
 	static final public String AUTHENTICATION_URL = "authenticationUrl";
+	
+	/**
+	 * 0:CMS管理员用户;1:EC/SI定位企业
+	 */
+	static final public String GROUP_USER_FLAG = "groupUserFlag";
+	
+	@SuppressWarnings("unchecked")
+	static public String getGroupUserFlag(Map session) {
+		return (String) session.get(GROUP_USER_FLAG);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	static public void setGroupUserFlag(Map session, String account) {
+		session.put(GROUP_USER_FLAG, account);
+
+	}
+
+	
 
 	@SuppressWarnings("unchecked")
 	static public String getCurrentUserAccount(Map session) {

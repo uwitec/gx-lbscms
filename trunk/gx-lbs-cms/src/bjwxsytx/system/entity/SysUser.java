@@ -22,7 +22,7 @@ public class SysUser implements java.io.Serializable {
 	private Long creatorId;
 	private Boolean isDel;
 	private Date createTime;
-	private Boolean groupuserFlag;
+	private Long groupUserFlag; //0:CMS管理员用户;1:EC/SI定位企业
 	private String linkMobile;
 
 	// Constructors
@@ -35,7 +35,7 @@ public class SysUser implements java.io.Serializable {
 	public SysUser(String loginName, String loginPass, String userName,
 			String tel, String email, String areaId, Long departmentId,
 			Boolean status, Long creatorId, Boolean isDel, Date createTime,
-			Boolean groupuserFlag, String linkMobile) {
+			Long groupuserFlag, String linkMobile) {
 		this.loginName = loginName;
 		this.loginPass = loginPass;
 		this.userName = userName;
@@ -47,7 +47,7 @@ public class SysUser implements java.io.Serializable {
 		this.creatorId = creatorId;
 		this.isDel = isDel;
 		this.createTime = createTime;
-		this.groupuserFlag = groupuserFlag;
+		this.groupUserFlag = groupuserFlag;
 		this.linkMobile = linkMobile;
 	}
 
@@ -149,12 +149,12 @@ public class SysUser implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	public Boolean getGroupuserFlag() {
-		return this.groupuserFlag;
+	public Long getGroupUserFlag() {
+		return this.groupUserFlag;
 	}
 
-	public void setGroupuserFlag(Boolean groupuserFlag) {
-		this.groupuserFlag = groupuserFlag;
+	public void setGroupUserFlag(Long groupUserFlag) {
+		this.groupUserFlag = groupUserFlag;
 	}
 
 	public String getLinkMobile() {
@@ -193,7 +193,7 @@ public class SysUser implements java.io.Serializable {
 		builder.append(", createTime=");
 		builder.append(createTime);
 		builder.append(", groupuserFlag=");
-		builder.append(groupuserFlag);
+		builder.append(groupUserFlag);
 		builder.append(", linkMobile=");
 		builder.append(linkMobile);
 		builder.append("]");

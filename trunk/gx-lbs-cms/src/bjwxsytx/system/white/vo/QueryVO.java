@@ -29,6 +29,8 @@ public class QueryVO {
 	private String endTime;
 	private Long userId;
 	
+	private String groupUserFlag; // 0:cms管理员；1：企业定位用户
+	
 	
 	
 	public Long getUserId() {
@@ -86,6 +88,13 @@ public class QueryVO {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
+	
+	public String getGroupUserFlag() {
+		return groupUserFlag;
+	}
+	public void setGroupUserFlag(String groupUserFlag) {
+		this.groupUserFlag = groupUserFlag;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -95,7 +104,7 @@ public class QueryVO {
 		builder.append(id);
 		builder.append(", loginName=");
 		builder.append(loginName);
-		builder.append(", username=");
+		builder.append(", userName=");
 		builder.append(userName);
 		builder.append(", nickname=");
 		builder.append(nickname);
@@ -109,6 +118,10 @@ public class QueryVO {
 		builder.append(beginTime);
 		builder.append(", endTime=");
 		builder.append(endTime);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", groupUserFlag=");
+		builder.append(groupUserFlag);
 		builder.append("]");
 		return builder.toString();
 	}

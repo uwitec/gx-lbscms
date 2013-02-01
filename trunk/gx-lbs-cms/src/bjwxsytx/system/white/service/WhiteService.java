@@ -68,10 +68,11 @@ public class WhiteService {
 	* Author: chenhui
 	 * @return
 	 */
-	public List<SysUser> findAllUserWhenAddWhiteMdn(Long userId){
+	public List<SysUser> findAllUserWhenAddWhiteMdn(Long userId,String groupUserFlag){
 		Object[]  o = null;
-		if(userId.intValue()==1){
-			return this.userDAO.searchAll("from SysUser su ", o);
+//		if(userId.intValue()==1){
+		if("0".equals(groupUserFlag)){
+			return this.userDAO.searchAll("from SysUser su where su.groupUserFlag=1", o);
 		}else{
 			return this.userDAO.searchAll("from SysUser su where su.userId = ?", new Object[]{userId});
 		}
@@ -89,7 +90,10 @@ public class WhiteService {
 	 * @return
 	 */
 	public boolean isWhiteMdnExist(QueryVO queryVO){
-		List list = this.whiteDAO.searchAll(" from TCellWhite tw ,SysUserWhite suw where suw.userId = ? and tw.id = suw.white and  tw.msisdn = ?  ", new Object[]{queryVO.getUserId(),queryVO.getMdn()});
+//		以下：不同企业可以有自己的白名单，这个需求不存在，所以，下面的关联条件，不必要，改用新的。
+//		List list = this.whiteDAO.searchAll(" from TCellWhite tw ,SysUserWhite suw where suw.userId = ? and tw.id = suw.white and  tw.msisdn = ?  ", new Object[]{queryVO.getUserId(),queryVO.getMdn()});
+//		只需判断，在白名单表，号码是否存在。
+		List list = this.whiteDAO.searchAll(" from TCellWhite tw where tw.msisdn = ?  ", new Object[]{queryVO.getMdn()});
 		if(list.size() ==0 ){
 			return false;
 		}else{

@@ -299,6 +299,7 @@
 				  },
 				exist:{
 					validator:function(value,param){
+						
 						var bl =false;
 						$.ajax({  
 					          type : "post",  
@@ -309,10 +310,19 @@
 					        	  var data = $.parseJSON(data1);
 					           		bl = data.whiteMdnExist;
 					          }  
-						});  
-						return !bl;
+						});
+						var rules = $.fn.validatebox.defaults.rules; 
+						if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(value))){
+						     rules.exist.message = "手机号码不正确！"; 
+                             return false;
+						} 
+						if(bl){
+						     rules.exist.message = "该号码已存在！"; 
+                             return false;
+						}
+						return true;
 					},
-				    message:'该号码已存在'
+				    message:''
 				}
 				
 			});
