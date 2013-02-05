@@ -59,6 +59,7 @@ public class AuthenticationAction extends BaseAction {
 	 * @since wapportal_manager version(2.0)
 	 */
 	public String login() throws Exception  {
+		try{
 		this.result = new Result();
 		
 		SysUser user =userService.login(queryVO);
@@ -83,6 +84,10 @@ public class AuthenticationAction extends BaseAction {
 		//_log.info("role size"+roleMenuList.size());
 		//System.out.println(roleMenuList.size());
 		AuthenticationUtil.setAuthenticationUrl(getSessionMap(), list);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			_log.error("loginException:",ex);
+		}
 		return SUCCESS;
 	}
 	
