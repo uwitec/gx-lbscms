@@ -49,7 +49,8 @@ public Page list(Page page,QueryVO queryVO){
             }
 		}
 		page.setTableName("    TLbsHistory th ,SysUser su  ");
-		
+		page.setSort(" th.id ");
+		page.setDir(" desc ");
 		
 		page.setCondition(where.toString());
 		
