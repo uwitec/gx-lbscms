@@ -1,14 +1,2 @@
 insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (240, 'a', 'a', 'a', null, null, null, null, null, null, null, to_date('28-01-2013 14:52:47', 'dd-mm-yyyy hh24:mi:ss'), null, null);
-insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (241, 'aa', 'a', 'a', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:07', 'dd-mm-yyyy hh24:mi:ss'), null, null);
-insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (242, 'b', 'b', 'b', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:41', 'dd-mm-yyyy hh24:mi:ss'), null, null);
-insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (243, 'c', 'c', 'c', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:22', 'dd-mm-yyyy hh24:mi:ss'), null, null);
-insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (244, 'd', 'd', 'd', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:31', 'dd-mm-yyyy hh24:mi:ss'), null, null);
-insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (245, 'e', 'f', 'f', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:48', 'dd-mm-yyyy hh24:mi:ss'), null, null);
-insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID,IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
-values (1, 'admin', '1', '12321', null, null, null, null, null, null, null, to_date('25-01-2013 15:13:31', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+values (1, 'admin', '1', '12321', null, null, null, null, null, null, null, to_date('25-01-2013 15:13:31', 'dd-mm-yyyy hh24:mi:ss'), 0, null);

@@ -1,0 +1,3548 @@
+prompt PL/SQL Developer import file
+prompt Created on 2013年2月1日 by Administrator
+set feedback off
+set define off
+prompt Creating OPERATOR_LOG...
+create table OPERATOR_LOG
+(
+  LOGID       NUMBER(10) not null,
+  ADMINID     NUMBER(10),
+  AREAID      VARCHAR2(20),
+  OPERTYPE    NUMBER(3),
+  OPERTIME    DATE,
+  OBJECTID    NUMBER(10),
+  OPERFLAG    NUMBER(1),
+  DESCRIPTION VARCHAR2(256)
+)
+;
+alter table OPERATOR_LOG
+  add constraint PK_OPERATOR_LOG primary key (LOGID);
+
+prompt Creating SYS_MENU...
+create table SYS_MENU
+(
+  MENU_ID      NUMBER(18) not null,
+  MENU_NAME    VARCHAR2(80),
+  URL          VARCHAR2(100),
+  PARENT_ID    NUMBER(18),
+  SEQ          NUMBER(18),
+  DESCRIPTION  VARCHAR2(100),
+  DELETE_FLAG  NUMBER(1),
+  JSNAME       VARCHAR2(100),
+  IS_MENU_TREE NUMBER(1),
+  GREAD        NUMBER(1)
+)
+;
+alter table SYS_MENU
+  add constraint PK_SYS_MENU primary key (MENU_ID);
+
+prompt Creating SYS_ROLE...
+create table SYS_ROLE
+(
+  ROLE_ID     NUMBER(18) not null,
+  ROLE_NAME   VARCHAR2(80),
+  DESCRIPTION VARCHAR2(100),
+  ROLE_TYPE   NUMBER(1)
+)
+;
+alter table SYS_ROLE
+  add constraint PK_SYS_ROLE primary key (ROLE_ID);
+
+prompt Creating SYS_ROLE_MENU...
+create table SYS_ROLE_MENU
+(
+  ID      NUMBER(18) not null,
+  ROLE_ID NUMBER(18),
+  MENU_ID NUMBER(18)
+)
+;
+alter table SYS_ROLE_MENU
+  add constraint PK_SYS_ROLE_MENU primary key (ID);
+
+prompt Creating SYS_USER...
+create table SYS_USER
+(
+  USER_ID        NUMBER(18) not null,
+  LOGIN_NAME     VARCHAR2(20),
+  LOGIN_PASS     VARCHAR2(20),
+  USER_NAME      VARCHAR2(100),
+  TEL            VARCHAR2(20),
+  EMAIL          VARCHAR2(30),
+  AREA_ID        VARCHAR2(50),
+  DEPARTMENT_ID  NUMBER(18),
+  STATUS         NUMBER(1),
+  CREATOR_ID     NUMBER(18),
+  IS_DEL         NUMBER(1),
+  CREATE_TIME    DATE,
+  GROUPUSER_FLAG NUMBER(1), --0:CMS管理员用户;1:EC/SI定位企业
+  LINK_MOBILE    VARCHAR2(20)
+)
+;
+alter table SYS_USER
+  add constraint PK_SYS_USER primary key (USER_ID);
+create unique index INDEX_1 on SYS_USER (LOGIN_NAME);
+
+prompt Creating SYS_USER_IPS...
+create table SYS_USER_IPS
+(
+  ID      NUMBER(18) not null,
+  USER_ID NUMBER(18),
+  IPS_ID  NUMBER(18)
+)
+;
+alter table SYS_USER_IPS
+  add constraint PK_SYS_USER_IPS primary key (ID);
+
+prompt Creating SYS_USER_ROLE...
+create table SYS_USER_ROLE
+(
+  ID      NUMBER(18) not null,
+  USER_ID NUMBER(18),
+  ROLE_ID NUMBER(18)
+)
+;
+alter table SYS_USER_ROLE
+  add constraint PK_SYS_USER_ROLE primary key (ID);
+
+prompt Creating SYS_USER_WHITE...
+create table SYS_USER_WHITE
+(
+  ID      NUMBER(18) not null,
+  USER_ID NUMBER(18),
+  WHITE   NUMBER(18)
+)
+;
+alter table SYS_USER_WHITE
+  add constraint PK_SYS_USER_WHITE primary key (ID);
+
+prompt Creating T_CELL_GSM_GX...
+create table T_CELL_GSM_GX
+(
+  ID       NUMBER(18) not null,
+  CELL_LAC VARCHAR2(20) not null,
+  CELL_CI  VARCHAR2(20) not null,
+  CELLX    VARCHAR2(30),
+  CELLY    VARCHAR2(30),
+  CENTER_X VARCHAR2(30),
+  CENTER_Y VARCHAR2(30)
+)
+;
+alter table T_CELL_GSM_GX
+  add constraint PK_T_CELL_GSM_GX primary key (ID);
+
+prompt Creating T_CELL_IPS...
+create table T_CELL_IPS
+(
+  ID       NUMBER(18) not null,
+  IP       VARCHAR2(20) not null,
+  CLIENTID VARCHAR2(15) not null,
+  PASSWORD VARCHAR2(20) not null,
+  MEMO     VARCHAR2(500)
+)
+;
+alter table T_CELL_IPS
+  add constraint PK_T_CELL_IPS primary key (ID);
+
+prompt Creating T_CELL_WCDMA_GX...
+create table T_CELL_WCDMA_GX
+(
+  ID       NUMBER(18) not null,
+  CELL_LAC VARCHAR2(20) not null,
+  CELL_CI  VARCHAR2(20) not null,
+  CELLX    VARCHAR2(30),
+  CELLY    VARCHAR2(30),
+  CENTER_X VARCHAR2(30),
+  CENTER_Y VARCHAR2(30)
+)
+;
+alter table T_CELL_WCDMA_GX
+  add constraint PK_T_CELL_WCDMA_GX primary key (ID);
+
+prompt Creating T_CELL_WHITE...
+create table T_CELL_WHITE
+(
+  ID          NUMBER(18) not null,
+  MSISDN      VARCHAR2(20) not null,
+  MEMO        VARCHAR2(20),
+  CREATE_TIME DATE
+)
+;
+alter table T_CELL_WHITE
+  add constraint PK_T_CELL_WHITE primary key (ID);
+create unique index INDEX_TEL on T_CELL_WHITE (MSISDN);
+
+prompt Creating T_LBS_CONTROL...
+create table T_LBS_CONTROL
+(
+  ID          NUMBER(18) not null,
+  USER_ID     NUMBER(18),
+  EVERYCOUNTS NUMBER(6),
+  HOUR_LENGTH NUMBER(3),
+  MEMO1       VARCHAR2(100),
+  FLAG1       NUMBER(3),
+  UPDATETIME  DATE
+)
+;
+alter table T_LBS_CONTROL
+  add constraint PK_T_LBS_CONTROL primary key (ID);
+
+prompt Creating T_LBS_HISTORY...
+create table T_LBS_HISTORY
+(
+  ID          NUMBER(18) not null,
+  USER_ID     NUMBER(18),
+  MDN         VARCHAR2(20) not null,
+  REQ_TIME    DATE,
+  RESP_RESULT NUMBER(1),
+  RESP_CODE   VARCHAR2(10),
+  RESP_MEMO   VARCHAR2(100),
+  CELL_LAC    VARCHAR2(20),
+  CELL_CI     VARCHAR2(20),
+  JINDU       VARCHAR2(30),
+  WEIDU       VARCHAR2(30),
+  MEMO1       VARCHAR2(100),
+  MEMO2       VARCHAR2(100),
+  FLAG1       NUMBER(3),
+  FLAG2       NUMBER(3)
+)
+;
+alter table T_LBS_HISTORY
+  add constraint PK_T_LBS_HISTORY primary key (ID);
+
+prompt Loading OPERATOR_LOG...
+prompt Table is empty
+prompt Loading SYS_MENU...
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (8, '用户列表', 'user/list', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (9, '删除用户', 'user/user!deleteUser.action', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (10, '跟据ID查询用户', 'user/user!findUserById.action', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (11, '添加用户时查角色', 'role/findRole', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (12, '删除角色', 'role/role!deleteRole', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (13, '跟据角色ID查询所属菜单ID', 'role/role!findRoleMenuByRoleId', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (1, '系统管理', 'menu/menu!findMenuByUserId.action', 0, 1, '1', 1, '1', 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (2, '白名单管理', null, 0, null, null, null, null, 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (3, '用户管理', 'user/userListPage', 1, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (4, '角色管理', 'role/roleListPage', 1, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (5, '菜单管理', 'menu/menuListPage', 1, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (6, '系统白名单管理', 'userWhite/userWhiteListPage', 2, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (7, '添加用户', 'user/saveUser', 3, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (14, '添加角色', 'role/role!saveRole', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (15, '角色管理列表', 'role/role!list', 4, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (16, '跟据登录用户查菜单', 'menu/menu!findMenuByUserId.action', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (17, '角色用查全部菜单', 'menu/menu!findAllMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (18, '菜单列表', 'menu/menu!list', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (19, '添加菜单', 'menu/menu!saveMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (20, '修改菜单', 'menu/menu!updateMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (21, '删除菜单', 'menu/menu!deleteMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (22, '删除白名单号码', 'userWhite/userWhite!deleteWhiteMdn.action', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (23, '白名单列表', 'userWhite/list', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (24, '添加白名单', 'userWhite/saveWhiteMdn', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (25, '检验白名单号码是否存在', 'userWhite/userWhite!isWhiteMdnExist.action', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (26, '查找所有企业账号', 'userWhite/findAllUserWhenAddWhiteMdn', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (100, '上传白名单', 'userWhite/uploadWhiteMdn', 6, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (120, 'IP账号管理', null, 0, null, null, null, null, 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (140, 'IPS列表', 'ips/ips!list', 122, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (160, '添加IPS', 'ips/ips!save', 122, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (161, '跟据ID查找IPS', 'ips/ips!findCellIps', 122, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (163, '定位历史', null, 0, null, null, null, null, 1, 1);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (164, '定位查询', 'poshis/poshisListPage', 163, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (180, '定位查询列表', 'poshis/poshis!list', 164, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (121, '查1、2级菜单', 'menu/menu!findMenu', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (122, 'IP账号管理', 'ips/ipsListPage', 120, null, null, null, null, 1, 2);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (181, '跟据登录ID查所有权限', 'menu/menu!findAllMenuByUserId.action', 5, null, null, null, null, 0, 3);
+insert into SYS_MENU (MENU_ID, MENU_NAME, URL, PARENT_ID, SEQ, DESCRIPTION, DELETE_FLAG, JSNAME, IS_MENU_TREE, GREAD)
+values (162, '删除IPS', 'ips/ips!delete', 122, null, null, null, null, 0, 3);
+commit;
+prompt 38 records loaded
+prompt Loading SYS_ROLE...
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (265, 'b', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (264, 'a', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (266, 'c', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (267, 'd', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (284, '1', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (1, '管理员', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (285, '2', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (286, '3', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (288, '1', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (290, '1', null, null);
+insert into SYS_ROLE (ROLE_ID, ROLE_NAME, DESCRIPTION, ROLE_TYPE)
+values (292, '1', null, null);
+commit;
+prompt 11 records loaded
+prompt Loading SYS_ROLE_MENU...
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1005, 267, 10);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1006, 267, 7);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1007, 267, 11);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1008, 267, 12);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1009, 267, 140);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1010, 267, 160);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1011, 267, 161);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1012, 267, 162);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (954, 264, 1);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (955, 264, 3);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (956, 264, 8);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (957, 264, 10);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (958, 264, 5);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (959, 264, 16);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (960, 264, 17);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (961, 264, 18);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (962, 264, 19);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (963, 264, 20);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (964, 264, 21);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (965, 264, 121);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (966, 264, 2);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (967, 264, 6);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (968, 264, 22);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (969, 264, 23);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (970, 264, 24);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (971, 264, 25);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (972, 264, 26);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (973, 264, 100);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (974, 264, 120);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (975, 264, 122);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (976, 264, 140);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (977, 264, 160);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (978, 264, 161);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (979, 264, 162);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (980, 264, 163);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (981, 264, 164);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (982, 264, 180);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1616, 1, 122);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1617, 1, 140);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1618, 1, 160);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1619, 1, 161);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1620, 1, 162);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1586, 1, 1);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1587, 1, 3);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1588, 1, 8);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1589, 1, 9);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1590, 1, 10);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1621, 1, 163);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1622, 1, 164);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1623, 1, 180);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1591, 1, 7);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1592, 1, 4);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1593, 1, 11);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1594, 1, 12);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1595, 1, 13);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1596, 1, 14);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1597, 1, 15);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1598, 1, 5);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1599, 1, 16);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1600, 1, 17);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1601, 1, 18);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1602, 1, 19);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1603, 1, 20);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1604, 1, 21);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1605, 1, 121);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1606, 1, 181);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1607, 1, 2);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1608, 1, 6);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1609, 1, 22);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1610, 1, 23);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1611, 1, 24);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1612, 1, 25);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1613, 1, 26);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1614, 1, 100);
+insert into SYS_ROLE_MENU (ID, ROLE_ID, MENU_ID)
+values (1615, 1, 120);
+commit;
+prompt 75 records loaded
+prompt Loading SYS_USER...
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (240, 'a', 'a', 'a', null, null, null, null, null, null, null, to_date('28-01-2013 14:52:47', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (241, 'aa', 'a', 'a', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:07', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (242, 'b', 'b', 'b', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:41', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (243, 'c', 'c', 'c', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:22', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (244, 'd', 'd', 'd', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:31', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (245, 'e', 'f', 'f', null, null, null, null, null, null, null, to_date('28-01-2013 14:42:48', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+insert into SYS_USER (USER_ID, LOGIN_NAME, LOGIN_PASS, USER_NAME, TEL, EMAIL, AREA_ID, DEPARTMENT_ID, STATUS, CREATOR_ID, IS_DEL, CREATE_TIME, GROUPUSER_FLAG, LINK_MOBILE)
+values (1, 'admin', '1', '12321', null, null, null, null, null, null, null, to_date('25-01-2013 15:13:31', 'dd-mm-yyyy hh24:mi:ss'), null, null);
+commit;
+prompt 7 records loaded
+prompt Loading SYS_USER_IPS...
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (41, 1, 36);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (43, 196, 38);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (44, 198, 39);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (48, 1, 43);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (65, 236, 50);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (68, 1, 53);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (46, 1, 41);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (42, 196, 37);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (45, 1, 40);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (47, 1, 42);
+insert into SYS_USER_IPS (ID, USER_ID, IPS_ID)
+values (49, 1, 44);
+commit;
+prompt 11 records loaded
+prompt Loading SYS_USER_ROLE...
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (170, 241, 264);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (169, 240, 264);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (104, 1, 1);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (171, 242, 264);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (172, 243, 265);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (173, 244, 265);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (174, 245, 265);
+insert into SYS_USER_ROLE (ID, USER_ID, ROLE_ID)
+values (127, 198, 241);
+commit;
+prompt 8 records loaded
+prompt Loading SYS_USER_WHITE...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1042, 235, 1709);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1043, 235, 1710);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1044, 236, 1711);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1081, 1, 1736);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (551, 1, 1228);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (553, 1, 1230);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (557, 1, 1234);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (559, 1, 1236);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (562, 1, 1239);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (566, 1, 1243);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (568, 1, 1245);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (570, 1, 1247);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (573, 1, 1250);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (575, 1, 1252);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (577, 1, 1254);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (579, 1, 1256);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (581, 1, 1258);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (583, 1, 1260);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (585, 1, 1262);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (587, 1, 1264);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (589, 1, 1266);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (591, 1, 1268);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (593, 1, 1270);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (595, 1, 1272);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (597, 1, 1274);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (599, 1, 1276);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (601, 1, 1278);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (603, 1, 1280);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (605, 1, 1282);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (608, 1, 1285);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (610, 1, 1287);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (612, 1, 1289);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (614, 1, 1291);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (616, 1, 1293);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (618, 1, 1295);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (620, 1, 1297);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (622, 1, 1299);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (624, 1, 1301);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (626, 1, 1303);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (628, 1, 1305);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (630, 1, 1307);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (633, 1, 1310);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (636, 1, 1313);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (642, 1, 1319);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (645, 1, 1322);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (650, 1, 1327);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (654, 1, 1331);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (656, 1, 1333);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (659, 1, 1336);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (661, 1, 1338);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (666, 1, 1343);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (668, 1, 1345);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (670, 1, 1347);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (673, 1, 1350);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (679, 1, 1356);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (681, 1, 1358);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (683, 1, 1360);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (685, 1, 1362);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (687, 1, 1364);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (689, 1, 1366);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (691, 1, 1368);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (693, 1, 1370);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (696, 1, 1373);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (698, 1, 1375);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (700, 1, 1377);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (702, 1, 1379);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (704, 1, 1381);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (706, 1, 1383);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (708, 1, 1385);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (710, 1, 1387);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (712, 1, 1389);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (715, 1, 1392);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (717, 1, 1394);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (725, 1, 1402);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (734, 1, 1411);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (736, 1, 1413);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (738, 1, 1415);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (740, 1, 1417);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (743, 1, 1420);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (745, 1, 1422);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (747, 1, 1424);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (749, 1, 1426);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (751, 1, 1428);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (753, 1, 1430);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (755, 1, 1432);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (757, 1, 1434);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (759, 1, 1436);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (761, 1, 1438);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (763, 1, 1440);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (765, 1, 1442);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (767, 1, 1444);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (769, 1, 1446);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (771, 1, 1448);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (773, 1, 1450);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (775, 1, 1452);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (777, 1, 1454);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (779, 1, 1456);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (781, 1, 1458);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (783, 1, 1460);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (785, 1, 1462);
+commit;
+prompt 100 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (787, 1, 1464);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (789, 1, 1466);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (794, 1, 1471);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (799, 1, 1476);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (801, 1, 1478);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (805, 1, 1482);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (808, 1, 1485);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (812, 1, 1489);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (815, 1, 1492);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (818, 1, 1495);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (820, 1, 1497);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (822, 1, 1499);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (824, 1, 1501);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (826, 1, 1503);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (828, 1, 1505);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (830, 1, 1507);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (832, 1, 1509);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (834, 1, 1511);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (836, 1, 1513);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (838, 1, 1515);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (840, 1, 1517);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (842, 1, 1519);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (844, 1, 1521);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (846, 1, 1523);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (849, 1, 1526);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (851, 1, 1528);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (853, 1, 1530);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (856, 1, 1533);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (858, 1, 1535);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (860, 1, 1537);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (863, 1, 1540);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (865, 1, 1542);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (867, 1, 1544);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (869, 1, 1546);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (871, 1, 1548);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (873, 1, 1550);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (876, 1, 1553);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (878, 1, 1555);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (881, 1, 1558);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (883, 1, 1560);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (886, 1, 1563);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (888, 1, 1565);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (890, 1, 1567);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (892, 1, 1569);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (894, 1, 1571);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (897, 1, 1574);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (899, 1, 1576);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (902, 1, 1579);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (904, 1, 1581);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (906, 1, 1583);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (908, 1, 1585);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (910, 1, 1587);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (912, 1, 1589);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (914, 1, 1591);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (916, 1, 1593);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (918, 1, 1595);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (920, 1, 1597);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (922, 1, 1599);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (924, 1, 1601);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (926, 1, 1603);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (928, 1, 1605);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (930, 1, 1607);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (932, 1, 1609);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (934, 1, 1611);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (936, 1, 1613);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (938, 1, 1615);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (940, 1, 1617);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (942, 1, 1619);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (944, 1, 1621);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (947, 1, 1624);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (950, 1, 1627);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (952, 1, 1629);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (954, 1, 1631);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (956, 1, 1633);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (958, 1, 1635);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (960, 1, 1637);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (962, 1, 1639);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (964, 1, 1641);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (966, 1, 1643);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (970, 1, 1647);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (972, 1, 1649);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (974, 1, 1651);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (976, 1, 1653);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (979, 1, 1656);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (981, 1, 1658);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (984, 1, 1661);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (987, 1, 1664);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (989, 1, 1666);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (991, 1, 1668);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (994, 1, 1671);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (997, 1, 1674);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1000, 1, 1677);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1002, 1, 1679);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1004, 1, 1681);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1007, 1, 1684);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1009, 1, 1686);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1011, 1, 1688);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1014, 1, 1691);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1016, 1, 1693);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1018, 1, 1695);
+commit;
+prompt 200 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1020, 1, 1697);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1022, 1, 1699);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (179, 1, 856);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (181, 1, 858);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (180, 1, 857);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (182, 1, 859);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (183, 1, 860);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (185, 1, 862);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (187, 1, 864);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (188, 1, 865);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (189, 1, 866);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (191, 1, 868);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (193, 1, 870);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (195, 1, 872);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (197, 1, 874);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (199, 1, 876);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (201, 1, 878);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (203, 1, 880);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (205, 1, 882);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (206, 1, 883);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (207, 1, 884);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (208, 1, 885);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (209, 1, 886);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (211, 1, 888);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (213, 1, 890);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (215, 1, 892);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (217, 1, 894);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (219, 1, 896);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (221, 1, 898);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (222, 1, 899);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (224, 1, 901);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (225, 1, 902);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (226, 1, 903);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (227, 1, 904);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (228, 1, 905);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (229, 1, 906);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (230, 1, 907);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (231, 1, 908);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (232, 1, 909);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (233, 1, 910);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (234, 1, 911);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (235, 1, 912);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (236, 1, 913);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (237, 1, 914);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (238, 1, 915);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (239, 1, 916);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (241, 1, 918);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (243, 1, 920);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (244, 1, 921);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (246, 1, 923);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (247, 1, 924);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (248, 1, 925);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (249, 1, 926);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (250, 1, 927);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (252, 1, 929);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (253, 1, 930);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (254, 1, 931);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (255, 1, 932);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (256, 1, 933);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (258, 1, 935);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (259, 1, 936);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (261, 1, 938);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (262, 1, 939);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (263, 1, 940);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (264, 1, 941);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (266, 1, 943);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (267, 1, 944);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (268, 1, 945);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (270, 1, 947);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (272, 1, 949);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (273, 1, 950);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (275, 1, 952);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (277, 1, 954);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (279, 1, 956);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (281, 1, 958);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (283, 1, 960);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (285, 1, 962);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (287, 1, 964);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (289, 1, 966);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (290, 1, 967);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (292, 1, 969);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (294, 1, 971);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (295, 1, 972);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (297, 1, 974);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (299, 1, 976);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (301, 1, 978);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (303, 1, 980);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (305, 1, 982);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (307, 1, 984);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (308, 1, 985);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (310, 1, 987);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (312, 1, 989);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (314, 1, 991);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (316, 1, 993);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (318, 1, 995);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (319, 1, 996);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (320, 1, 997);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (321, 1, 998);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (322, 1, 999);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (324, 1, 1001);
+commit;
+prompt 300 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (326, 1, 1003);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (327, 1, 1004);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (328, 1, 1005);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (329, 1, 1006);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (331, 1, 1008);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (332, 1, 1009);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (334, 1, 1011);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (335, 1, 1012);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (336, 1, 1013);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (337, 1, 1014);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (339, 1, 1016);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (341, 1, 1018);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (343, 1, 1020);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (345, 1, 1022);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (347, 1, 1024);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (349, 1, 1026);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (350, 1, 1027);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (351, 1, 1028);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (353, 1, 1030);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (355, 1, 1032);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (357, 1, 1034);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (359, 1, 1036);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (360, 1, 1037);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (362, 1, 1039);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (363, 1, 1040);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (365, 1, 1042);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (367, 1, 1044);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (369, 1, 1046);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (371, 1, 1048);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (372, 1, 1049);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (374, 1, 1051);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (376, 1, 1053);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (378, 1, 1055);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (379, 1, 1056);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (380, 1, 1057);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (381, 1, 1058);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (383, 1, 1060);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (384, 1, 1061);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (386, 1, 1063);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (387, 1, 1064);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (389, 1, 1066);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (390, 1, 1067);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (391, 1, 1068);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (392, 1, 1069);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (393, 1, 1070);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (394, 1, 1071);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (396, 1, 1073);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (398, 1, 1075);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (399, 1, 1076);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (400, 1, 1077);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (402, 1, 1079);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (404, 1, 1081);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (405, 1, 1082);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (407, 1, 1084);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (408, 1, 1085);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (410, 1, 1087);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (412, 1, 1089);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (413, 1, 1090);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (415, 1, 1092);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (417, 1, 1094);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (419, 1, 1096);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (420, 1, 1097);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (421, 1, 1098);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (423, 1, 1100);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (425, 1, 1102);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (426, 1, 1103);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (428, 1, 1105);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (430, 1, 1107);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (432, 1, 1109);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (434, 1, 1111);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (436, 1, 1113);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (438, 1, 1115);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (440, 1, 1117);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (442, 1, 1119);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (444, 1, 1121);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (446, 1, 1123);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (448, 1, 1125);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (450, 1, 1127);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (451, 1, 1128);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (453, 1, 1130);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (455, 1, 1132);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (457, 1, 1134);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (459, 1, 1136);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (461, 1, 1138);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (463, 1, 1140);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (465, 1, 1142);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (467, 1, 1144);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (468, 1, 1145);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (469, 1, 1146);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (470, 1, 1147);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (471, 1, 1148);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (473, 1, 1150);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (475, 1, 1152);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (476, 1, 1153);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (477, 1, 1154);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (479, 1, 1156);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (480, 1, 1157);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (482, 1, 1159);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (483, 1, 1160);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (485, 1, 1162);
+commit;
+prompt 400 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (486, 1, 1163);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (488, 1, 1165);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (489, 1, 1166);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (490, 1, 1167);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (491, 1, 1168);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (493, 1, 1170);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (494, 1, 1171);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (495, 1, 1172);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (497, 1, 1174);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (499, 1, 1176);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (501, 1, 1178);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (502, 1, 1179);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (503, 1, 1180);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (505, 1, 1182);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (507, 1, 1184);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (508, 1, 1185);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (509, 1, 1186);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (510, 1, 1187);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (511, 1, 1188);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (513, 1, 1190);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (514, 1, 1191);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (516, 1, 1193);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (518, 1, 1195);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (520, 1, 1197);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (522, 1, 1199);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (523, 1, 1200);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (524, 1, 1201);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (525, 1, 1202);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (527, 1, 1204);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (529, 1, 1206);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (531, 1, 1208);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (533, 1, 1210);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (535, 1, 1212);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (536, 1, 1213);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (538, 1, 1215);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (540, 1, 1217);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (541, 1, 1218);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (543, 1, 1220);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (544, 1, 1221);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (546, 1, 1223);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (547, 1, 1224);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (548, 1, 1225);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (550, 1, 1227);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (552, 1, 1229);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (554, 1, 1231);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (555, 1, 1232);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (556, 1, 1233);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (558, 1, 1235);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (560, 1, 1237);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (561, 1, 1238);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (563, 1, 1240);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (564, 1, 1241);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (565, 1, 1242);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (567, 1, 1244);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (569, 1, 1246);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (571, 1, 1248);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (572, 1, 1249);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (574, 1, 1251);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (576, 1, 1253);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (578, 1, 1255);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (580, 1, 1257);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (582, 1, 1259);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (584, 1, 1261);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (586, 1, 1263);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (588, 1, 1265);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (590, 1, 1267);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (592, 1, 1269);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (594, 1, 1271);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (596, 1, 1273);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (598, 1, 1275);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (600, 1, 1277);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (602, 1, 1279);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (604, 1, 1281);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (606, 1, 1283);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (607, 1, 1284);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (609, 1, 1286);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (611, 1, 1288);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (613, 1, 1290);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (615, 1, 1292);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (617, 1, 1294);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (619, 1, 1296);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (621, 1, 1298);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (623, 1, 1300);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (625, 1, 1302);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (627, 1, 1304);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (629, 1, 1306);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (631, 1, 1308);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (632, 1, 1309);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (634, 1, 1311);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (635, 1, 1312);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (637, 1, 1314);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (638, 1, 1315);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (639, 1, 1316);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (640, 1, 1317);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (641, 1, 1318);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (643, 1, 1320);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (644, 1, 1321);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (646, 1, 1323);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (647, 1, 1324);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (648, 1, 1325);
+commit;
+prompt 500 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (649, 1, 1326);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (651, 1, 1328);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (652, 1, 1329);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (653, 1, 1330);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (655, 1, 1332);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (657, 1, 1334);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (658, 1, 1335);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (660, 1, 1337);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (662, 1, 1339);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (663, 1, 1340);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (664, 1, 1341);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (665, 1, 1342);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (667, 1, 1344);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (669, 1, 1346);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (671, 1, 1348);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (672, 1, 1349);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (674, 1, 1351);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (675, 1, 1352);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (676, 1, 1353);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (677, 1, 1354);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (678, 1, 1355);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (680, 1, 1357);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (682, 1, 1359);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (684, 1, 1361);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (686, 1, 1363);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (688, 1, 1365);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (690, 1, 1367);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (692, 1, 1369);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (694, 1, 1371);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (695, 1, 1372);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (697, 1, 1374);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (699, 1, 1376);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (701, 1, 1378);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (703, 1, 1380);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (705, 1, 1382);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (707, 1, 1384);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (709, 1, 1386);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (711, 1, 1388);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (713, 1, 1390);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (714, 1, 1391);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (716, 1, 1393);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (718, 1, 1395);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (719, 1, 1396);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (720, 1, 1397);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (721, 1, 1398);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (722, 1, 1399);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (723, 1, 1400);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (724, 1, 1401);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (726, 1, 1403);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (727, 1, 1404);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (728, 1, 1405);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (729, 1, 1406);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (730, 1, 1407);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (731, 1, 1408);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (732, 1, 1409);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (733, 1, 1410);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (735, 1, 1412);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (737, 1, 1414);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (739, 1, 1416);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (741, 1, 1418);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (742, 1, 1419);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (744, 1, 1421);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (746, 1, 1423);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (748, 1, 1425);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (750, 1, 1427);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (752, 1, 1429);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (754, 1, 1431);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (756, 1, 1433);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (758, 1, 1435);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (760, 1, 1437);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (762, 1, 1439);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (764, 1, 1441);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (766, 1, 1443);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (768, 1, 1445);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (770, 1, 1447);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (772, 1, 1449);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (774, 1, 1451);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (776, 1, 1453);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (778, 1, 1455);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (780, 1, 1457);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (782, 1, 1459);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (784, 1, 1461);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (786, 1, 1463);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (788, 1, 1465);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (790, 1, 1467);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (791, 1, 1468);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (792, 1, 1469);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (793, 1, 1470);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (795, 1, 1472);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (796, 1, 1473);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (797, 1, 1474);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (798, 1, 1475);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (800, 1, 1477);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (802, 1, 1479);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (803, 1, 1480);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (804, 1, 1481);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (806, 1, 1483);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (807, 1, 1484);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (809, 1, 1486);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (810, 1, 1487);
+commit;
+prompt 600 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (811, 1, 1488);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (813, 1, 1490);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (814, 1, 1491);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (816, 1, 1493);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (817, 1, 1494);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (819, 1, 1496);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (821, 1, 1498);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (823, 1, 1500);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (825, 1, 1502);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (827, 1, 1504);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (829, 1, 1506);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (831, 1, 1508);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (833, 1, 1510);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (835, 1, 1512);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (837, 1, 1514);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (839, 1, 1516);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (841, 1, 1518);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (843, 1, 1520);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (845, 1, 1522);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (847, 1, 1524);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (848, 1, 1525);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (850, 1, 1527);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (852, 1, 1529);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (854, 1, 1531);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (855, 1, 1532);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (857, 1, 1534);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (859, 1, 1536);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (861, 1, 1538);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (862, 1, 1539);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (864, 1, 1541);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (866, 1, 1543);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (868, 1, 1545);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (870, 1, 1547);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (872, 1, 1549);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (874, 1, 1551);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (875, 1, 1552);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (877, 1, 1554);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (879, 1, 1556);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (880, 1, 1557);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (882, 1, 1559);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (884, 1, 1561);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (885, 1, 1562);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (887, 1, 1564);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (889, 1, 1566);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (891, 1, 1568);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (893, 1, 1570);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (895, 1, 1572);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (896, 1, 1573);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (898, 1, 1575);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (900, 1, 1577);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (901, 1, 1578);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (903, 1, 1580);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (905, 1, 1582);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (907, 1, 1584);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (909, 1, 1586);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (911, 1, 1588);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (913, 1, 1590);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (917, 1, 1594);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (919, 1, 1596);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (915, 1, 1592);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (921, 1, 1598);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (923, 1, 1600);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (925, 1, 1602);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (927, 1, 1604);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (929, 1, 1606);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (931, 1, 1608);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (933, 1, 1610);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (935, 1, 1612);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (937, 1, 1614);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (939, 1, 1616);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (941, 1, 1618);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (943, 1, 1620);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (945, 1, 1622);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (946, 1, 1623);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (948, 1, 1625);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (949, 1, 1626);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (951, 1, 1628);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (953, 1, 1630);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (955, 1, 1632);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (957, 1, 1634);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (959, 1, 1636);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (961, 1, 1638);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (963, 1, 1640);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (965, 1, 1642);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (967, 1, 1644);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (968, 1, 1645);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (969, 1, 1646);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (971, 1, 1648);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (973, 1, 1650);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (975, 1, 1652);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (977, 1, 1654);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (978, 1, 1655);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (980, 1, 1657);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (982, 1, 1659);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (983, 1, 1660);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (985, 1, 1662);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (986, 1, 1663);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (988, 1, 1665);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (990, 1, 1667);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (992, 1, 1669);
+commit;
+prompt 700 records committed...
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (993, 1, 1670);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (995, 1, 1672);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (996, 1, 1673);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (998, 1, 1675);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (999, 1, 1676);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1001, 1, 1678);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1003, 1, 1680);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1005, 1, 1682);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1006, 1, 1683);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1008, 1, 1685);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1010, 1, 1687);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1012, 1, 1689);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1013, 1, 1690);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1015, 1, 1692);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1017, 1, 1694);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1019, 1, 1696);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1021, 1, 1698);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1023, 1, 1700);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1024, 1, 1701);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1026, 1, 1703);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1028, 1, 1705);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1029, 1, 1706);
+insert into SYS_USER_WHITE (ID, USER_ID, WHITE)
+values (1031, 1, 1708);
+commit;
+prompt 723 records loaded
+prompt Loading T_CELL_GSM_GX...
+prompt Table is empty
+prompt Loading T_CELL_IPS...
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (36, '11111', '11', '111', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (38, '1111', '111', '111', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (39, '1123', '123', '123', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (43, '123', '123', '123', '123');
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (50, 'q', 'q', 'q', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (53, 'c', 'c', 'c', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (41, '1', '12', '1', '111');
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (37, '1231231', '123', '11', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (40, '12321', '1', '1', null);
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (42, '123', '123', '123', '123');
+insert into T_CELL_IPS (ID, IP, CLIENTID, PASSWORD, MEMO)
+values (44, '123', '222', '123', '111');
+commit;
+prompt 11 records loaded
+prompt Loading T_CELL_WCDMA_GX...
+prompt Table is empty
+prompt Loading T_CELL_WHITE...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1709, '234', null, to_date('28-01-2013 14:24:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1710, 'www', null, to_date('28-01-2013 14:25:41', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1711, 'aa', null, to_date('28-01-2013 14:26:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1736, '15697711235', null, to_date('01-02-2013 10:39:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1228, '15678308550', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1230, '15678309558', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1234, '15678332120', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1236, '15678337976', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1239, '15678854356', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1243, '15678857883', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1245, '15678858008', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1247, '15678896119', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1250, '15697711203', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1252, '15697711207', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1254, '15697711212', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1256, '15697711225', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1258, '15697711236', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1260, '15697711238', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1262, '15697711250', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1264, '15697711253', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1266, '15697711259', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1268, '15697711268', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1270, '15697711270', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1272, '15697711290', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1274, '15697711297', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1276, '15697711321', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1278, '15697711341', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1280, '15697711345', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1282, '15697711347', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1285, '15697711570', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1287, '15697730089', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1289, '18397959700', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1291, '18397959766', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1293, '18397959799', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1295, '18607716272', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1297, '18607720102', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1299, '18607721821', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1301, '18607723371', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1303, '18607723395', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1305, '18607725629', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1307, '18607726310', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1310, '18607728556', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1313, '18607729160', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1319, '18607733101', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1322, '18607737199', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1327, '18607741171', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1331, '18607745093', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1333, '18607747394', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1336, '18607750399', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1338, '18607755922', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1343, '18607781006', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1345, '18607812552', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1347, '18607818132', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1350, '18607822909', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1356, '18607827002', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1358, '18607827737', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1360, '18607828878', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1362, '18607829128', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1364, '18607837550', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1366, '18607840015', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1368, '18607842006', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1370, '18607844584', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1373, '18607851618', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1375, '18607855669', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1377, '18607857773', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1379, '18607880166', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1381, '18607882803', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1383, '18607889366', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1385, '18648904108', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1387, '18648904978', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1389, '18648906328', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1392, '18648920562', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1394, '18648920565', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1402, '18677056781', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1411, '18677058656', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1413, '18677058991', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1415, '18677059110', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1417, '18677059309', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1420, '18677075329', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1422, '18677075620', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1424, '18677080011', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1426, '18677080101', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1428, '18677080505', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1430, '18677081212', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1432, '18677082255', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1434, '18677082626', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1436, '18677083232', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1438, '18677083346', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1440, '18677083502', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1442, '18677083862', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1444, '18677085050', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1446, '18677085622', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1448, '18677086022', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1450, '18677086099', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1452, '18677086622', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1454, '18677087793', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1456, '18677089195', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1458, '18677090013', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1460, '18677090050', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1462, '18677090052', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 100 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1464, '18677090056', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1466, '18677090058', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1471, '18677090063', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1476, '18677090070', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1478, '18677090072', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1482, '18677090078', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1485, '18677090081', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1489, '18677090086', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1492, '18677090090', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1495, '18677090096', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1497, '18677090098', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1499, '18677090103', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1501, '18677090106', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1503, '18677090108', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1505, '18677090110', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1507, '18677090113', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1509, '18677090115', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1511, '18677090117', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1513, '18677090119', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1515, '18677090121', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1517, '18677090126', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1519, '18677090128', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1521, '18677090130', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1523, '18677090132', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1526, '18677090137', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1528, '18677090139', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1530, '18677090141', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1533, '18677090145', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1535, '18677090147', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1537, '18677090149', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1540, '18677090153', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1542, '18677090157', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1544, '18677090159', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1546, '18677090161', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1548, '18677090163', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1550, '18677090167', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1553, '18677090170', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1555, '18677090172', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1558, '18677090176', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1560, '18677090179', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1563, '18677090182', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1565, '18677090184', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1567, '18677090186', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1569, '18677090188', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1571, '18677090190', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1574, '18677090193', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1576, '18677090196', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1579, '18677090290', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1581, '18677090306', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1583, '18677090308', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1585, '18677091301', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1587, '18677091315', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1589, '18677091317', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1591, '18677091323', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1593, '18677091332', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1595, '18677091703', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1597, '18677091707', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1599, '18677091710', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1601, '18677091715', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1603, '18677091717', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1605, '18677091720', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1607, '18677091723', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1609, '18677091726', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1611, '18677091731', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1613, '18677091733', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1615, '18677091736', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1617, '18677091738', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1619, '18677091740', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1621, '18677091742', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1624, '18677091745', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1627, '18677091748', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1629, '18677091750', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1631, '18677091754', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1633, '18677091761', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1635, '18677091804', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1637, '18677091823', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1639, '18677091826', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1641, '18677091830', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1643, '18677091832', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1647, '18677091852', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1649, '18677110313', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1651, '18677112879', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1653, '18677115593', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1656, '18677145708', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1658, '18677153136', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1661, '18677158774', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1664, '18677184401', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1666, '18677187718', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1668, '18677188909', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1671, '18677190762', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1674, '18677192984', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1677, '18677257776', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1679, '18677263726', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (856, '13005915377', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (858, '13005957378', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (857, '13005918660', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (859, '13005977117', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (860, '13006930532', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (862, '13025943795', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (864, '13077626151', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 200 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (865, '13077626272', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (866, '13077630131', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (868, '13077661753', null, to_date('23-01-2013 15:49:48', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (870, '13077700316', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (872, '13077705858', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (874, '13077732008', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (876, '13077771001', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (878, '13084996858', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (880, '13087975599', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (882, '13097719674', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (883, '13097936563', null, to_date('23-01-2013 15:49:49', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (884, '13097936590', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (885, '13097941796', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (886, '13100415141', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (888, '13100502929', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (890, '13114736763', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (892, '13117633617', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (894, '13117744443', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (896, '13132915562', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (898, '13132936679', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (899, '13152515513', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (901, '13152581068', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (902, '13152639887', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (903, '13152655543', null, to_date('23-01-2013 15:49:50', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (904, '13197610860', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (905, '13197739766', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (906, '13197747770', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (907, '13207733838', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (908, '13207739118', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (909, '13207802151', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (910, '13211309015', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (911, '13211315850', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (912, '13211318880', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (913, '13211538551', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (914, '13217711017', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (915, '13217711772', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (916, '13217715555', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (918, '13257780688', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (920, '13277737747', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (921, '13277776541', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (923, '13277786272', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (924, '13277818080', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (925, '13277818119', null, to_date('23-01-2013 15:49:51', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (926, '13277890717', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (927, '13297718378', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (929, '13299210010', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (930, '13299218188', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (931, '13299270201', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (932, '13299270203', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (933, '13299635020', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (935, '15277054324', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (936, '15507733006', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (938, '15507883059', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (939, '15507883819', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (940, '15507883859', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (941, '15507885949', null, to_date('23-01-2013 15:49:52', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (943, '15577116650', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (944, '15577169990', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (945, '15577358420', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (947, '15577387846', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (949, '15577406984', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (950, '15577414970', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (952, '15577600883', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (954, '15577603223', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (956, '15577608805', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (958, '15577666781', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (960, '15578004756', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (962, '15578006663', null, to_date('23-01-2013 15:49:53', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (964, '15578009990', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (966, '15578015578', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (967, '15578022008', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (969, '15578103622', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (971, '15578122012', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (972, '15578161220', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (974, '15578320281', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (976, '15578408855', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (978, '15578486125', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (980, '15578688566', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (982, '15578699120', null, to_date('23-01-2013 15:49:54', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (984, '15578944006', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (985, '15578951515', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (987, '15607710700', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (989, '15607713305', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (991, '15607717500', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (993, '15607719822', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (995, '15607730612', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (996, '15607730663', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (997, '15607731006', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (998, '15607731987', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (999, '15607731991', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1001, '15607735775', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1003, '15607736740', null, to_date('23-01-2013 15:49:55', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1004, '15607738805', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1005, '15607738909', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1006, '15607739201', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1008, '15607740111', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1009, '15607740163', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1011, '15607740201', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1012, '15607740640', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1013, '15607740706', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 300 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1014, '15607740774', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1016, '15607740966', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1018, '15607741122', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1020, '15607741611', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1022, '15607744448', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1024, '15607745203', null, to_date('23-01-2013 15:49:56', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1026, '15607745348', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1027, '15607746007', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1028, '15607746663', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1030, '15607748285', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1032, '15607749099', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1034, '15607749991', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1036, '15607802081', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1037, '15607803630', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1039, '15607810010', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1040, '15607810304', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1042, '15607810503', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1044, '15607810656', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1046, '15607810786', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1048, '15607810844', null, to_date('23-01-2013 15:49:57', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1049, '15607810876', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1051, '15607810992', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1053, '15607811555', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1055, '15607812608', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1056, '15607812666', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1057, '15607812882', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1058, '15607813300', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1060, '15607813331', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1061, '15607813444', null, to_date('23-01-2013 15:49:58', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1063, '15607813666', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1064, '15607813911', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1066, '15607814682', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1067, '15607814778', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1068, '15607814888', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1069, '15607815533', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1070, '15607815556', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1071, '15607815559', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1073, '15607815632', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1075, '15607816262', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1076, '15607816266', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1077, '15607816303', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1079, '15607816804', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1081, '15607816946', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1082, '15607817007', null, to_date('23-01-2013 15:49:59', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1084, '15607817699', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1085, '15607817908', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1087, '15607818225', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1089, '15607818887', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1090, '15607818903', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1092, '15607819012', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1094, '15607819208', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1096, '15607819525', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1097, '15607819535', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1098, '15607819599', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1100, '15607819904', null, to_date('23-01-2013 15:50:00', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1102, '15607819995', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1103, '15607830768', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1105, '15607831661', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1107, '15607836883', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1109, '15607839889', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1111, '15607858199', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1113, '15607860991', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1115, '15676206172', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1117, '15676207810', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1119, '15676207961', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1121, '15676208670', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1123, '15676208681', null, to_date('23-01-2013 15:50:01', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1125, '15676301802', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1127, '15676301903', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1128, '15676302683', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1130, '15676338616', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1132, '15676398552', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1134, '15676766166', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1136, '15677011726', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1138, '15677063228', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1140, '15677088828', null, to_date('23-01-2013 15:50:02', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1142, '15677095162', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1144, '15677100289', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1145, '15677101720', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1146, '15677101790', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1147, '15677113133', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1148, '15677117713', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1150, '15677118855', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1152, '15677161230', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1153, '15677173836', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1154, '15677187492', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1156, '15677188886', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1157, '15677190566', null, to_date('23-01-2013 15:50:03', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1159, '15677191890', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1160, '15677191892', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1162, '15677192088', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1163, '15677193193', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1165, '15677199582', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1166, '15677318471', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1167, '15677326991', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1168, '15677327779', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1170, '15677359578', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1171, '15677363007', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1172, '15677378053', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1174, '15677388576', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 400 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1176, '15677395002', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1178, '15677400400', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1179, '15677402006', null, to_date('23-01-2013 15:50:04', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1180, '15677402226', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1182, '15677408833', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1184, '15677411068', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1185, '15677411999', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1186, '15677413033', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1187, '15677413824', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1188, '15677416777', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1190, '15677418800', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1191, '15677421008', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1193, '15677425880', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1195, '15677426118', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1197, '15677426911', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1199, '15677428961', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1200, '15677429190', null, to_date('23-01-2013 15:50:05', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1201, '15677430004', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1202, '15677430006', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1204, '15677431116', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1206, '15677432858', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1208, '15677435030', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1210, '15677437006', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1212, '15677439990', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1213, '15677857997', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1215, '15678111618', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1217, '15678160006', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1218, '15678160816', null, to_date('23-01-2013 15:50:06', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1220, '15678167816', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1221, '15678167891', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1223, '15678168800', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1224, '15678168883', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1225, '15678169088', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1227, '15678199991', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1229, '15678309006', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1231, '15678309980', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1233, '15678325065', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1235, '15678332220', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1232, '15678321789', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1237, '15678363700', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1238, '15678396669', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1240, '15678855566', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1241, '15678856885', null, to_date('23-01-2013 15:50:07', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1242, '15678857797', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1244, '15678857889', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1246, '15678895607', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1248, '15678919988', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1249, '15697711202', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1251, '15697711205', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1253, '15697711210', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1255, '15697711221', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1257, '15697711231', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1259, '15697711237', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1261, '15697711239', null, to_date('23-01-2013 15:50:08', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1263, '15697711252', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1265, '15697711258', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1267, '15697711260', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1269, '15697711269', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1271, '15697711271', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1273, '15697711295', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1275, '15697711313', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1277, '15697711340', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1279, '15697711343', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1281, '15697711346', null, to_date('23-01-2013 15:50:09', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1283, '15697711568', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1284, '15697711569', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1286, '15697730060', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1288, '15697730148', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1290, '18397959711', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1292, '18397959788', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1294, '18607712431', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1296, '18607719998', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1298, '18607720750', null, to_date('23-01-2013 15:50:10', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1300, '18607721838', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1302, '18607723380', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1304, '18607725110', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1306, '18607725692', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1308, '18607726390', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1309, '18607728550', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1311, '18607728711', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1312, '18607728861', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1314, '18607729552', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1315, '18607729995', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1316, '18607730856', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1317, '18607731263', null, to_date('23-01-2013 15:50:11', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1318, '18607733041', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1320, '18607733108', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1321, '18607737032', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1323, '18607738727', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1324, '18607738765', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1325, '18607739326', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1326, '18607741008', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1328, '18607743116', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1329, '18607744255', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1330, '18607744822', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1332, '18607747200', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1334, '18607748976', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1335, '18607749895', null, to_date('23-01-2013 15:50:12', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1337, '18607755750', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1339, '18607757886', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 500 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1340, '18607764469', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1341, '18607765621', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1342, '18607777935', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1344, '18607810006', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1346, '18607817379', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1348, '18607819771', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1349, '18607821168', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1351, '18607825868', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1352, '18607826168', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1353, '18607826606', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1354, '18607826686', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1355, '18607826707', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1357, '18607827715', null, to_date('23-01-2013 15:50:13', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1359, '18607828875', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1361, '18607829009', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1363, '18607837283', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1365, '18607839559', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1367, '18607840805', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1369, '18607842227', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1371, '18607850085', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1372, '18607850098', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1374, '18607855155', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1376, '18607855873', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1378, '18607858210', null, to_date('23-01-2013 15:50:14', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1380, '18607880992', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1382, '18607884204', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1384, '18648802099', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1386, '18648904328', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1388, '18648905078', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1390, '18648920560', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1391, '18648920561', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1393, '18648920563', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1395, '18648920651', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1396, '18648920652', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1397, '18648920653', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1398, '18648981398', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1399, '18648981869', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1400, '18677051666', null, to_date('23-01-2013 15:50:15', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1401, '18677052888', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1403, '18677056801', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1404, '18677056802', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1405, '18677056810', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1406, '18677056839', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1407, '18677056906', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1408, '18677056916', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1409, '18677056967', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1410, '18677057767', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1412, '18677058823', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1414, '18677058995', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1416, '18677059128', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1418, '18677059636', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1419, '18677075326', null, to_date('23-01-2013 15:50:16', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1421, '18677075603', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1423, '18677079160', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1425, '18677080022', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1427, '18677080202', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1429, '18677080801', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1431, '18677081566', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1433, '18677082323', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1435, '18677083050', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1437, '18677083322', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1439, '18677083355', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1441, '18677083535', null, to_date('23-01-2013 15:50:17', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1443, '18677083939', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1445, '18677085511', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1447, '18677085725', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1449, '18677086060', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1451, '18677086363', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1453, '18677086900', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1455, '18677088707', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1457, '18677090010', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1459, '18677090015', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1461, '18677090051', null, to_date('23-01-2013 15:50:18', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1463, '18677090053', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1465, '18677090057', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1467, '18677090059', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1468, '18677090060', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1469, '18677090061', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1470, '18677090062', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1472, '18677090065', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1473, '18677090067', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1474, '18677090068', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1475, '18677090069', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1477, '18677090071', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1479, '18677090073', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1480, '18677090075', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1481, '18677090076', null, to_date('23-01-2013 15:50:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1483, '18677090079', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1484, '18677090080', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1486, '18677090082', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1487, '18677090083', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1488, '18677090085', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1490, '18677090087', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1491, '18677090089', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1493, '18677090091', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1494, '18677090092', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1496, '18677090097', null, to_date('23-01-2013 15:50:20', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1498, '18677090102', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1500, '18677090105', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1502, '18677090107', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 600 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1504, '18677090109', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1506, '18677090112', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1508, '18677090114', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1510, '18677090116', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1512, '18677090118', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1514, '18677090120', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1516, '18677090125', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1518, '18677090127', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1520, '18677090129', null, to_date('23-01-2013 15:50:21', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1522, '18677090131', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1524, '18677090135', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1525, '18677090136', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1527, '18677090138', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1529, '18677090140', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1531, '18677090142', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1532, '18677090143', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1534, '18677090146', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1536, '18677090148', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1538, '18677090150', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1539, '18677090152', null, to_date('23-01-2013 15:50:22', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1541, '18677090156', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1543, '18677090158', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1545, '18677090160', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1547, '18677090162', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1549, '18677090165', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1551, '18677090168', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1552, '18677090169', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1554, '18677090171', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1556, '18677090173', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1557, '18677090175', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1559, '18677090178', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1561, '18677090180', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1562, '18677090181', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1564, '18677090183', null, to_date('23-01-2013 15:50:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1566, '18677090185', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1568, '18677090187', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1570, '18677090189', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1572, '18677090191', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1573, '18677090192', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1575, '18677090195', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1577, '18677090197', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1578, '18677090198', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1580, '18677090302', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1582, '18677090307', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1584, '18677090358', null, to_date('23-01-2013 15:50:24', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1586, '18677091310', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1588, '18677091316', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1590, '18677091321', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1592, '18677091325', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1594, '18677091702', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1596, '18677091705', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1598, '18677091708', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1600, '18677091711', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1602, '18677091716', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1604, '18677091718', null, to_date('23-01-2013 15:50:25', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1606, '18677091721', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1608, '18677091725', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1610, '18677091727', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1612, '18677091732', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1614, '18677091735', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1616, '18677091737', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1618, '18677091739', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1620, '18677091741', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1622, '18677091743', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1623, '18677091744', null, to_date('23-01-2013 15:50:26', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1625, '18677091746', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1626, '18677091747', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1628, '18677091749', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1630, '18677091752', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1632, '18677091760', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1634, '18677091782', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1636, '18677091805', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1638, '18677091825', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1640, '18677091829', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1642, '18677091831', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1644, '18677091834', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1645, '18677091835', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1648, '18677091853', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1650, '18677110652', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1652, '18677114321', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1654, '18677116645', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1655, '18677119905', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1657, '18677152521', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1659, '18677153445', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1660, '18677155029', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1662, '18677163080', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1663, '18677166000', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1665, '18677187598', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1667, '18677188676', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1669, '18677190752', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1670, '18677190756', null, to_date('23-01-2013 15:50:28', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1672, '18677190763', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1673, '18677190793', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1675, '18677198980', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1676, '18677255517', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1678, '18677258881', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1680, '18677277897', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1681, '18677300052', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1682, '18677300090', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1683, '18677307841', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 700 records committed...
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1684, '18677331021', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1685, '18677338267', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1686, '18677339523', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1687, '18677339620', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1646, '18677091850', null, to_date('23-01-2013 15:50:27', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1688, '18677348156', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1689, '18677363995', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1690, '18677371287', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1691, '18677375661', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1692, '18677377117', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1693, '18677387448', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1694, '18677388313', null, to_date('23-01-2013 15:50:29', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1695, '18677399131', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1696, '18677400702', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1697, '18677401104', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1698, '18677401107', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1699, '18677401109', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1700, '18677401775', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1701, '18677405585', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1703, '18677410036', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1705, '18677411946', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1706, '18677413336', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+insert into T_CELL_WHITE (ID, MSISDN, MEMO, CREATE_TIME)
+values (1708, '18677414103', null, to_date('23-01-2013 15:50:30', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 723 records loaded
+prompt Loading T_LBS_CONTROL...
+prompt Table is empty
+prompt Loading T_LBS_HISTORY...
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (2, 1, '13223239996', to_date('14-01-2013 02:59:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '本地数据库未存此基站信息', '1878', '10326', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (6, 1, '13223239996', to_date('14-01-2013 03:01:51', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站经纬值', '1878', '40326', '103.2201', '22.0888', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (13, 1, '13223239991', to_date('14-01-2013 10:37:34', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值', '20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (16, 1, '13223239992', to_date('14-01-2013 10:39:11', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值', '20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (22, 1, '13223239993', to_date('14-01-2013 10:43:42', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (23, 1, '13223239994', to_date('14-01-2013 10:47:00', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '2561,用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (3, 1, '13223239996', to_date('14-01-2013 02:59:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '本地数据库未存此基站信息', '1878', '10326', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (7, 1, '13223239996', to_date('14-01-2013 03:01:55', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站经纬值', '1878', '40326', '103.2201', '22.0888', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (15, 1, '13223239996', to_date('14-01-2013 10:39:11', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值', '20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (19, 1, '13223239996', to_date('14-01-2013 10:41:28', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '2560,本地数据库未存此基站信息', '0', '0', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (4, 1, '13223239996', to_date('14-01-2013 02:59:34', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '本地数据库未存此基站信息', '1878', '40326', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (5, 1, '13223239996', to_date('14-01-2013 03:01:44', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站经纬值', '1878', '40326', '103.2201', '22.0888', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (10, 1, '13223239996', to_date('14-01-2013 10:24:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (21, 1, '13223239996', to_date('14-01-2013 10:43:42', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (25, 1, '13223239996', to_date('14-01-2013 10:47:00', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '2561,用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (26, 1, '13760650000', to_date('14-01-2013 10:50:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '109', '非白名单,禁止定位', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (8, 1, '13223239996', to_date('14-01-2013 10:24:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (11, 1, '13223239996', to_date('14-01-2013 10:37:34', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值', '20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (18, 1, '13223239996', to_date('14-01-2013 10:41:28', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '2560,本地数据库未存此基站信息', '0', '0', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (24, 1, '13223239996', to_date('14-01-2013 10:47:00', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '2561,用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (27, 1, '13760650000', to_date('14-01-2013 10:50:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '109', '非白名单,禁止定位', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (28, 1, '13760650000', to_date('14-01-2013 10:50:31', 'dd-mm-yyyy hh24:mi:ss'), 1, '109', '非白名单,禁止定位', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (9, 1, '13223239996', to_date('14-01-2013 10:24:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null, null, null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (12, 1, '13223239996', to_date('14-01-2013 10:37:34', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值', '20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (14, 1, '13223239996', to_date('14-01-2013 10:39:11', 'dd-mm-yyyy hh24:mi:ss'), 0, '000', '基站中心经纬值', '20221', '9527001', '108.22088', '22.0988', null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (17, 1, '13223239996', to_date('14-01-2013 10:41:28', 'dd-mm-yyyy hh24:mi:ss'), 1, '110', '2560,本地数据库未存此基站信息', '0', '0', null, null, null, null, null, null);
+insert into T_LBS_HISTORY (ID, USER_ID, MDN, REQ_TIME, RESP_RESULT, RESP_CODE, RESP_MEMO, CELL_LAC, CELL_CI, JINDU, WEIDU, MEMO1, MEMO2, FLAG1, FLAG2)
+values (20, 1, '13223239996', to_date('14-01-2013 10:43:42', 'dd-mm-yyyy hh24:mi:ss'), 1, '104', '用户目前不可到达', null, null, null, null, null, null, null, null);
+commit;
+prompt 27 records loaded
+set feedback on
+set define on
+prompt Done.
