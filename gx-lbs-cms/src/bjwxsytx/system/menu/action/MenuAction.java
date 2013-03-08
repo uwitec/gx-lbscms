@@ -1,6 +1,7 @@
 package bjwxsytx.system.menu.action;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -13,12 +14,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.base.constants.OperConstants;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
+import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.menu.service.MenuService;
 import bjwxsytx.system.menu.vo.QueryVO;
+import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.role.service.RoleMenuService;
 import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.service.UserService;
@@ -33,7 +37,8 @@ import bjwxsytx.system.user.service.UserService;
 * @since gx-cms
  */
 public class MenuAction extends BaseAction {
-
+	@Autowired(required = true)
+	private OperatorLogService operatorLogService;
 	private static final long serialVersionUID = 5277712039351799309L;
 	private static Logger _log = Logger.getLogger(MenuAction.class);
 	@Autowired(required = true)
@@ -108,6 +113,19 @@ public class MenuAction extends BaseAction {
 		this.menuService.saveMenu(sysMenu);
 		this.result = new Result();
 		this.result.setFlag(Result.FLAG_SUCCESS);
+		
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(userId);
+		oper.setDescription(OperConstants.DESC_SYS_MENU_ADD+";menuId="+sysMenu.getMenuId()+";menuName="+sysMenu.getMenuName());
+		oper.setOpertype(OperConstants.TYPE_SYS_MENU);
+		oper.setOpertime(new Date());
+		oper.setLoginName(loginName);
+		operatorLogService.saveOperatorLog(oper);
+		
+		
 		return SUCCESS;
 	}
 	
@@ -116,6 +134,16 @@ public class MenuAction extends BaseAction {
 		this.menuService.updateMenu(queryVO);
 		this.result = new Result();
 		this.result.setFlag(Result.FLAG_SUCCESS);
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(userId);
+		oper.setLoginName(loginName);
+		oper.setDescription(OperConstants.DESC_SYS_MENU_EDIT+";menuId="+queryVO.getMenuId()+";menuName="+queryVO.getMenuName());
+		oper.setOpertype(OperConstants.TYPE_SYS_MENU);
+		oper.setOpertime(new Date());
+		operatorLogService.saveOperatorLog(oper);
 		return SUCCESS;
 	}
 	
@@ -130,6 +158,15 @@ public class MenuAction extends BaseAction {
 			this.menuService.deleteMenu(sysMenu);
 			this.result.setFlag(Result.FLAG_SUCCESS);
 		}
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(userId);
+		oper.setLoginName(loginName);
+		oper.setDescription(OperConstants.DESC_SYS_MENU_DEL+";id="+this.sysMenu.getMenuId());
+		oper.setOpertype(OperConstants.TYPE_SYS_MENU);
+		oper.setOpertime(new Date());
+		operatorLogService.saveOperatorLog(oper);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

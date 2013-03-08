@@ -15,15 +15,18 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.base.constants.OperConstants;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
 import bjwxsytx.common.StringUtil;
+import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysRole;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.entity.SysUserRole;
 import bjwxsytx.system.entity.SysUserWhite;
 import bjwxsytx.system.entity.TCellWhite;
+import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.role.service.RoleService;
 import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.service.UserService;
@@ -35,7 +38,8 @@ import bjwxsytx.system.white.service.WhiteService;
 public class WhiteAction extends BaseAction {
 	
 	private static Logger log = Logger.getLogger(WhiteAction.class);
-
+	@Autowired(required = true)
+	private OperatorLogService operatorLogService;
 	private static final long serialVersionUID = -487695416956573238L;
 	@Autowired(required = true)
 	private WhiteService whiteService;
@@ -127,6 +131,17 @@ public class WhiteAction extends BaseAction {
 			reader.close();  
 			
 			result.setFlag(Result.FLAG_SUCCESS);
+			
+			
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(userId);
+			oper.setDescription(OperConstants.DESC_WHITE_UPLOAD);
+			oper.setOpertype(OperConstants.TYPE_WHITE);
+			oper.setOpertime(new Date());	
+			oper.setLoginName(loginName);
+			operatorLogService.saveOperatorLog(oper);		
 		}catch(Exception ex){
 			ex.printStackTrace();
 			try {
@@ -146,7 +161,7 @@ public class WhiteAction extends BaseAction {
 		
 		BufferedReader reader = null;  
 		try {  
-			System.out.println("以行为单位读取文件内容，一次读一整行：");  
+			//System.out.println("以行为单位读取文件内容，一次读一整行：");  
 			reader = new BufferedReader(new FileReader(file));  
 			String tempString = null;  
 			int line = 1;  
@@ -154,7 +169,7 @@ public class WhiteAction extends BaseAction {
 
 			while ((tempString = reader.readLine()) != null){  
 			//显示行号  
-				System.out.println("line " + line + ": " + tempString);  
+				//System.out.println("line " + line + ": " + tempString);  
 				line++;  
 			}  
 			reader.close();  
@@ -332,7 +347,7 @@ public class WhiteAction extends BaseAction {
 	 */
 	public String findAllUserWhenAddWhiteMdn() throws Exception{
 		String userId = AuthenticationUtil.getCurrentUserId(this.getSessionMap());
-		System.out.println("@@findAllUserWhenAddWhiteMdn@@userId:"+userId);
+		//System.out.println("@@findAllUserWhenAddWhiteMdn@@userId:"+userId);
 		String groupUserFlag = AuthenticationUtil.getGroupUserFlag(this.getSessionMap());
 		this.setSysUserList(whiteService.findAllUserWhenAddWhiteMdn(Long.parseLong(userId),groupUserFlag));
 		return SUCCESS;
@@ -349,12 +364,26 @@ public class WhiteAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String saveWhiteMdn() throws Exception{
+
+		
+		
 		
 		this.result = new Result();
 		this.cellWhite.setCreateTime(new Date());
         
 		this.whiteService.saveWhiteMdn(cellWhite,sysUserWhite);
 		this.result.setFlag(Result.FLAG_SUCCESS);
+		
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(userId);
+		oper.setDescription(OperConstants.DESC_WHITE_ADD+";whiteId="+this.cellWhite.getId()+";mdn="+this.cellWhite.getMsisdn());
+		oper.setOpertype(OperConstants.TYPE_WHITE);
+		oper.setOpertime(new Date());
+		oper.setLoginName(loginName);
+		operatorLogService.saveOperatorLog(oper);
+		
 		return SUCCESS;
 
 	}
@@ -373,6 +402,15 @@ public class WhiteAction extends BaseAction {
 			this.result = new Result();
 			this.whiteService.deleteWhiteMdn(ids);
 			result.setFlag(Result.FLAG_SUCCESS);
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(userId);
+			oper.setDescription(OperConstants.DESC_WHITE_DEL+";ids="+ids);
+			oper.setOpertype(OperConstants.TYPE_WHITE);
+			oper.setOpertime(new Date());
+			oper.setLoginName(loginName);
+			operatorLogService.saveOperatorLog(oper);			
 		} catch (Exception e) {
 			result.setFlag(Result.FLAG_FAILURE);
 			this.result.setMsg(e.getLocalizedMessage());
@@ -392,10 +430,10 @@ public class WhiteAction extends BaseAction {
 	 * @return
 	 */
 	 public String isWhiteMdnExist(){
-		System.out.println("queryVO:"+queryVO);
+		//System.out.println("queryVO:"+queryVO);
 		queryVO.setUserId(Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap())));
 		whiteMdnExist = this.whiteService.isWhiteMdnExist(queryVO);
-		System.out.println("此号码已经存在于白名单:"+whiteMdnExist);
+		//System.out.println("此号码已经存在于白名单:"+whiteMdnExist);
 		return SUCCESS;
 	}
 

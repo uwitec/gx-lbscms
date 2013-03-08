@@ -1,5 +1,6 @@
 package bjwxsytx.system.role.action;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +10,16 @@ import javax.management.relation.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.base.constants.OperConstants;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
+import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.entity.SysRole;
 import bjwxsytx.system.entity.SysRoleMenu;
 import bjwxsytx.system.menu.service.MenuService;
+import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.role.service.RoleMenuService;
 import bjwxsytx.system.role.service.RoleService;
 import bjwxsytx.system.role.service.RoleUserService;
@@ -36,7 +40,8 @@ public class RoleAction extends BaseAction{
 	private RoleService roleService;
 	@Autowired(required = true)
 	private RoleMenuService roleMenuService;
-	
+	@Autowired(required = true)
+	private OperatorLogService operatorLogService;
 	@Autowired(required = true)
 	private RoleUserService roleUserService;
 	private List<SysRole> roleList ;
@@ -71,8 +76,22 @@ public class RoleAction extends BaseAction{
 	public String saveRole() throws Exception{
 		result = new Result();
 		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(userId);
+		Long saveId = sysRole.getRoleId();
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+		oper.setOpertype(OperConstants.TYPE_SYS_ROLE);
+		oper.setOpertime(new Date());
 		this.roleService.saveRole(sysRole, ids);
 		result.setFlag(Result.FLAG_SUCCESS);
+		if(saveId!=null){
+			oper.setDescription(OperConstants.DESC_SYS_ROLE_EDIT+";roleId="+this.sysRole.getRoleId()+";roleName="+sysRole.getRoleName());
+		}else{
+			oper.setDescription(OperConstants.DESC_SYS_ROLE_ADD+";roleId="+this.sysRole.getRoleId()+";roleName="+sysRole.getRoleName());
+		}
+		oper.setLoginName(loginName);
+		operatorLogService.saveOperatorLog(oper);
+		
 		//List<SysMenu> list = menuService.findMenuByUserId(userId);
 		//System.out.println(roleMenuList.size());
 		//_log.info("role size"+roleMenuList.size());
@@ -114,6 +133,15 @@ public class RoleAction extends BaseAction{
 			}else{
 				
 			}
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setLoginName(loginName);
+			oper.setAdminid(userId);
+			oper.setDescription(OperConstants.DESC_SYS_ROLE_DEL+";ids="+this.ids);
+			oper.setOpertype(OperConstants.TYPE_SYS_ROLE);
+			oper.setOpertime(new Date());
+			operatorLogService.saveOperatorLog(oper);
 			result.setFlag(Result.FLAG_SUCCESS);
 		}catch(Exception ex){
 			result.setFlag(Result.FLAG_FAILURE);
