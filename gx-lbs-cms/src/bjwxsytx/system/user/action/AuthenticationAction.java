@@ -1,15 +1,19 @@
 package bjwxsytx.system.user.action;
 
+import java.util.Date;
 import java.util.List;
 
 import bjwxsytx.base.action.BaseAction;
 import bjwxsytx.base.constants.ExceptionConstants;
+import bjwxsytx.base.constants.OperConstants;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.BlankUtil;
 import bjwxsytx.common.Result;
+import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.menu.service.MenuService;
+import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.user.service.UserService;
 import bjwxsytx.system.user.vo.QueryVO;
 
@@ -47,6 +51,8 @@ public class AuthenticationAction extends BaseAction {
 	private UserService userService;
 	@Autowired(required = true)
 	private MenuService menuService;
+	@Autowired(required = true)
+	private OperatorLogService operatorLogService;
 
 	/**
 	 * 
@@ -84,6 +90,13 @@ public class AuthenticationAction extends BaseAction {
 		//_log.info("role size"+roleMenuList.size());
 		//System.out.println(roleMenuList.size());
 		AuthenticationUtil.setAuthenticationUrl(getSessionMap(), list);
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(user.getUserId());
+		oper.setDescription(OperConstants.DESC_LOGIN);
+		oper.setOpertype(OperConstants.TYPE_LOGIN);
+		oper.setOpertime(new Date());
+		oper.setLoginName(user.getLoginName());
+		operatorLogService.saveOperatorLog(oper);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			_log.error("loginException:",ex);
@@ -125,12 +138,20 @@ public class AuthenticationAction extends BaseAction {
 		try{
 			this.result = new Result();
 			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
 			queryVO.setId(userId);
 			if(userId!=null){
 				SysUser su = userService.findUserById(queryVO);
 				su.setLoginPass(queryVO.getPassword());
 				userService.updatePwd(su);
 				this.result.setFlag(Result.FLAG_SUCCESS);
+				OperatorLog oper = new OperatorLog();
+				oper.setAdminid(userId);
+				oper.setDescription(OperConstants.DESC_SYS_UPDATE_PASS);
+				oper.setOpertype(OperConstants.TYPE_SYS_UPDATE_PASS);
+				oper.setOpertime(new Date());
+				oper.setLoginName(loginName);
+				operatorLogService.saveOperatorLog(oper);
 				return SUCCESS;
 			}
 			this.result.setFlag(Result.FLAG_FAILURE);
@@ -177,6 +198,16 @@ public class AuthenticationAction extends BaseAction {
 	}
 	public String logout() {
 		_log.info("--------logout--");
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+		
+		OperatorLog oper = new OperatorLog();
+		oper.setAdminid(userId);
+		oper.setLoginName(loginName);
+		oper.setDescription(OperConstants.DESC_LOGOUT);
+		oper.setOpertype(OperConstants.TYPE_LOGOUT);
+		oper.setOpertime(new Date());
+		operatorLogService.saveOperatorLog(oper);
 		AuthenticationUtil.clearCurrentUserAccount(getSessionMap());
 		return LOGIN;
 	}
