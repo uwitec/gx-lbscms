@@ -41,7 +41,7 @@ public class UserDAO extends CommonDAO<SysUser>{
 		List<String> params =null;
 		//page.setField(" u ");
 		page.setTableName("SysUser u ");
-		System.out.println(queryVO);
+		//System.out.println(queryVO);
 		if(!BlankUtil.isBlank(queryVO)){
 			StringBuffer where = new StringBuffer();
 			params = new ArrayList<String>();
