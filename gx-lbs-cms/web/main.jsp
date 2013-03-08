@@ -1,20 +1,21 @@
 <%@ page language="java" import="java.util.*,bjwxsytx.common.AuthenticationUtil" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/jsp/common/var.jsp" %>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<title>${title}</title>
 	<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/${themes }/easyui.css">
-	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/${themes }/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx }/jquery-easyui/themes/icon.css"/>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/src/jquery.parser.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css">
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/demo.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
 	<script type="text/javascript" src="${ctx }/js/util.js"></script>
+	<script type="text/javascript" src="${ctx }/js/jgxLoader.js"></script>
 	<script>
 	
 	if(userId==null||userId==''){
@@ -22,6 +23,51 @@
 		top.location.href='index.jsp';
 	}
 		$(function(){
+			$('#pwd-update').dialog({
+				autoOpen: false ,
+				modal:true,
+				width:320,   
+				closable:false,
+				height:200,
+				resizable:false,
+	
+				buttons:[{
+					text:'确定',
+					iconCls:'icon-ok',
+					handler:function(){
+						
+						$("#saveForm").form("submit", {
+					        url:ctx+"/login/other!updatePwd",
+					        onSubmit: function(){
+					              return $(this).form("validate");
+					        },
+					        success:function(data1){
+					        	var datas = $.parseJSON(data1);
+					        	//var datas = eval("("+data+")");
+					        	if(datas.result.flag==FLAG_SUCCESS){
+					        		$.messager.alert('Success','修改成功！');
+					        		
+					        		$("#saveForm").form("clear");
+					        		$('#pwd-update').dialog("close");
+					        	}else{
+					        		$.messager.alert('Error','修改失败！'+datas.result.msg);
+					        	}
+					        }
+					});
+					}
+				},{
+					
+					text:'取消',
+					iconCls:'icon-cancel',
+					handler:function(){
+					
+						$('#oldPwd').val("");
+						$('#pwd1').val("");
+						$('#pwd2').val("");
+						$('#pwd-update').dialog('close');
+					}
+				}]
+			});
 			function addTab(title, url){
 
 				if ($('#tabs').tabs('exists', title)){
@@ -76,51 +122,7 @@
                     });  
 			 });
 
-			$('#pwd-update').dialog({
-				autoOpen: false ,
-				modal:true,
-				width:320,   
-				closable:false,
-				height:200,
-				resizable:false,
-	
-				buttons:[{
-					text:'确定',
-					iconCls:'icon-ok',
-					handler:function(){
-						
-						$("#saveForm").form("submit", {
-					        url:ctx+"/login/other!updatePwd",
-					        onSubmit: function(){
-					              return $(this).form("validate");
-					        },
-					        success:function(data1){
-					        	var datas = $.parseJSON(data1);
-					        	//var datas = eval("("+data+")");
-					        	if(datas.result.flag==FLAG_SUCCESS){
-					        		$.messager.alert('Success','修改成功！');
-					        		
-					        		$("#saveForm").form("clear");
-					        		$('#pwd-update').dialog("close");
-					        	}else{
-					        		$.messager.alert('Error','修改失败！'+datas.result.msg);
-					        	}
-					        }
-					});
-					}
-				},{
-					
-					text:'取消',
-					iconCls:'icon-cancel',
-					handler:function(){
-					
-						$('#oldPwd').val("");
-						$('#pwd1').val("");
-						$('#pwd2').val("");
-						$('#pwd-update').dialog('close');
-					}
-				}]
-			});
+			
 
 			$("#updatePwdBtn").click(function(){
 				$('#pwd-update').dialog("open");
@@ -166,11 +168,11 @@
 				}
 				
 			});
-			
+			//$("body").attr({style:""});
 		});
 	</script>
 </head>
-<body class="easyui-layout">
+<body class="easyui-layout" >
 	<div data-options="region:'north',split:true" class="top" style="height: 100px" >
 		    <div class="header">
       <p class="name"><img src="${ctx }/images/name.png" /><p>
