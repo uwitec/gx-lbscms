@@ -1,15 +1,18 @@
 package bjwxsytx.system.ips.action;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.base.constants.OperConstants;
 import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
+import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.entity.SysUserIps;
 import bjwxsytx.system.entity.SysUserWhite;
@@ -19,6 +22,7 @@ import bjwxsytx.system.ips.service.CellIpsService;
 import bjwxsytx.system.ips.vo.QueryVO;
 import bjwxsytx.system.ips.vo.ResultVO;
 import bjwxsytx.system.menu.action.MenuAction;
+import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.white.ro.WhiteRuseltObject;
 
 /***
@@ -33,7 +37,8 @@ import bjwxsytx.system.white.ro.WhiteRuseltObject;
  */
 public class CellIpsAction extends BaseAction {
 
-	
+	@Autowired(required = true)
+	private OperatorLogService operatorLogService;
 	private static Logger _log = Logger.getLogger(CellIpsAction.class);
 	private static final long serialVersionUID = -2256570447416819897L;
 	private QueryVO queryVO;
@@ -51,6 +56,17 @@ public class CellIpsAction extends BaseAction {
 		try{
 			this.cellIpsService.delete(cellIpsIds, userIpsIds);
 			this.result.setFlag(Result.FLAG_SUCCESS);
+			
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(userId);
+			oper.setDescription(OperConstants.DESC_IP_DEL+";ids="+cellIpsIds);
+			oper.setOpertype(OperConstants.TYPE_IP);
+			oper.setOpertime(new Date());
+			oper.setLoginName(loginName);
+			operatorLogService.saveOperatorLog(oper);	
+			
 		}catch(Exception ex){
 			this.result.setFlag(Result.FLAG_ERROE);
 			this.result.setMsg(ex.getLocalizedMessage());
@@ -68,10 +84,23 @@ public class CellIpsAction extends BaseAction {
 	public String save(){
 		this.result = new Result();
 		try{
-
+			Long saveId = cellIps.getId();
 			this.cellIpsService.save(cellIps, userIps);
 			
 			this.result.setFlag(Result.FLAG_SUCCESS);
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(userId);
+			if(saveId!=null){
+				oper.setDescription(OperConstants.DESC_IP_EDIT+";id="+cellIps.getId()+";ip="+cellIps.getIp());
+			}else{
+				oper.setDescription(OperConstants.DESC_IP_ADD+";id="+cellIps.getId()+";ip="+cellIps.getIp());
+			}
+			oper.setOpertype(OperConstants.TYPE_IP);
+			oper.setOpertime(new Date());
+			oper.setLoginName(loginName);
+			operatorLogService.saveOperatorLog(oper);				
 		}catch(Exception ex){
 			ex.printStackTrace();
 			this.result.setFlag(Result.FLAG_FAILURE);
@@ -86,6 +115,15 @@ public class CellIpsAction extends BaseAction {
 			this.cellIpsService.save(cellIps, userIps);
 			
 			this.result.setFlag(Result.FLAG_SUCCESS);
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(userId);
+			oper.setDescription(OperConstants.DESC_IP_EDIT+";id="+cellIps.getId()+";ip="+cellIps.getIp());
+			oper.setOpertype(OperConstants.TYPE_IP);
+			oper.setOpertime(new Date());
+			oper.setLoginName(loginName);
+			operatorLogService.saveOperatorLog(oper);				
 		}catch(Exception ex){
 			ex.printStackTrace();
 			this.result.setFlag(Result.FLAG_FAILURE);
