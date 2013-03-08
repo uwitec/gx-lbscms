@@ -11,8 +11,11 @@
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${ctx }/jquery-easyui/src/jquery.parser.js"></script>
-
+	
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/css.css"/>
+	<style >
+	body{ font-size:12px; color:#000; background:#2c508a}
+	</style>
 	<script type="text/javascript">
 document.onkeydown = function(e){
     var event = e || window.event;  
@@ -83,7 +86,7 @@ function login(){
 </head>
 
 <body topmargin="0" leftmargin="0">
-<div class="login">
+<div class="login" >
   <div class="main">
     <img src="${ctx }/images/top1.jpg" />
     <div class="xinxi">
@@ -95,9 +98,9 @@ function login(){
         </div>
         <div class="xinxi_lr">
         <form id="loginForm" method="post">
-          <p><input size="" id="username" name="queryVO.username" value="" /></p>
-          <p><input size="" type="password" id="password" name="queryVO.password" value="" /></p>
-          <p><input type="text" id="code" maxlength="4" name="queryVO.validateCode" style="width:80px;"></input> <img  style="vertical-align:middle;cursor:pointer;" alt="点击图片更新验证码"  class="text ui-widget-content ui-corner-all" onclick="this.src='${ctx }/image.jsp?d='+new Date();" id="code" height="22" width="60" src="${ctx }/image.jsp?d=' + new Date() + '" border="0"/></p>
+          <p><input size="" id="username" name="queryVO.username" value="" style="width: 160PX" /></p>
+          <p><input size="" type="password" id="password" name="queryVO.password" value="" style="width: 160PX" /></p>
+          <p ><input type="text" id="code" maxlength="4" name="queryVO.validateCode" style="width:80px;"></input> <img  style="vertical-align:right;cursor:pointer;" alt="点击图片更新验证码"   onclick="this.src='${ctx }/image.jsp?d='+new Date();" id="code" height="26" width="60px" src="${ctx }/image.jsp?d=' + new Date() + '" border="0"/></p>
           </form>
         </div>
       </div>
