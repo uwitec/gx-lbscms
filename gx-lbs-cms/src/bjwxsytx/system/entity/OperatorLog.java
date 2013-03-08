@@ -13,21 +13,30 @@ public class OperatorLog implements java.io.Serializable {
 	private Long logid;
 	private Long adminid;
 	private String areaid;
-	private Short opertype;
+	private String opertype;
 	private Date opertime;
 	private Long objectid;
 	private Boolean operflag;
 	private String description;
+	private String loginName;
 
 	// Constructors
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 
 	/** default constructor */
 	public OperatorLog() {
 	}
 
 	/** full constructor */
-	public OperatorLog(Long adminid, String areaid, Short opertype,
-			Date opertime, Long objectid, Boolean operflag, String description) {
+	public OperatorLog(Long adminid, String areaid, String opertype,
+			Date opertime, Long objectid, Boolean operflag, String description,String loginName) {
 		this.adminid = adminid;
 		this.areaid = areaid;
 		this.opertype = opertype;
@@ -35,6 +44,7 @@ public class OperatorLog implements java.io.Serializable {
 		this.objectid = objectid;
 		this.operflag = operflag;
 		this.description = description;
+		this.loginName = loginName;
 	}
 
 	// Property accessors
@@ -63,11 +73,11 @@ public class OperatorLog implements java.io.Serializable {
 		this.areaid = areaid;
 	}
 
-	public Short getOpertype() {
+	public String getOpertype() {
 		return this.opertype;
 	}
 
-	public void setOpertype(Short opertype) {
+	public void setOpertype(String opertype) {
 		this.opertype = opertype;
 	}
 
