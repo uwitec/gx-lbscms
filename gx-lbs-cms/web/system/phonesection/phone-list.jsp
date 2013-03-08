@@ -76,47 +76,47 @@
                     <td>  
                         <select id="areanameCombobox" class="easyui-combobox" name="phoneSection.areaname" data-options="required:true">
 
-												<option value="湖南株洲"  >
-													湖南株洲
+												<option value="广西南宁"  >
+													广西南宁
 												</option>
-												<option value="湖南邵阳"  >
-													湖南邵阳
+												<option value="广西柳州"  >
+													广西柳州
 												</option>
-												<option value="湖南长沙"  >
-													湖南长沙
+												<option value="广西玉林"  >
+													广西玉林
 												</option>
-												<option value="湖南常德"  >
-													湖南常德
+												<option value="广西桂林"  >
+													广西桂林
 												</option>
-												<option value="湖南张家界"  >
-													湖南张家界
+												<option value="广西百色"  >
+													广西百色
 												</option>
-												<option value="湖南怀化"  >
-													湖南怀化
+												<option value="广西河池"  >
+													广西河池
 												</option>
-												<option value="湖南岳阳"  >
-													湖南岳阳
+												<option value="广西北海"  >
+													广西北海
 												</option>
-												<option value="湖南益阳"  >
-													湖南益阳
+												<option value="广西梧州"  >
+													广西梧州
 												</option>
-												<option value="湖南郴州"  >
-													湖南郴州
+												<option value="广西钦州"  >
+													广西钦州
 												</option>
-												<option value="湖南娄底"  >
-													湖南娄底
+												<option value="广西防城港"  >
+													广西防城港
 												</option>
-												<option value="湖南衡阳"  >
-													湖南衡阳
+												<option value="广西贺州"  >
+													广西贺州
 												</option>
-												<option value="湖南吉首"  >
-													湖南吉首
+												<option value="广西贵港"  >
+													广西贵港
 												</option>
-												<option value="湖南湘潭"  >
-													湖南湘潭
+												<option value="广西来宾"  >
+													广西来宾
 												</option>
-												<option value="湖南永州"  >
-													湖南永州
+												<option value="广西崇左"  >
+													广西崇左
 												</option>
                         </select>
                         <input id="sectId1" type="hidden" name="phoneSection.sectionId"/>

@@ -9,6 +9,7 @@ function qq(value,name){
 	}
 		$(function(){
 			$('#btnSearch').bind('click', function(){
+				$('#test').datagrid('clearSelections');
 				var sectionValue = $('#sectionValue').val(); // 
 				$('#test').datagrid('load',{
 					"queryVO.sectionValue":sectionValue
@@ -34,6 +35,7 @@ function qq(value,name){
 				
 			});
 			$("#addBtn").click(function(){
+				$("#sectionValue").val("");
 				optFlag="add";
 				if(!valiMenu("phonesection/phonesection!save")){
 					
