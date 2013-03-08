@@ -65,4 +65,15 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>			
+	<bean id="operatorLogDAO" class="bjwxsytx.system.operatorLog.dao.OperatorLogDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>			
+	<bean id="phoneSectionDAO" class="bjwxsytx.system.phonesection.dao.PhoneSectionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>			
+	
 </beans>

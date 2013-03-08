@@ -16,7 +16,8 @@
 	<include file="struts-white.xml"/>
 	<include file="struts-ips.xml"/>
 	<include file="struts-poshis.xml"/>
-	
+	<include file="struts-operatorlog.xml"/>
+	<include file="struts-phonesection.xml"/>
 	<package name="global" extends="json-default">
 		<interceptors>
 			<interceptor name="authenticationInterceptor" class="bjwxsytx.base.interceptor.AuthenticationInterceptor"></interceptor>
