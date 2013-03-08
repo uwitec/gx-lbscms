@@ -18,9 +18,12 @@
         <property name="areaid" type="java.lang.String">
             <column name="AREAID" length="20" />
         </property>
-        <property name="opertype" type="java.lang.Short">
-            <column name="OPERTYPE" precision="3" scale="0" />
+        <property name="opertype" type="java.lang.String">
+            <column name="OPERTYPE" length="200" />
         </property>
+        <property name="loginName" type="java.lang.String">
+            <column name="LOGIN_NAME" length="200" />
+        </property>        
         <property name="opertime" type="java.util.Date">
             <column name="OPERTIME" length="7" />
         </property>
