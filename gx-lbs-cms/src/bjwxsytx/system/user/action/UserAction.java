@@ -8,12 +8,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import bjwxsytx.base.action.BaseAction;
+import bjwxsytx.base.constants.OperConstants;
+import bjwxsytx.common.AuthenticationUtil;
 import bjwxsytx.common.Page;
 import bjwxsytx.common.Result;
+import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysRole;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.entity.SysUserRole;
 import bjwxsytx.system.ips.service.UserIpsService;
+import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.role.service.RoleService;
 import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.service.UserService;
@@ -132,12 +136,29 @@ public class UserAction extends BaseAction {
 
 		return SUCCESS;
 	}
-	
+	@Autowired(required = true)
+	private OperatorLogService operatorLogService;
 	public String saveUser() throws Exception{
 		this.result = new Result();
+		OperatorLog oper = new OperatorLog();
+		oper.setOpertype(OperConstants.TYPE_SYS_USER);
+		Long saveId =sysUser.getUserId(); 
+
 		this.sysUser.setCreateTime(new Date());
 		this.userService.saveUser(sysUser,sysUserRole);
 		this.result.setFlag(Result.FLAG_SUCCESS);
+		Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+		String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+		oper.setAdminid(userId);
+		
+		if(saveId!=null){
+			oper.setDescription(OperConstants.DESC_SYS_USER_EDIT+";userId="+sysUser.getUserId()+";loginName="+sysUser.getLoginName());
+		}else{
+			oper.setDescription(OperConstants.DESC_SYS_USER_ADD+";userId="+sysUser.getUserId()+";loginName="+sysUser.getLoginName());
+		}
+		oper.setOpertime(new Date());
+		oper.setLoginName(loginName);
+		operatorLogService.saveOperatorLog(oper);
 		return SUCCESS;
 	}
 	
@@ -183,6 +204,15 @@ public class UserAction extends BaseAction {
 			}else{
 				result.setMsg("");
 			}
+			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
+			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(userId);
+			oper.setLoginName(loginName);
+			oper.setDescription(OperConstants.DESC_SYS_USER_DEL+";ids="+this.ids);
+			oper.setOpertype(OperConstants.TYPE_SYS_USER);
+			oper.setOpertime(new Date());
+			operatorLogService.saveOperatorLog(oper);
 			result.setFlag(Result.FLAG_SUCCESS);
 		} catch (Exception e) {
 			result.setFlag(Result.FLAG_FAILURE);
