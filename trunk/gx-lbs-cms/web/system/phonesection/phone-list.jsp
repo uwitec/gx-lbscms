@@ -25,7 +25,7 @@
 <body class="easyui-layout">
 
 <div data-options="region:'center',border:false"  >
-	<table id="test" title="IP账号管理列表" data-options="border:true" ></table>
+	<table id="test" title="号段管理列表" data-options="border:true" ></table>
 </div>
 <div id="tb" style="padding:5px;height:auto">    
     <div style="margin-bottom:5px">    
