@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import bjwxsytx.base.exception.OperationException;
 import bjwxsytx.common.AuthenticationUtil;
+import bjwxsytx.system.entity.TUserOnline;
+import bjwxsytx.system.user.service.UserService;
 
 import org.apache.log4j.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 
@@ -39,24 +42,42 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 	final static public String TIMEOUT = "timeout";
 	
 	private static Logger _log = Logger.getLogger(AuthenticationInterceptor.class);
+	
+	@Autowired(required = true)
+	private UserService userService;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
+		
+		boolean userHadOnlineFlag = false;
 		ActionContext actionContext = invocation.getInvocationContext();
 		
-		_log.info("---AuthenticationInterceptor----" + invocation.getAction()
-				+ "!" + invocation.getResultCode());
+		_log.info("---intercept----" + invocation.getAction()+ "!" + invocation.getResultCode());
 		Map session = actionContext.getSession();
 		HttpServletRequest request = (HttpServletRequest)actionContext.get(org.apache.struts2.StrutsStatics.HTTP_REQUEST);
 		String url = request.getServletPath();
-			url = url.substring(1);
+		url = url.substring(1);
+//		add step: 唯一性登录验证
+		String hql = "from TUserOnline where userId=" + AuthenticationUtil.getCurrentUserId(session) + " order by id desc" ;
+//		当前用户的最新登录记录： uOnline
+		TUserOnline uOnline = userService.findUserOnlineLasted(hql);
+		String sessionId = request.getSession().getId();
+		
+		if(uOnline != null &&!(uOnline.getSessionId().equals(sessionId))){
+			userHadOnlineFlag = true;
+			throw new OperationException("您的账号已经在其他地方登录！");
+		}else{
 			
-		if (AuthenticationUtil.isSessionActivated(session)) {
-			if(AuthenticationUtil.isAuthorized(url, session)){
-				return invocation.invoke();
-			}else{
-				throw new OperationException("您无权执行此操作！");
+		}
+//		add end...
+		if(!userHadOnlineFlag){	// 未在别处登录，则继续	
+			if (AuthenticationUtil.isSessionActivated(session)) {
+				if(AuthenticationUtil.isAuthorized(url, session)){
+					return invocation.invoke();
+				}else{
+					throw new OperationException("您无权执行此操作！");
+				}
 			}
 		}
 		return TIMEOUT;

@@ -74,6 +74,11 @@
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
-	</bean>			
+	</bean>		
+	<bean id="userOnlineDAO" class="bjwxsytx.system.user.dao.UserOnlineDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>		
 	
 </beans>

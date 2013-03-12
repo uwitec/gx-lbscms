@@ -12,6 +12,7 @@ import bjwxsytx.common.Result;
 import bjwxsytx.system.entity.OperatorLog;
 import bjwxsytx.system.entity.SysMenu;
 import bjwxsytx.system.entity.SysUser;
+import bjwxsytx.system.entity.TUserOnline;
 import bjwxsytx.system.menu.service.MenuService;
 import bjwxsytx.system.operatorLog.service.OperatorLogService;
 import bjwxsytx.system.user.service.UserService;
@@ -66,37 +67,62 @@ public class AuthenticationAction extends BaseAction {
 	 */
 	public String login() throws Exception  {
 		try{
-		this.result = new Result();
-		
-		SysUser user =userService.login(queryVO);
-		if (BlankUtil.isBlank(user)) {
-			//throw new OperationException(ExceptionConstants.EXCEPTION_OPERATION_MENU_USED);
-			this.result.setFlag(Result.FLAG_FAILURE);
-			this.result.setMsg("用户密或密码错误!");
-			return SUCCESS;
-		}
-		
-
-		
-		this.result.setFlag(Result.FLAG_SUCCESS);
-		AuthenticationUtil.setCurrentUserName(getSessionMap(), user.getUserName());
-		AuthenticationUtil.setCurrentUserAccount(getSessionMap(), user.getLoginName());
-		AuthenticationUtil.setCurrentUserId(getSessionMap(), user.getUserId().toString());
-//		0:CMS管理员用户;1:EC/SI定位企业
-		AuthenticationUtil.setGroupUserFlag(getSessionMap(), user.getGroupUserFlag().toString());
-		//获取用户权限信息
-		List<SysMenu> list = menuService.findMenuByUserId(user.getUserId());
-		//System.out.println(roleMenuList.size());
-		//_log.info("role size"+roleMenuList.size());
-		//System.out.println(roleMenuList.size());
-		AuthenticationUtil.setAuthenticationUrl(getSessionMap(), list);
-		OperatorLog oper = new OperatorLog();
-		oper.setAdminid(user.getUserId());
-		oper.setDescription(OperConstants.DESC_LOGIN);
-		oper.setOpertype(OperConstants.TYPE_LOGIN);
-		oper.setOpertime(new Date());
-		oper.setLoginName(user.getLoginName());
-		operatorLogService.saveOperatorLog(oper);
+			_log.info("---Iamlogin--queryVO:" + queryVO);
+			this.result = new Result();
+			
+			SysUser user =userService.login(queryVO);
+			if (BlankUtil.isBlank(user)) {
+				//throw new OperationException(ExceptionConstants.EXCEPTION_OPERATION_MENU_USED);
+				this.result.setFlag(Result.FLAG_FAILURE);
+				this.result.setMsg("用户密或密码错误!");
+				return SUCCESS;
+			}
+			
+	
+			
+			this.result.setFlag(Result.FLAG_SUCCESS);
+			AuthenticationUtil.setCurrentUserName(getSessionMap(), user.getUserName());
+			AuthenticationUtil.setCurrentUserAccount(getSessionMap(), user.getLoginName());
+			AuthenticationUtil.setCurrentUserId(getSessionMap(), user.getUserId().toString());
+	//		0:CMS管理员用户;1:EC/SI定位企业
+			AuthenticationUtil.setGroupUserFlag(getSessionMap(), user.getGroupUserFlag().toString());
+			//获取用户权限信息
+			List<SysMenu> list = menuService.findMenuByUserId(user.getUserId());
+			//System.out.println(roleMenuList.size());
+			//_log.info("role size"+roleMenuList.size());
+			//System.out.println(roleMenuList.size());
+			AuthenticationUtil.setAuthenticationUrl(getSessionMap(), list);
+			OperatorLog oper = new OperatorLog();
+			oper.setAdminid(user.getUserId());
+			oper.setDescription(OperConstants.DESC_LOGIN);
+			oper.setOpertype(OperConstants.TYPE_LOGIN);
+			oper.setOpertime(new Date());
+			oper.setLoginName(user.getLoginName());
+			operatorLogService.saveOperatorLog(oper);
+//			==============================
+//			唯一性登录控制 start
+//			==============================
+//			step1:取得上次登录记录
+			String hql = "from TUserOnline where userId=" + user.getUserId() + " order by id desc" ;
+			TUserOnline uOnline = userService.findUserOnline(hql);
+			
+			getSessionMap().put("userOnline", uOnline);
+//			step2:记录在线表
+			TUserOnline online = new TUserOnline();
+			
+			Date currentdate = new Date();
+			
+			online.setUserId(user.getUserId());
+			online.setSessionId(getHttpRequest().getSession().getId());
+			online.setIp(getHttpRequest().getRemoteAddr());
+			online.setLoginTime(currentdate);			
+			
+			userService.saveUserOnline(online);
+			
+			
+//			==============================
+//			唯一性登录控制 end
+//			==============================	
 		}catch(Exception ex){
 			ex.printStackTrace();
 			_log.error("loginException:",ex);
@@ -209,6 +235,8 @@ public class AuthenticationAction extends BaseAction {
 		oper.setOpertime(new Date());
 		operatorLogService.saveOperatorLog(oper);
 		AuthenticationUtil.clearCurrentUserAccount(getSessionMap());
+//		add by chenhui,清空所有已定义的session 
+		getHttpRequest().getSession().invalidate();
 		return LOGIN;
 	}
 	public void setErrorCode(String errorCode) {
