@@ -34,7 +34,7 @@ public class WhiteDAO extends CommonDAO<TCellWhite>{
 			}else{ // 是管理员用户，可以查所有白名单
 				where.append(" and su.userId = suw.userId ");
 			}
-			if(queryVO.getAreaname()!=null&&!queryVO.getAreaname().equals("-1")){
+			if(queryVO.getAreaname()!=null&&!queryVO.getAreaname().equals("全部")){
 				page.setTableName(page.getTableName()+ ", PhoneSection ps");
 				params.add(queryVO.getAreaname());
 				where.append(" and ps.areaname = ? and substr(tw.msisdn,1,7) = ps.sectionValue ");
