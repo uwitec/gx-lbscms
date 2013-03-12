@@ -32,13 +32,15 @@
 					var mdn = $('#mdn').val(); // 号码
 					var loginName = $('#loginName').val(); // 企业账号
 					var userName = $('#userName').val(); // 企业名称
-
+					var areaname =  $('#areanameCombobox').combobox('getValue');
 					$('#test').datagrid('load',{
 						"queryVO.beginTime":beginTime,
 						"queryVO.endTime":endTime,
 						"queryVO.mdn":mdn,
 						"queryVO.loginName":loginName,
+						"queryVO.areaname":areaname,
 						"queryVO.userName":userName
+						
 					});
 					
 				 
@@ -403,6 +405,53 @@
        号码:<input id="mdn" name="mdn" type="text"  style="width:110px" />
        企业账号:<input id="loginName" name="ecsiId"  type="text" style="width:110px"/>
       企业名称:<input id="userName" name = "ecsiName" type="text" style="width:110px" />
+  地市:<select id="areanameCombobox" class="easyui-combobox" name="phoneSection.areaname" data-options="required:true">
+												<option value="-1"  >
+													全部
+												</option>
+												<option value="广西南宁"  >
+													广西南宁
+												</option>
+												<option value="广西柳州"  >
+													广西柳州
+												</option>
+												<option value="广西玉林"  >
+													广西玉林
+												</option>
+												<option value="广西桂林"  >
+													广西桂林
+												</option>
+												<option value="广西百色"  >
+													广西百色
+												</option>
+												<option value="广西河池"  >
+													广西河池
+												</option>
+												<option value="广西北海"  >
+													广西北海
+												</option>
+												<option value="广西梧州"  >
+													广西梧州
+												</option>
+												<option value="广西钦州"  >
+													广西钦州
+												</option>
+												<option value="广西防城港"  >
+													广西防城港
+												</option>
+												<option value="广西贺州"  >
+													广西贺州
+												</option>
+												<option value="广西贵港"  >
+													广西贵港
+												</option>
+												<option value="广西来宾"  >
+													广西来宾
+												</option>
+												<option value="广西崇左"  >
+													广西崇左
+												</option>
+                        </select>      
 	<a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>        
          
     </div>    
