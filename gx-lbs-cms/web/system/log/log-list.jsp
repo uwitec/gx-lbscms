@@ -23,7 +23,7 @@
 <body class="easyui-layout">
 
 <div data-options="region:'center',border:false"  >
-	<table id="test" title="定位查询" data-options="border:true" ></table>
+	<table id="test" title="日志管理" data-options="border:true" ></table>
 </div>
 <div id="tb" style="padding:5px;height:auto">    
   
