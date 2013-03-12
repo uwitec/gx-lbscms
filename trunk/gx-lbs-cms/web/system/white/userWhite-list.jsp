@@ -21,8 +21,15 @@
 		$(function(){
 
 
-			
-			
+			$('#areanameCombobox').combobox({
+				data :null, 
+				width:150,
+				panelHeight:150,
+				valueField:'value',
+				editable:false ,
+				textField:'value'
+			});
+			$('#areanameCombobox').combobox('setValue','全部');
 			
 			
 			// searchAction:
@@ -406,7 +413,7 @@
        企业账号:<input id="loginName" name="ecsiId"  type="text" style="width:110px"/>
       企业名称:<input id="userName" name = "ecsiName" type="text" style="width:110px" />
   地市:<select id="areanameCombobox" class="easyui-combobox" name="phoneSection.areaname" data-options="required:true">
-												<option value="-1"  >
+												<option value="全部" >
 													全部
 												</option>
 												<option value="广西南宁"  >
