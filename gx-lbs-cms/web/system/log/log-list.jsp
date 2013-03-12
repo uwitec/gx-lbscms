@@ -36,6 +36,9 @@
   	<option value="退出系统">退出系统</option>
   	<option value="用户管理">用户管理</option>
   	<option value="角色管理">角色管理</option>
+  	<option value="号段管理">号段管理</option>
+  	
+  	
   	<option value="菜单管理">菜单管理</option>
   	<option value="白名单管理">白名单管理</option>
   	<option value="IP账号管理">IP账号管理</option>  	  	  	  	
