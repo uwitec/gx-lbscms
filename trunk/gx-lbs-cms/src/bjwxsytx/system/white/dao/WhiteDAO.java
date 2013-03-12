@@ -20,6 +20,7 @@ public class WhiteDAO extends CommonDAO<TCellWhite>{
 	public Page findWhiteMdn(Page page,QueryVO queryVO){
 		List params =null;
 		//page.setField(" u ");
+		
 		page.setTableName("TCellWhite tw ,SysUserWhite suw,SysUser su");
 		log.info("queryVO:"+queryVO);
 		StringBuffer where = new StringBuffer();
@@ -33,7 +34,11 @@ public class WhiteDAO extends CommonDAO<TCellWhite>{
 			}else{ // 是管理员用户，可以查所有白名单
 				where.append(" and su.userId = suw.userId ");
 			}
-			
+			if(queryVO.getAreaname()!=null&&!queryVO.getAreaname().equals("-1")){
+				page.setTableName(page.getTableName()+ ", PhoneSection ps");
+				params.add(queryVO.getAreaname());
+				where.append(" and ps.areaname = ? and substr(tw.msisdn,1,7) = ps.sectionValue ");
+			}
 			
 			if(!BlankUtil.isBlank(queryVO.getMdn())){
 				params.add('%' + queryVO.getMdn().trim() + '%');
