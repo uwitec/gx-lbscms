@@ -9,9 +9,11 @@ import bjwxsytx.base.exception.OperationException;
 import bjwxsytx.common.Page;
 import bjwxsytx.system.entity.SysUser;
 import bjwxsytx.system.entity.SysUserRole;
+import bjwxsytx.system.entity.TUserOnline;
 import bjwxsytx.system.role.dao.RoleUserDAO;
 import bjwxsytx.system.role.service.RoleUserService;
 import bjwxsytx.system.user.dao.UserDAO;
+import bjwxsytx.system.user.dao.UserOnlineDAO;
 import bjwxsytx.system.user.vo.QueryVO;
 /***
  * 
@@ -29,6 +31,12 @@ public class UserService {
 	private UserDAO userDAO;
 	@Autowired(required = true)
 	private RoleUserDAO roleUserDAO;
+	
+	@Autowired(required = true)
+	private UserOnlineDAO userOnlineDAO;
+	
+	
+	
 	public SysUser login(QueryVO queryVO) throws OperationException{
 		return this.userDAO.checkAccount(queryVO);
 	}
@@ -89,4 +97,62 @@ public class UserService {
 		}
 		return user;
 	}
+	
+	/**
+	 * 
+	* package_name: bjwxsytx.system.user.service
+	* file_name:    UserService.java
+	* description: 查找用户在线纪录，用户login时调用
+	* 2013-3-12下午12:36:36
+	* Author: chenhui
+	 * @param hql
+	 * @return
+	 */
+	public TUserOnline findUserOnline(String hql){
+		TUserOnline userOnline = null;
+		List list = this.userDAO.searchObjectsByHql(hql);
+		if(!list.isEmpty()){
+			if(list.size() == 1){
+				userOnline = (TUserOnline)list.get(0);
+//				System.out.println("查找用户在线纪录,size:"+list.size()+",返回唯一的一条:"+userOnline);
+			}else{
+				userOnline = (TUserOnline)list.get(1);
+//				System.out.println("查找用户在线纪录,size:"+list.size()+",返回倒数第二条:"+userOnline);
+			}
+		}
+		return userOnline;
+	}
+	/**
+	 * 
+	* package_name: bjwxsytx.system.user.service
+	* file_name:    UserService.java
+	* description: 查找最新的在线记录,拦截器调用
+	* 2013-3-12下午2:15:22
+	* Author: chenhui
+	 * @param hql
+	 * @return
+	 */
+	public TUserOnline findUserOnlineLasted(String hql){
+		TUserOnline userOnline = null;
+		List list = this.userDAO.searchObjectsByHql(hql);
+		if(!list.isEmpty()){
+				userOnline = (TUserOnline)list.get(0);			
+		}
+		return userOnline;
+	}
+	
+	/**
+	 * 
+	* package_name: bjwxsytx.system.user.service
+	* file_name:    UserService.java
+	* description: 记录用户在线数据
+	* 2013-3-12下午12:56:43
+	* Author: chenhui
+	 * @param userOnline
+	 * @throws Exception
+	 */
+	public void saveUserOnline(TUserOnline userOnline) throws Exception{
+			this.userOnlineDAO.save(userOnline);
+	}
+	
 }

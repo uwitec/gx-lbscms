@@ -692,5 +692,20 @@ public class CommonDAO<T> extends HibernateDaoSupport {
 	public void after(String operator, Class className) {
 		this.resultMessage(operator, className);
 	}
+	
+	/**
+	 * 
+	* package_name: bjwxsytx.common
+	* file_name:    CommonDAO.java
+	* description: 根据HQL语句，返回查询结果list
+	* 2013-3-12上午11:04:09
+	* Author: chenhui
+	 * @param hql
+	 * @return
+	 */
+	public List<T> searchObjectsByHql(String hql) {
+		Query query = getQueryObj(hql);
+		return (List<T>) query.list();
+	}
 
 }
