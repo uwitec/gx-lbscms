@@ -3,8 +3,14 @@ package bjwxsytx.system.white.vo;
 public class QueryVO {
 	
 	private String mdn;
+	private String areaname;
 	
-	
+	public String getAreaname() {
+		return areaname;
+	}
+	public void setAreaname(String areaname) {
+		this.areaname = areaname;
+	}
 	private Long id;
 	public Long getId() {
 		return id;
