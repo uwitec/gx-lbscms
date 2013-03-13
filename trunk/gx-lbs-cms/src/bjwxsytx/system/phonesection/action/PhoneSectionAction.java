@@ -155,21 +155,29 @@ public class PhoneSectionAction extends BaseAction {
 			reader = new BufferedReader(new FileReader(file));  
 			String tempString = null;  
 			int line = 1;  
+			String msg = "";
 			while ((tempString = reader.readLine()) != null){  
 				String array[] = tempString.split(",");
-				System.out.println(array.length);
+				//System.out.println(array.length);
 				if(array.length==3){
 					phoneSection =  new PhoneSection();
 					phoneSection.setAreaname(array[1]);
 					phoneSection.setCarrier(array[2]);
 					phoneSection.setSectionValue(array[0]);
 					phoneSectionService.save(phoneSection);
+				}else{
+					msg = msg + tempString+"<br>";
 				}
 				line++;  
 			}  
 			reader.close();  
+			if(msg.length()>0){
+				result.setMsg("以下数据格试错误!<br>"+msg);
+			}else{
+				result.setMsg("");
+			}
 			result.setFlag(Result.FLAG_SUCCESS);
-			result.setMsg("");
+			
 			Long userId = Long.valueOf(AuthenticationUtil.getCurrentUserId(this.getSessionMap()));
 			String loginName = AuthenticationUtil.getCurrentUserAccount(this.getSessionMap());
 			OperatorLog oper = new OperatorLog();
