@@ -83,8 +83,15 @@
 			}
 			 $.post(ctx+"/menu/menu!findMenuByUserId.action", {
 			 	}, function(data1) {  
-			 		var json = $.parseJSON(data1);
 			 		
+			 		var json = $.parseJSON(data1);
+			 		if(json.result!=null){
+			 			if(json.result.flag==4){
+			 				$.messager.alert('Success',json.result.msg,'error',function(){
+		         				top.location.href=ctx+"/index.jsp";
+		         			});
+			 			}
+			 		}
 			 		$('#tree').tree({  
                         //parent : node.target,  
                         //dataType:"json",
