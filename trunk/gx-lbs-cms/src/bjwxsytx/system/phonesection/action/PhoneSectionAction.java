@@ -108,7 +108,7 @@ public class PhoneSectionAction extends BaseAction {
 			operatorLogService.saveOperatorLog(oper);	
 		}catch(Exception ex){
 			ex.printStackTrace();
-			this.result.setMsg(ex.getLocalizedMessage());
+			this.result.setMsg("号段重复!");
 		}
 		return SUCCESS;
 	}
